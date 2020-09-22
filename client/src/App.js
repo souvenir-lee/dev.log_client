@@ -1,6 +1,6 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import logo from "./logo.svg";
+import "./App.css";
 
 function App() {
   return (
@@ -22,5 +22,6 @@ function App() {
     </div>
   );
 }
+//왜안되지 왜안되지 왜안되지
 
 export default App;
