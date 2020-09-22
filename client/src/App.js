@@ -1,27 +1,34 @@
 import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
-
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+// import { Switch, Route, Redirect } from "react-router-dom";
+import Listup from "../src/Main/Listup";
+import Login from "../src/Login";
+import Signup from "../src/Signup";
+import Mypage from "../src/Mypage";
+/*
+Login.js , Signup.js, Mypage.js Listup.js
+1.Login.js 
+*/
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLogin: false,
+      userinfo: {
+        name: "",
+        email: "",
+      },
+    };
+  }
+  render() {
+    return (
+      <div>
+        <Login />
+        <Signup />
+        <Mypage />
+        <Listup />
+      </div>
+    );
+  }
 }
-//왜안되지 왜안되지 왜안되지
 
 export default App;
