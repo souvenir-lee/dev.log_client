@@ -1,13 +1,17 @@
 import React from "react";
-// import { Switch, Route, Redirect } from "react-router-dom";
-import Listup from "../src/Main/Listup";
+import {
+  Switch,
+  Route,
+  useHistory,
+  Router,
+  Redirect,
+  BrowserRouter,
+} from "react-router-dom";
+// import Listup from "../src/Main/Listup";
 import Login from "../src/Login";
 import Signup from "../src/Signup";
 import Mypage from "../src/Mypage";
-/*
-Login.js , Signup.js, Mypage.js Listup.js
-1.Login.js 
-*/
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -18,15 +22,45 @@ class App extends React.Component {
         email: "",
       },
     };
+    this.getUserData = this.getUserData.bind(this);
+    this.handleLoginClick = this.handleLoginClick.bind(this);
   }
+  getUserData = (data) => {
+    this.setState({ userinfo: data });
+  };
+
+  handleLoginClick = () => {
+    this.setState({ isLogin: true });
+  };
   render() {
     return (
-      <div>
-        <Login />
-        <Signup />
-        <Mypage />
-        <Listup />
-      </div>
+      <BrowserRouter>
+        <Switch>
+          <Route
+            path="/login"
+            render={() => (
+              <Login
+                isLogin={this.state.isLogin}
+                handleLoginClick={this.handleLoginClick}
+              />
+            )}
+          />
+          <Route
+            path="/signup"
+            render={() => <Signup isLogin={this.state.isLogin} />}
+          />
+          <Route
+            path="/mypage"
+            render={() => (
+              <Mypage
+                isLogin={this.state.isLogin}
+                getUserData={this.getUserData}
+              />
+            )}
+          />
+          {/* <Listup /> */}
+        </Switch>
+      </BrowserRouter>
     );
   }
 }
