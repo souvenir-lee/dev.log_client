@@ -17,3 +17,14 @@ const VideoList = (props) => (
 
 export default VideoList;
  */
+
+import React from 'react';
+import ContentsEntry from "./ContentsEntry"
+
+const Contents = ({cateory, handleInputCategory}) => (
+  <div className="listup_cateory">
+      <CatgeoryEntry cateory={cateory} handleInputCategory={handleInputCategory}/>
+  </div>
+);
+
+export default Contents;

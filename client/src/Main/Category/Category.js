@@ -16,3 +16,15 @@ const VideoList = (props) => (
 
 export default VideoList;
 */
+import React from 'react';
+import CatgeoryEntry from "./CategoryEntry"
+
+const Catgeory = ({cateory, handleInputCategory}) => (
+  <div className="listup_cateory">
+      <CatgeoryEntry cateory={cateory} handleInputCategory={handleInputCategory}/>
+  </div>
+);
+
+export default Catgeory;
+
+
