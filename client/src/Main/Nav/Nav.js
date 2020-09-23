@@ -16,3 +16,15 @@ const VideoList = (props) => (
 
 export default VideoList;
 */
+import React from 'react';
+import Logo from './Logo'
+import User from './User'
+
+const Nav = ({isLogin, userinfo, handleIsLoginChange}) => (
+  <div className="listup_nav">
+    <Logo></Logo>
+    <User isLogin={isLogin} userinfo={userinfo} handleIsLoginChange={handleIsLoginChange}></User>
+  </div>
+);
+
+export default Nav;
