@@ -53,7 +53,7 @@ class App extends React.Component {
             render={() => <Signup isLogin={isLogin} userinfo={userinfo} handleIsLoginChange={this.handleIsLoginChange.bind(this)} />}
             />
           <Route
-            path='/'
+            path='/main'
             render={() => {
               if(isLogin){
                 return <Listup isLogin={isLogin} userinfo={userinfo} handleIsLoginChange={this.handleIsLoginChange.bind(this)} ></Listup> 
