@@ -1,13 +1,16 @@
 import React from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
-import axios from "axios";
+import {
+  Switch,
+  Route,
+  useHistory,
+  Router,
+  Redirect,
+} from "react-router-dom";
 import Listup from "../src/Main/Listup";
 import Login from "../src/Login";
 import Signup from "../src/Signup";
-/*
-Login.js , Signup.js, Mypage.js Listup.js
-1.Login.js 
-*/
+import Mypage from "../src/Mypage";
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -18,54 +21,55 @@ class App extends React.Component {
         email: "",
       },
     };
+    this.getUserData = this.getUserData.bind(this);
+    this.handleLoginClick = this.handleLoginClick.bind(this);
   }
+  getUserData = (data) => {
+    this.setState({ userinfo: data });
+  };
 
-  handleIsLoginChange() {
-    this.setState({ isLogin: !this.state.isLogin });
-    axios.get("http://localhost:4000/user").then((res) => {
-      console.log(res.data);
-      this.setState({ userinfo: res.data });
-    });
-  }
-
+  handleLoginClick = () => {
+    this.setState({ isLogin: true });
+  };
   render() {
     const { isLogin, userinfo } = this.state;
     return (
-      <div>
-       App.js에서'hello World'
-        <Switch>
-          <Route 
-            path='/login' 
-            render={()=> (
-              <Login 
-                isLogin={isLogin} 
-                handleIsLoginChange={this.handleIsLoginChange.bind(this)}
-              />)} 
+      <Switch>
+        <Route
+          path="/login"
+          render={() => (
+            <Login
+              isLogin={this.state.isLogin}
+              handleLoginClick={this.handleLoginClick}
+            />
+          )}
+        />
+        <Route
+          path="/signup"
+          render={() => <Signup isLogin={this.state.isLogin} />}
+        />
+        <Route
+          path="/mypage"
+          render={() => (
+            <Mypage
+              isLogin={this.state.isLogin}
+              getUserData={this.getUserData}
+            />
+          )}
+        />
+          <Route
+          path='/main'
+          render={() => {
+            if(isLogin){
+              return <Listup isLogin={isLogin} userinfo={userinfo} getUserData={this.getUserData} ></Listup> 
+              
+              //일단은 return으로 app.js에서 바로 보여주게 됨
+              //return <Redirect to="/listup" />; //redirect를 해도 props가 가나?
+            }
+            return <Redirect to="/login" />;
+          }}
           />
-          <Route
-            exact
-            path='/singup'
-            render={() => <Signup isLogin={isLogin} />}
-            />
-          <Route
-            exact
-            path='/mypage'
-            render={() => <Signup isLogin={isLogin} userinfo={userinfo} handleIsLoginChange={this.handleIsLoginChange.bind(this)} />}
-            />
-          <Route
-            path='/main'
-            render={() => {
-              if(isLogin){
-                return <Listup isLogin={isLogin} userinfo={userinfo} handleIsLoginChange={this.handleIsLoginChange.bind(this)} ></Listup> 
-                
-                //일단은 return으로 app.js에서 바로 보여주게 됨
-                //return <Redirect to="/listup" />; //redirect를 해도 props가 가나?
-              }
-              return <Redirect to="/login" />;
-            }}
-            />
-        </Switch>
-      </div>
+      </Switch>
     );
   }
 }
