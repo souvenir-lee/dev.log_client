@@ -26,7 +26,9 @@ class Signup extends React.Component {
       success: false,
     };
     this.handleInputValue = this.handleInputValue.bind(this);
+    this.postSignup = this.postSignup.bind(this);
   }
+
   handleInputValue = (key) => (e) => {
     this.setState({ [key]: e.target.value });
   };
@@ -49,13 +51,21 @@ class Signup extends React.Component {
       });
     //res가 오지 않았을 때 오류
   };
+  postSignup = () => {
+    axios.post("url", this.state).then((res) => {
+      if (res.status === 200) {
+        this.setState({ success: true });
+      }
+    });
+  };
   render() {
     return (
-      <div>
+      <div className="signup_body">
         <center>
           <h1>Sign Up</h1>
           <div>
             <input
+              className="signup_name"
               type="name"
               placeholder="이름을 입력 해주세요"
               onChange={this.handleInputValue("name")}
@@ -63,11 +73,13 @@ class Signup extends React.Component {
           </div>
           <div>
             <input
+              className="signup_email"
               type="email"
               placeholder="이메일을 입력 해주세요"
               onChange={this.handleInputValue("email")}
             ></input>
             <button
+              className="signup_check"
               onClick={() => {
                 this.handleSignUp();
               }}
@@ -77,21 +89,28 @@ class Signup extends React.Component {
           </div>
           <div>
             <input
+              className="signup_pw"
               type="password"
               placeholder="비밀번호를 입력 해주세요"
               onChange={this.handleInputValue("password")}
             ></input>
           </div>
           <button
+            className="signup_btn"
             onClick={() => {
+              this.postSignup();
               this.props.history.push("/login");
             }}
           >
             Sign Up
           </button>
-          <div>
-            <button type="submit">Google</button>
-            <button type="submit">Github</button>
+          <div className="signup_social">
+            <button className="signup_btnGoogle" type="submit">
+              Google
+            </button>
+            <button className="signup_btnGithub" type="submit">
+              Github
+            </button>
           </div>
         </center>
       </div>

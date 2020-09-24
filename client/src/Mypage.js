@@ -2,12 +2,12 @@ import React from "react";
 function Mypage(props) {
   if (!props.isLogin) {
     return (
-      <div>
+      <div className="mypage_body">
         <center>
           <h1>Mypage</h1>
-          <div className="">이름</div>
+          <div className="mypage_name">이름</div>
           {/* {props.userinfo.name} */}
-          <div className="">이메일</div>
+          <div className="mypage_email">이메일</div>
           {/* {props.userinfo.email} */}
         </center>
       </div>
