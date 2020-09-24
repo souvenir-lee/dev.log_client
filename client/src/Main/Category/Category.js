@@ -19,9 +19,13 @@ export default VideoList;
 import React from 'react';
 import CatgeoryEntry from "./CategoryEntry"
 
-const Catgeory = ({cateory, handleInputCategory}) => (
+const Catgeory = ({cateory, contentsList, handleInputCategory, handleContentList}) => (
   <div className="listup_cateory">
-      <CatgeoryEntry cateory={cateory} handleInputCategory={handleInputCategory}/>
+      <CatgeoryEntry 
+        cateory={cateory} 
+        contentsList={contentsList} 
+        handleInputCategory={handleInputCategory} 
+        handleContentList={handleContentList}/>
   </div>
 );
 

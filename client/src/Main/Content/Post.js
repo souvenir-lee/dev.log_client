@@ -6,3 +6,12 @@
 */
 
 //http://dev.log/posts/create
+
+import React from 'react';
+const Post = () => {
+  return (
+    <div>Hello world</div>
+  )
+}
+
+export default Post
