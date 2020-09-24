@@ -18,11 +18,11 @@ const VideoList = (props) => (
 export default VideoList;
  */
 
-import React from 'react';
-import { withRouter, useHistory } from 'react-router-dom';
-import ContentsEntry from "./ContentsEntry"
+import React from "react";
+import { withRouter, useHistory } from "react-router-dom";
+import ContentsEntry from "./ContentsEntry";
 
-const Contents = ({cateory, contentsList}) => {
+const Contents = ({ cateory, contentsList }) => {
   let history = useHistory();
 
   return (
