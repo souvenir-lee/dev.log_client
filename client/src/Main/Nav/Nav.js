@@ -20,10 +20,10 @@ import React from 'react';
 import Logo from './Logo'
 import User from './User'
 
-const Nav = ({isLogin, userinfo, handleIsLoginChange}) => (
+const Nav = ({isLogin, userinfo, handleLoginClick, getUserDate}) => (
   <div className="listup_nav">
     <Logo></Logo>
-    <User isLogin={isLogin} userinfo={userinfo} handleIsLoginChange={handleIsLoginChange}></User>
+    <User isLogin={isLogin} userinfo={userinfo} handleLoginClick={handleLoginClick} getUserDate={getUserDate}></User>
   </div>
 );
 

@@ -29,14 +29,14 @@ class App extends React.Component {
   };
 
   handleLoginClick = () => {
-    this.setState({ isLogin: true });
+    this.setState({ isLogin: true }); //추후에는 클릭할 때마다 상태변겅하도록
   };
   render() {
     const { isLogin, userinfo } = this.state;
     return (
       <Switch>
         <Route
-          path="/login"
+          path="/users/login"  //변경됨
           render={() => (
             <Login
               isLogin={this.state.isLogin}
@@ -45,28 +45,19 @@ class App extends React.Component {
           )}
         />
         <Route
-          path="/signup"
+          path="/users/signup"
           render={() => <Signup isLogin={this.state.isLogin} />}
-        />
-        <Route
-          path="/mypage"
-          render={() => (
-            <Mypage
-              isLogin={this.state.isLogin}
-              getUserData={this.getUserData}
-            />
-          )}
         />
           <Route
           path='/main'
           render={() => {
             if(isLogin){
-              return <Listup isLogin={isLogin} userinfo={userinfo} getUserData={this.getUserData} ></Listup> 
+              return <Listup isLogin={isLogin} userinfo={userinfo} getUserData={this.getUserData} handleLoginClick={this.handleLoginClick} ></Listup> 
               
               //일단은 return으로 app.js에서 바로 보여주게 됨
               //return <Redirect to="/listup" />; //redirect를 해도 props가 가나?
             }
-            return <Redirect to="/login" />;
+            return <Redirect to="/users/login" />;
           }}
           />
       </Switch>

@@ -7,7 +7,6 @@
 import React from "react";
 import Mypage from "../../Mypage"
 import axios from "axios";
-import { render } from "react-dom";
 
 class User extends React.Component {
   constructor(props) {
@@ -15,17 +14,19 @@ class User extends React.Component {
   }
 
   render() {
-    const {isLogin, userinfo, handleIsLoginChange} = this.props;
+    const {isLogin, userinfo, getUserData, handleLoginClick} = this.props;
     return (
       <div>
         <button 
           className="nav_logOut" 
           onClick={() => {
-            axios.post('https://www.naver.com/') 
+            this.props.handleLoginClick()
+            console.log('클랙 props', this.props.isLogin)
+            axios.post('http://localhost:3000/users/logout', this.props.email) 
             .then(() => {
-              this.props.handleIsLoginChange()
-              this.props.history.push('/')
-              
+              this.props.handleLoginClick()
+              this.props.history.push('/users/login') //변경된 API
+        
             })
             .catch(error => console.log(error))
           }}>
@@ -36,7 +37,7 @@ class User extends React.Component {
           className="nav_myPage"
           onClick={() => {
             console.log('user에서 userinfo',userinfo)
-            axios.get('https://www.naver.com/') //마이페이지로 리다이렉트
+            axios.get('http://localhost:3000/users/info/id') //마이페이지로 리다이렉트
             .then(() => console.log(userinfo))
             /*.then((res) => {
               console.log(res.data)
