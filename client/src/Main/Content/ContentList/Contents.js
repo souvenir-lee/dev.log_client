@@ -31,7 +31,7 @@ const Contents = ({cateory, contentsList}) => {
       className="contents_btn"
       onClick={() =>{
         console.log('클릭되나')
-        return history.push('/post') // 나중에 Post.js로 연결하기
+        return history.push('/main/post') // 나중에 Post.js로 연결하기
       }}>
       새글 쓰기
     </button>

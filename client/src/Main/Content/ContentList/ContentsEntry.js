@@ -16,12 +16,23 @@ const ContentsEntry = ({cateory, content}) => {
       className="contents_list"
       onClick={() =>{
         console.log('클릭되나')
-        return history.push('/') //contentDetail로 이동하기
-      }}>
+        return history.push('/contentDetail') //contentDetail로 이동하기
+      }}
+      style={{
+          width: "400px",
+          margin: "5px",
+          border: "5px solid",
+        }}>
       {/**onClick={/*클릭하면 ContentDetail로 이동하기*/}
-      <div className="name">{content.name}</div>
+      <div className="name">{content.username}</div>
       <div className="title">{content.title}</div>
-      <div className="comment">{content.comment}</div>
+      <div className="comment">댓글{content.comment}</div>
+      <div className="view_count">조회수{content.comment}</div>
+      {content.tag.map(tag => {
+        return ( <div className="tag">{tag}</div>)
+      })}
+
+      {/**view_count: 1, tag:["인사"] */}
     </div>
   )
 }
