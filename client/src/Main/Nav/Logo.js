@@ -10,7 +10,7 @@ const Logo = (props) => (
   <div 
     className="nav_logo" 
     onClick={() => {
-      axios.get('https://www.naver.com/') //이후에는 Listup.js로 리다이렉트
+      axios.get('http:localhost:3000/main') //이후에는 Listup.js로 리다이렉트
       .then(res => console.log(res))
       .catch(error => console.log(error))
     }}>

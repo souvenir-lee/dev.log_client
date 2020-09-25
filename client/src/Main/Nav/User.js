@@ -5,9 +5,8 @@
 */
 
 import React from "react";
-import Mypage from "../../Mypage"
+import { withRouter } from "react-router-dom";
 import axios from "axios";
-import { render } from "react-dom";
 
 class User extends React.Component {
   constructor(props) {
@@ -15,41 +14,45 @@ class User extends React.Component {
   }
 
   render() {
-    const {isLogin, userinfo, handleIsLoginChange} = this.props;
+    const { isLogin, userinfo, getUserData, handleLoginClick } = this.props;
     return (
       <div>
-        <button 
-          className="nav_logOut" 
+        <button
+          className="nav_logOut"
           onClick={() => {
-            axios.post('https://www.naver.com/') 
-            .then(() => {
-              this.props.handleIsLoginChange()
-              this.props.history.push('/')
-              
-            })
-            .catch(error => console.log(error))
-          }}>
+            this.props.handleLoginClick();
+            console.log("클랙 props", this.props.isLogin);
+            this.props.history.push("/login");
+            // axios.post('http://localhost:3000/users/logout')
+            // .then(() => {
+            //   this.props.handleLoginClick()
+            //   this.props.history.push('/login') //변경된 API
+
+            // })
+            // .catch(error => console.log(error))
+          }}
+        >
           로그아웃
         </button>
 
-        <button 
+        <button
           className="nav_myPage"
           onClick={() => {
-            console.log('user에서 userinfo',userinfo)
-            axios.get('https://www.naver.com/') //마이페이지로 리다이렉트
-            .then(() => console.log(userinfo))
-            /*.then((res) => {
-              console.log(res.data)
-              this.setState{ userinfo: res.data}})
-              .then(() => {
-              this.props.history.push('/mypage'); //임의로 API 지정해봄
-            })         //API 확인되면 이것으로 */
-          }}>
+            // console.log('user에서 userinfo',userinfo)
+            // axios.get('http://localhost:3000/users/info/id', userinfo.email) //마이페이지로 리다이렉트
+            // .then(res => {
+            //   console.log(userinfo)
+            //   getUserData(res)})
+            // .then(()=>
+            this.props.history.push("/mypage");
+            // )
+          }}
+        >
           마이페이지
         </button>
       </div>
-    )
+    );
   }
-} 
+}
 
-export default User;
+export default withRouter(User);

@@ -6,9 +6,8 @@
 5. 상태변경(App.js를 통해 상태를 true로 바꿔준다)
 */
 import React from "react";
-import { Link, Route, Redirect, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import axios from "axios";
-import CKEditor from "ckeditor4-react";
 /*
 props={
     islogin : this.state.isLogin(false), 
@@ -29,33 +28,17 @@ class Login extends React.Component {
   handleInputValue = (key) => (e) => {
     this.setState({ [key]: e.target.value });
   };
-  handleLogin = (history) => {
+  handleLogin = () => {
     axios.post("url", this.state).then((res) => {
       if (res.status === 200) {
-        this.setState({ success: true });
+        if (res.social_user_id) {
+          this.setState({ success: true });
+        }
       }
       //   this.props.getUserData(res.data);
     });
   };
-
-  //여기서부터는 Post 메소드
-  /*
-  this.state={
-      category: "",
-      title: "",
-      message: "",
-      tag: [],
-      success: false,
-  }
-  */
-
-  handlePost = () => {
-    axios.post("url", this.state).then((res) => {
-      if (res.status === 200) {
-        this.setState({ success: true });
-      }
-    });
-  };
+  handleghLogin = () => {};
 
   render() {
     return (
@@ -67,7 +50,6 @@ class Login extends React.Component {
             alt=""
           />
           <h1>Sign In</h1>
-          {/* onChange 부분 이해 필요 */}
           <div>
             <input
               className="login_email"
@@ -89,7 +71,10 @@ class Login extends React.Component {
             onClick={() => {
               // 클릭을 했을때 isLogin이 true가 되고 /links로 이동
               // 서버와 요청할 수 있는 함수
+              // 먼저 서버에 post요청을 보내면, 서버쪽에서 200과 함께 토큰을 부여해줌
+
               this.handleLogin();
+              this.props.getUserData(this.state.email);
               this.props.handleLoginClick();
               this.props.history.push("/main");
             }}
@@ -97,10 +82,10 @@ class Login extends React.Component {
             로그인
           </button>
           <div className="login_social">
-            <button className="login_google" type="submit">
+            <button className="login_google" type="submit" onClick={() => {}}>
               Google
             </button>
-            <button className="login_github" type="submit">
+            <button className="login_github" type="submit" onClick={() => {}}>
               Github
             </button>
           </div>
@@ -110,6 +95,7 @@ class Login extends React.Component {
               onClick={() => {
                 //클릭했을때 /signup으로 이동
                 this.props.history.push("/signup");
+                console.log("getdata", this.state);
               }}
             >
               signup

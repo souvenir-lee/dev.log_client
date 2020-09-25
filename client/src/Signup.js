@@ -20,7 +20,7 @@ class Signup extends React.Component {
     super(props);
 
     this.state = {
-      name: "",
+      username: "",
       email: "",
       password: "",
       success: false,
@@ -54,10 +54,13 @@ class Signup extends React.Component {
   postSignup = () => {
     axios.post("url", this.state).then((res) => {
       if (res.status === 200) {
-        this.setState({ success: true });
+        if (res.res.social_user_id) {
+          this.setState({ success: true });
+        }
       }
     });
   };
+  signupWithGithub = () => {};
   render() {
     return (
       <div className="signup_body">
@@ -66,9 +69,9 @@ class Signup extends React.Component {
           <div>
             <input
               className="signup_name"
-              type="name"
+              type="username"
               placeholder="이름을 입력 해주세요"
-              onChange={this.handleInputValue("name")}
+              onChange={this.handleInputValue("username")}
             ></input>
           </div>
           <div>
@@ -105,10 +108,18 @@ class Signup extends React.Component {
             Sign Up
           </button>
           <div className="signup_social">
-            <button className="signup_btnGoogle" type="submit">
+            <button
+              className="signup_btnGoogle"
+              type="submit"
+              onClick={() => {}}
+            >
               Google
             </button>
-            <button className="signup_btnGithub" type="submit">
+            <button
+              className="signup_btnGithub"
+              type="submit"
+              onClick={() => {}}
+            >
               Github
             </button>
           </div>
