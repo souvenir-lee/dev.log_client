@@ -10,13 +10,13 @@ import { withRouter, useHistory } from 'react-router-dom';
 
 const ContentsEntry = ({cateory, content}) => {
   let history = useHistory();
-  console.log('content',content)
+  //console.log('content',content)
   return(
     <div 
       className="contents_list"
       onClick={() =>{
         console.log('클릭되나')
-        return history.push('/contentDetail') //contentDetail로 이동하기
+        return history.push('/main/detail') //contentDetail로 이동하기
       }}
       style={{
           width: "400px",

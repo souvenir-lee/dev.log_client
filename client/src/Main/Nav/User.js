@@ -5,7 +5,7 @@
 */
 
 import React from "react";
-import Mypage from "../../Mypage"
+import { withRouter } from "react-router-dom";
 import axios from "axios";
 
 class User extends React.Component {
@@ -22,13 +22,14 @@ class User extends React.Component {
           onClick={() => {
             this.props.handleLoginClick()
             console.log('클랙 props', this.props.isLogin)
-            axios.post('http://localhost:3000/users/logout', this.props.email) 
-            .then(() => {
-              this.props.handleLoginClick()
-              this.props.history.push('/users/login') //변경된 API
+            this.props.history.push('/login')
+            // axios.post('http://localhost:3000/users/logout') 
+            // .then(() => {
+            //   this.props.handleLoginClick()
+            //   this.props.history.push('/login') //변경된 API
         
-            })
-            .catch(error => console.log(error))
+            // })
+            // .catch(error => console.log(error))
           }}>
           로그아웃
         </button>
@@ -36,16 +37,15 @@ class User extends React.Component {
         <button 
           className="nav_myPage"
           onClick={() => {
-            console.log('user에서 userinfo',userinfo)
-            axios.get('http://localhost:3000/users/info/id') //마이페이지로 리다이렉트
-            .then(() => console.log(userinfo))
-            /*.then((res) => {
-              console.log(res.data)
-              this.setState{ userinfo: res.data}})
-              .then(() => {
-              this.props.history.push('/mypage'); //임의로 API 지정해봄
-            })         //API 확인되면 이것으로 */
-          }}>
+            // console.log('user에서 userinfo',userinfo)
+            // axios.get('http://localhost:3000/users/info/id', userinfo.email) //마이페이지로 리다이렉트
+            // .then(res => {
+            //   console.log(userinfo)
+            //   getUserData(res)})
+            // .then(()=> 
+            this.props.history.push('/mypage')
+            // )
+            }}>
           마이페이지
         </button>
       </div>
@@ -53,4 +53,4 @@ class User extends React.Component {
   }
 } 
 
-export default User;
+export default withRouter(User);

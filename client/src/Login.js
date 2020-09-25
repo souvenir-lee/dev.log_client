@@ -8,7 +8,6 @@
 import React from "react";
 import { Link, Route, Redirect, withRouter } from "react-router-dom";
 import axios from "axios";
-import CKEditor from "ckeditor4-react";
 /*
 props={
     islogin : this.state.isLogin(false), 
@@ -90,6 +89,7 @@ class Login extends React.Component {
               // 클릭을 했을때 isLogin이 true가 되고 /links로 이동
               // 서버와 요청할 수 있는 함수
               this.handleLogin();
+              this.props.getUserData(this.state.email)
               this.props.handleLoginClick();
               this.props.history.push("/main");
             }}
@@ -110,6 +110,7 @@ class Login extends React.Component {
               onClick={() => {
                 //클릭했을때 /signup으로 이동
                 this.props.history.push("/signup");
+                console.log('getdata',this.state)
               }}
             >
               signup
