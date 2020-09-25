@@ -23,7 +23,7 @@ class Listup extends React.Component {
         {username : '한슬', title: '인사', message:'프로젝트', comment: '2', view_count: 1, tag:["인사"]},
         {username : '한슬', title: '인사', message:'화이팅', comment: '3', view_count: 1, tag:["인사"]}
       ],
-      currentContent: {},
+      //currentContent: {},
     };
     this.handleInputCategory = this.handleInputCategory.bind(this);
     this.handleContentList = this.handleContentList.bind(this);
@@ -90,13 +90,13 @@ class Listup extends React.Component {
           </Route>
           <Route
             exact
-            path='/main/list'
+            path='/main'
             render={()=> <Contents cateory={category} contentsList={contentsList} />}>
           </Route>
           <Route
             exact
-            path='/main/contentsDetail'
-            render={()=> <ContentDetail cateory={category} currentContent={currentContent}/>}>
+            path='/main/detail'
+            render={()=> <ContentDetail cateory={category}/>}>
           </Route>
         </Switch>
         {/*
