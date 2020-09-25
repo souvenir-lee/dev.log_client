@@ -10,7 +10,7 @@ import { withRouter, useHistory } from "react-router-dom";
 
 const ContentsEntry = ({ cateory, content }) => {
   let history = useHistory();
-  console.log("content", content);
+  //console.log('content',content)
   return (
     <div
       className="contents_list"

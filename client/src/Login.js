@@ -8,7 +8,6 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
-
 /*
 props={
     islogin : this.state.isLogin(false), 
@@ -75,6 +74,7 @@ class Login extends React.Component {
               // 먼저 서버에 post요청을 보내면, 서버쪽에서 200과 함께 토큰을 부여해줌
 
               this.handleLogin();
+              this.props.getUserData(this.state.email);
               this.props.handleLoginClick();
               this.props.history.push("/main");
             }}
@@ -95,6 +95,7 @@ class Login extends React.Component {
               onClick={() => {
                 //클릭했을때 /signup으로 이동
                 this.props.history.push("/signup");
+                console.log("getdata", this.state);
               }}
             >
               signup

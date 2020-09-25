@@ -44,7 +44,7 @@ class Listup extends React.Component {
           tag: ["인사"],
         },
       ],
-      currentContent: {},
+      //currentContent: {},
     };
     this.handleInputCategory = this.handleInputCategory.bind(this);
     this.handleContentList = this.handleContentList.bind(this);
@@ -109,7 +109,6 @@ class Listup extends React.Component {
           handleContentList={this.handleContentList}
         />
         <Switch>
-          <Route exact path="/main/post" render={() => <Post />}></Route>
           <Route exact path="/main/post" render={() => <Post />}></Route>
           <Route
             exact
