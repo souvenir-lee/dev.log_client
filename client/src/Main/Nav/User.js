@@ -14,27 +14,28 @@ class User extends React.Component {
   }
 
   render() {
-    const {isLogin, userinfo, getUserData, handleLoginClick} = this.props;
+    const { isLogin, userinfo, getUserData, handleLoginClick } = this.props;
     return (
       <div>
-        <button 
-          className="nav_logOut" 
+        <button
+          className="nav_logOut"
           onClick={() => {
-            this.props.handleLoginClick()
-            console.log('클랙 props', this.props.isLogin)
-            this.props.history.push('/login')
-            // axios.post('http://localhost:3000/users/logout') 
+            this.props.handleLoginClick();
+            console.log("클랙 props", this.props.isLogin);
+            this.props.history.push("/login");
+            // axios.post('http://localhost:3000/users/logout')
             // .then(() => {
             //   this.props.handleLoginClick()
             //   this.props.history.push('/login') //변경된 API
-        
+
             // })
             // .catch(error => console.log(error))
-          }}>
+          }}
+        >
           로그아웃
         </button>
 
-        <button 
+        <button
           className="nav_myPage"
           onClick={() => {
             // console.log('user에서 userinfo',userinfo)
@@ -42,15 +43,16 @@ class User extends React.Component {
             // .then(res => {
             //   console.log(userinfo)
             //   getUserData(res)})
-            // .then(()=> 
-            this.props.history.push('/mypage')
+            // .then(()=>
+            this.props.history.push("/mypage");
             // )
-            }}>
+          }}
+        >
           마이페이지
         </button>
       </div>
-    )
+    );
   }
-} 
+}
 
 export default withRouter(User);

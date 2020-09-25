@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  Switch,
-  Route,
-  useHistory,
-  Router,
-  Redirect,
-} from "react-router-dom";
+import { Switch, Route, useHistory, Router, Redirect } from "react-router-dom";
 import Listup from "../src/Main/Listup";
 import Login from "../src/Login";
 import Signup from "../src/Signup";
@@ -27,10 +21,12 @@ class App extends React.Component {
 
   //로그인 시 userinfo를 끌어올리는 함수
   getUserData = (data) => {
-    this.setState({ 
+    this.setState({
       userinfo: {
-        email : data,
-        name : data} });
+        email: data,
+        name: data,
+      },
+    });
   };
 
   handleLoginClick = () => {
@@ -41,7 +37,7 @@ class App extends React.Component {
     return (
       <Switch>
         <Route
-          path="/login"  //변경됨
+          path="/login" //변경됨
           render={() => (
             <Login
               isLogin={isLogin}
@@ -51,23 +47,28 @@ class App extends React.Component {
             />
           )}
         />
-        <Route
-          path="/signup"
-          render={() => <Signup isLogin={isLogin} />}
-        />
+        <Route path="/signup" render={() => <Signup isLogin={isLogin} />} />
         <Route
           path="/mypage"
-          render={() => <Mypage isLogin={isLogin} userinfo={userinfo}/>}
+          render={() => <Mypage isLogin={isLogin} userinfo={userinfo} />}
         />
-          <Route
-          path='/main'
+        <Route
+          path="/main"
           render={() => {
-            if(!isLogin){ //임시로 여기 수정해둠
-              return <Listup isLogin={isLogin} userinfo={userinfo} getUserData={this.getUserData} handleLoginClick={this.handleLoginClick} ></Listup> 
+            if (!isLogin) {
+              //임시로 여기 수정해둠
+              return (
+                <Listup
+                  isLogin={isLogin}
+                  userinfo={userinfo}
+                  getUserData={this.getUserData}
+                  handleLoginClick={this.handleLoginClick}
+                ></Listup>
+              );
             }
-            return <Redirect to="/users/login" />;
+            return <Redirect to="/login" />;
           }}
-          />
+        />
       </Switch>
     );
   }

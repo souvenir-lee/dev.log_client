@@ -3,8 +3,8 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import Nav from "../Main/Nav/Nav";
 import Category from "../Main/Category/Category";
 import Contents from "../Main/Content/ContentList/Contents";
-import Post from "../Main/Content/Post"
-import ContentDetail from "../Main/Content/ContentDetail/ContentDetail"
+import Post from "../Main/Content/Post";
+import ContentDetail from "../Main/Content/ContentDetail/ContentDetail";
 import axios from "axios";
 //import Scrap from "../src/Main/Scrap";
 /*
@@ -19,9 +19,30 @@ class Listup extends React.Component {
     this.state = {
       category: null,
       contentsList: [
-        {username : '한슬', title: '인사', message:'안녕하세요', comment: '1', view_count: 1, tag:["인사"]},
-        {username : '한슬', title: '인사', message:'프로젝트', comment: '2', view_count: 1, tag:["인사"]},
-        {username : '한슬', title: '인사', message:'화이팅', comment: '3', view_count: 1, tag:["인사"]}
+        {
+          username: "한슬",
+          title: "인사",
+          message: "안녕하세요",
+          comment: "1",
+          view_count: 1,
+          tag: ["인사"],
+        },
+        {
+          username: "한슬",
+          title: "인사",
+          message: "프로젝트",
+          comment: "2",
+          view_count: 1,
+          tag: ["인사"],
+        },
+        {
+          username: "한슬",
+          title: "인사",
+          message: "화이팅",
+          comment: "3",
+          view_count: 1,
+          tag: ["인사"],
+        },
       ],
       //currentContent: {},
     };
@@ -52,17 +73,18 @@ class Listup extends React.Component {
 
   //contentsList도 채워지는 함수
   handleContentList = () => {
-    axios.post('http://localhost:4000', this.state.category) //카테고리 클릭했을 때 변경하기, API 필요
-    .then(res => {
-      console.log(res)
-      this.setState({ contentsList: res.data})
-    })
-  }
+    axios
+      .post("http://localhost:4000", this.state.category) //카테고리 클릭했을 때 변경하기, API 필요
+      .then((res) => {
+        console.log(res);
+        this.setState({ contentsList: res.data });
+      });
+  };
 
   render() {
-    const { isLogin, userinfo, handleLoginClick, getUserData } = this.props
-    console.log('listup props',this.props)
-    const { category, contentsList } = this.state
+    const { isLogin, userinfo, handleLoginClick, getUserData } = this.props;
+    console.log("listup props", this.props);
+    const { category, contentsList } = this.state;
 
     return (
       <div
@@ -74,30 +96,32 @@ class Listup extends React.Component {
         }}
       >
         Listup에서 'Hello World'
-
-        <Nav isLogin={isLogin} userinfo={userinfo} handleLoginClick={handleLoginClick} getUserData={getUserData}/>  
-        <Category 
-          category={category} 
-          contentsList={contentsList} 
-          handleInputCategory={this.handleInputCategory} 
-          handleContentList={this.handleContentList}/>
+        <Nav
+          isLogin={isLogin}
+          userinfo={userinfo}
+          handleLoginClick={handleLoginClick}
+          getUserData={getUserData}
+        />
+        <Category
+          category={category}
+          contentsList={contentsList}
+          handleInputCategory={this.handleInputCategory}
+          handleContentList={this.handleContentList}
+        />
         <Switch>
           <Route exact path="/main/post" render={() => <Post />}></Route>
           <Route
             exact
-            path='/main/post' 
-            render={()=> <Post />}>
-          </Route>
+            path="/main"
+            render={() => (
+              <Contents cateory={category} contentsList={contentsList} />
+            )}
+          ></Route>
           <Route
             exact
-            path='/main'
-            render={()=> <Contents cateory={category} contentsList={contentsList} />}>
-          </Route>
-          <Route
-            exact
-            path='/main/detail'
-            render={()=> <ContentDetail cateory={category}/>}>
-          </Route>
+            path="/main/detail"
+            render={() => <ContentDetail cateory={category} />}
+          ></Route>
         </Switch>
         {/*
         <Scrap />*/}
