@@ -5,25 +5,28 @@
 */
 
 import React from "react";
-import Comment from "./Coment"
+import Comment from "./Comment";
 
 class ContentDetail extends React.Component {
-  constructor(props){
-    super(props)
-    this.state = {}
+  constructor(props) {
+    super(props);
+    this.state = {};
   }
 
   render() {
     return (
       <div className="contentdetail">
         <div className="contentdetail_content">
-          <div className="username">이름</div>
+          <div className="username">//이름</div>
           <div className="title">제목</div>
-          <button className="contentdetail_btnDelete">삭제하기</button>
-          <div className="username">이름</div>
         </div>
+        <div>
+          <button className="contentdetail_btnDelete">삭제하기</button>
+          <button className="contentdetail_btnDelete">수정하기</button>
+        </div>
+        <Comment />
       </div>
-    )
+    );
   }
 }
 
