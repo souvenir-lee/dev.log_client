@@ -32,8 +32,6 @@ const ContentsEntry = ({ cateory, content }) => {
       {content.tag.map((tag) => {
         return <div className="tag">{tag}</div>;
       })}
-
-      {/**view_count: 1, tag:["인사"] */}
     </div>
   );
 };
