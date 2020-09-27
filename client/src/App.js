@@ -9,7 +9,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLogin: false, //추후에 여기 바꾸기
+      isLogin: false,
       userinfo: {
         name: "",
         email: "",
@@ -31,7 +31,7 @@ class App extends React.Component {
   };
 
   handleLoginClick = () => {
-    this.setState({ isLogin: this.state.isLogin }); //추후에는 클릭할 때마다 상태변겅하도록
+    this.setState({ isLogin: !this.state.isLogin }); //추후에는 클릭할 때마다 상태변겅하도록
   };
   render() {
     const { isLogin, userinfo } = this.state;
@@ -56,7 +56,7 @@ class App extends React.Component {
         <Route
           path="/main"
           render={() => {
-            if (!isLogin) {
+            if (isLogin) {
               //임시로 여기 수정해둠
               return (
                 <Listup
