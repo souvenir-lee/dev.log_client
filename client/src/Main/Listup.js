@@ -44,12 +44,24 @@ class Listup extends React.Component {
           tag: ["인사"],
         },
       ],
+      clickedContent: {
+        id: null,
+        username: "디테일 username",
+        title: "디테일 title",
+        message: "디테일 message",
+      },
       //currentContent: {},
     };
     this.handleInputCategory = this.handleInputCategory.bind(this);
     this.handleContentList = this.handleContentList.bind(this);
     this.handleGetDefault = this.handleGetDefault.bind(this);
+    this.clickedContent = this.clickedContent.bind(this);
   }
+  clickedContent = (data) => {
+    {
+      this.setState({ clickedContent: data });
+    }
+  };
 
   //시작하자마자 전체 데이터 뿌려주는 함수 -> 주기함수 써야 함.
   componentDidMount() {
@@ -84,7 +96,7 @@ class Listup extends React.Component {
   render() {
     const { isLogin, userinfo, handleLoginClick, getUserData } = this.props;
     console.log("listup props", this.props);
-    const { category, contentsList } = this.state;
+    const { category, contentsList, clickedContent } = this.state;
 
     return (
       <div
@@ -114,13 +126,22 @@ class Listup extends React.Component {
             exact
             path="/main"
             render={() => (
-              <Contents cateory={category} contentsList={contentsList} />
+              <Contents
+                cateory={category}
+                contentsList={contentsList}
+                clickedContent={clickedContent}
+              />
             )}
           ></Route>
           <Route
             exact
             path="/main/detail"
-            render={() => <ContentDetail cateory={category} />}
+            render={() => (
+              <ContentDetail
+                cateory={category}
+                clickedContent={clickedContent}
+              />
+            )}
           ></Route>
         </Switch>
         {/*
