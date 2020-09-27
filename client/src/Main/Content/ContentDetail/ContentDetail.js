@@ -6,28 +6,78 @@
 
 import React from "react";
 import Comment from "./Comment";
+import axios from "axios";
+import { withRouter } from "react-router-dom";
+
+/*
+props = {
+  category : "", 
+  clickedContent :{
+    username: "디테일 username",
+    title: "디테일 title",
+    message: "디테일 message",
+  }
+}
+*/
 
 class ContentDetail extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      username: this.props.username,
+      title: this.props.title,
+      message: this.props.message,
+    };
   }
-
+  //1.해당 컨텐츠를 클릭했을때 ContentDetail로 이동하고 해당 이름,제목,내용을 띄운다
+  //post
+  deleteMessage = () => {
+    axios.delete("http://dev.log/posts/delete", this.props.id).then((res) => {
+      if (res.status === 200) {
+        alert("삭제되었습니다.");
+        this.props.history.push("/main");
+      }
+    });
+  };
+  /*
+  1.수정버튼을 누르면 post페이지로 렌더링이 된다.
+  2.해당 category, username, title, message를 담아서 가져온다
+  3.수정한 value onchange
+  4.게시버튼을 누르면 contentDetail 페이지로 렌더링 된다.
+  */
+  // editMessage = (key) =>(e)=> {
+  // };
   render() {
     return (
       <div className="contentdetail">
         <div className="contentdetail_content">
-          <div className="username">//이름</div>
-          <div className="title">제목</div>
+          <div className="username">{this.props.clickedContent.username}</div>
+          <div className="title">{this.props.clickedContent.title}</div>
         </div>
+        <div>{this.props.clickedContent.message}</div>
         <div>
-          <button className="contentdetail_btnDelete">삭제하기</button>
+          <button
+            className="contentdetail_btnDelete"
+            onClick={() => {
+              this.deleteMessage();
+            }}
+          >
+            삭제하기
+          </button>
           <button className="contentdetail_btnDelete">수정하기</button>
         </div>
         <Comment />
+        <button
+          className=""
+          onClick={() => {
+            this.props.history.push("/main");
+          }}
+        >
+          목록으로
+        </button>
       </div>
     );
   }
 }
 
-export default ContentDetail;
+export default withRouter(ContentDetail);

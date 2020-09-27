@@ -20,6 +20,7 @@ class App extends React.Component {
   }
 
   //로그인 시 userinfo를 끌어올리는 함수
+  //한슬 -> 이부분 수정한적 있는지?
   getUserData = (data) => {
     this.setState({
       userinfo: {

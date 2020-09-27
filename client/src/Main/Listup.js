@@ -12,11 +12,11 @@ class Listup extends React.Component {
   constructor(props) {
     super(props); //isLogin, userinfo, handleIsLoginChange
     this.state = {
-      category: null, //여기를 나중에는 category id로 수정하기 
+      category: null, //여기를 나중에는 category id로 수정하기
       contentsList: [
         {
-          id : "",
-          categoryId : "",
+          id: "",
+          categoryId: "",
           username: "한슬",
           title: "인사",
           message: "안녕하세요",
@@ -25,8 +25,8 @@ class Listup extends React.Component {
           tag: ["인사"],
         },
         {
-          id : "",
-          categoryId : "",
+          id: "",
+          categoryId: "",
           username: "한슬",
           title: "인사",
           message: "프로젝트",
@@ -35,8 +35,8 @@ class Listup extends React.Component {
           tag: ["인사"],
         },
         {
-          id : "",
-          categoryId : "",
+          id: "",
+          categoryId: "",
           username: "한슬",
           title: "인사",
           message: "화이팅",
@@ -45,18 +45,31 @@ class Listup extends React.Component {
           tag: ["인사"],
         },
       ],
+      clickedContent: {
+        id: null,
+        username: "디테일 username",
+        title: "디테일 title",
+        message: "디테일 message",
+      },
+      //currentContent: {},
     };
     this.handleInputCategory = this.handleInputCategory.bind(this);
     this.handleContentList = this.handleContentList.bind(this);
     this.handleGetDefault = this.handleGetDefault.bind(this);
+    this.clickedContent = this.clickedContent.bind(this);
   }
+  clickedContent = (data) => {
+    {
+      this.setState({ clickedContent: data });
+    }
+  };
 
   //시작하자마자 전체 데이터 뿌려주는 함수 -> 주기함수 써야 함.
   componentDidMount() {
     this.handleGetDefault(); //전체보기 API가 어떻게 되어있을까?
   }
 
-  //기본 contestList 불러오는 함수, category 
+  //기본 contestList 불러오는 함수, category
   handleGetDefault = () => {
     axios.get(`http://localhost:4000/posts/list`).then((res) => {
       console.log(res);
@@ -64,7 +77,7 @@ class Listup extends React.Component {
     });
   };
 
-  //필터링된 contestList 불러오는 함수 
+  //필터링된 contestList 불러오는 함수
   handleContentList = (value) => {
     axios.get(`http://localhost:4000/posts/category/${value}`).then((res) => {
       console.log(res);
@@ -74,9 +87,9 @@ class Listup extends React.Component {
 
   //category state 끌어올리기 + 필터링된 contestList 불러오는 함수
   handleInputCategory = (e) => {
-    this.setState({ category: e.target.innerHTML })
-    console.log('카테고리~!!!', this.state.category)
-    // await axios.get(`http://localhost:3001/${this.state.category}`) 
+    this.setState({ category: e.target.innerHTML });
+    console.log("카테고리~!!!", this.state.category);
+    // await axios.get(`http://localhost:3001/${this.state.category}`)
     // .then((res) => {
     //   console.log(res);
     //   this.setState({ contentsList: res.data });
@@ -86,15 +99,15 @@ class Listup extends React.Component {
 
   render() {
     const { isLogin, userinfo, handleLoginClick, getUserData } = this.props;
-    console.log("listup props", this.props, this.state.category);
-    const { category, contentsList } = this.state;
+    console.log("listup props", this.props);
+    const { category, contentsList, clickedContent } = this.state;
 
-    if(category === '전체보기'){
-      this.handleGetDefault()
-    }else if(category === '카테고리1'){
-      this.handleContentList('1')
-    }else if(category === '카테고리1'){
-      this.handleContentList('2')
+    if (category === "전체보기") {
+      this.handleGetDefault();
+    } else if (category === "카테고리1") {
+      this.handleContentList("1");
+    } else if (category === "카테고리1") {
+      this.handleContentList("2");
     }
 
     return (
@@ -125,13 +138,22 @@ class Listup extends React.Component {
             exact
             path="/main"
             render={() => (
-              <Contents cateory={category} contentsList={contentsList} />
+              <Contents
+                cateory={category}
+                contentsList={contentsList}
+                clickedContent={clickedContent}
+              />
             )}
           ></Route>
           <Route
             exact
             path="/main/detail"
-            render={() => <ContentDetail cateory={category} />}
+            render={() => (
+              <ContentDetail
+                cateory={category}
+                clickedContent={clickedContent}
+              />
+            )}
           ></Route>
         </Switch>
         {/*
