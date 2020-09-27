@@ -5,8 +5,21 @@
 import React from "react";
 // import { withRouter, useHistory } from "react-router-dom";
 
-const CommentEntry = () => {
-  return <div>댓글Entry</div>;
+// props={comment: {
+//     username: "수진",
+//     message: "hello",
+//   }}
+const CommentEntry = (props) => {
+  return (
+    <div>
+      <div>{props.comment.username}</div>
+      <div>{props.comment.message}</div>
+      <div>
+        <button>수정</button>
+        <button>삭제</button>
+      </div>
+    </div>
+  );
 };
 
 export default CommentEntry;
