@@ -15,6 +15,8 @@ class Listup extends React.Component {
       category: null, //여기를 나중에는 category id로 수정하기 
       contentsList: [
         {
+          id : "",
+          categoryId : "",
           username: "한슬",
           title: "인사",
           message: "안녕하세요",
@@ -23,6 +25,8 @@ class Listup extends React.Component {
           tag: ["인사"],
         },
         {
+          id : "",
+          categoryId : "",
           username: "한슬",
           title: "인사",
           message: "프로젝트",
@@ -31,6 +35,8 @@ class Listup extends React.Component {
           tag: ["인사"],
         },
         {
+          id : "",
+          categoryId : "",
           username: "한슬",
           title: "인사",
           message: "화이팅",
@@ -39,10 +45,9 @@ class Listup extends React.Component {
           tag: ["인사"],
         },
       ],
-      //currentContent: {},
     };
     this.handleInputCategory = this.handleInputCategory.bind(this);
-    //this.handleContentList = this.handleContentList.bind(this);
+    this.handleContentList = this.handleContentList.bind(this);
     this.handleGetDefault = this.handleGetDefault.bind(this);
   }
 
@@ -53,30 +58,29 @@ class Listup extends React.Component {
 
   //기본 contestList 불러오는 함수, category 
   handleGetDefault = () => {
-    axios.get(`http://localhost:4000/posts/category/${"전체보기"}`).then((res) => {
+    axios.get(`http://localhost:4000/posts/list`).then((res) => {
       console.log(res);
       this.setState({ contentsList: res.data });
     });
   };
 
-  // //필터링된 contestList 불러오는 함수 
-  // handleContentList = (e) => {
-  //   axios.get(`http://localhost:4000/posts/category/${e.target.innerHTML}`).then((res) => {
-  //     console.log(res);
-  //     this.setState({ contentsList: res.data });
-  //   });
-  // };
+  //필터링된 contestList 불러오는 함수 
+  handleContentList = (value) => {
+    axios.get(`http://localhost:4000/posts/category/${value}`).then((res) => {
+      console.log(res);
+      this.setState({ contentsList: res.data });
+    });
+  };
 
   //category state 끌어올리기 + 필터링된 contestList 불러오는 함수
   handleInputCategory = (e) => {
     this.setState({ category: e.target.innerHTML })
-    console.log('카테고리~!!!')
-    axios.get(`http://localhost:4000/${this.state.category}`) 
-    //state가 바로 바뀌지 않는다면 e.target.innerHTML로 파라미터 보내야
-    .then((res) => {
-      console.log(res);
-      this.setState({ contentsList: res.data });
-    });
+    console.log('카테고리~!!!', this.state.category)
+    // await axios.get(`http://localhost:3001/${this.state.category}`) 
+    // .then((res) => {
+    //   console.log(res);
+    //   this.setState({ contentsList: res.data });
+    // });
     //console.log("state", this.state.category); //state가 렌더링 된 후에야 바뀐 것을 확인할 수 있는듯
   };
 
@@ -84,6 +88,14 @@ class Listup extends React.Component {
     const { isLogin, userinfo, handleLoginClick, getUserData } = this.props;
     console.log("listup props", this.props, this.state.category);
     const { category, contentsList } = this.state;
+
+    if(category === '전체보기'){
+      this.handleGetDefault()
+    }else if(category === '카테고리1'){
+      this.handleContentList('1')
+    }else if(category === '카테고리1'){
+      this.handleContentList('2')
+    }
 
     return (
       <div

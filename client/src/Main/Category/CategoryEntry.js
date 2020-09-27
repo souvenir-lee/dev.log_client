@@ -28,21 +28,22 @@ class CotegoryEntry extends React.Component {
         <div 
           className="category_listName" 
           onClick={handleInputCategory}
-              //handleContentList()
-          //     console.log('클릭?', this.props.category)
-          // }}
-              // this.props.handleContentList 이거는 list에서 하면 됨?? 여기서 하고 리다이렉트 해야할듯
+          value="1"
           >
           전체보기
         </div>
         <div
           className="category_listName" 
-          onClick={handleInputCategory}>
+          onClick={handleInputCategory}
+          value="2"
+          >
           카테고리1
         </div>
         <div
           className="category_listName" 
-          onClick={handleInputCategory}>
+          onClick={handleInputCategory}
+          value="3"
+          >
           카테고리2
         </div>
       </div>
