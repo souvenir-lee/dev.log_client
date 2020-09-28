@@ -24,6 +24,7 @@ class Signup extends React.Component {
       email: "",
       password: "",
       success: false,
+      //success가 필요한가?
     };
     this.handleInputValue = this.handleInputValue.bind(this);
     this.postSignup = this.postSignup.bind(this);
@@ -34,7 +35,7 @@ class Signup extends React.Component {
   };
   handleSignUp = () => {
     axios
-      .post("http://localhost:4000/signup", this.state)
+      .post("http://dev.log /users/emailconfirm, this.state", this.state.email)
       .then((res) => {
         if (res.status === 200) {
           alert("사용가능한 아이디입니다");
@@ -52,9 +53,10 @@ class Signup extends React.Component {
     //res가 오지 않았을 때 오류
   };
   postSignup = () => {
-    axios.post("url", this.state).then((res) => {
+    axios.post("http://dev.log/users/signup", this.state).then((res) => {
       if (res.status === 200) {
-        if (res.res.social_user_id) {
+        if (res.social_user_id) {
+          //social_user_id? 복습필요
           this.setState({ success: true });
         }
       }

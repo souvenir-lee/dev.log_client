@@ -21,6 +21,7 @@ class Login extends React.Component {
       email: "",
       password: "",
       success: false,
+      //success state 가 필요한가?
     };
     this.handleInputValue = this.handleInputValue.bind(this);
   }
@@ -29,9 +30,11 @@ class Login extends React.Component {
     this.setState({ [key]: e.target.value });
   };
   handleLogin = () => {
-    axios.post("url", this.state).then((res) => {
+    axios.post("http://dev.log/users/login", this.state).then((res) => {
       if (res.status === 200) {
         if (res.social_user_id) {
+          //post요청시 res = {"token":"","status":""}
+          // if (res.token){
           this.setState({ success: true });
         }
       }

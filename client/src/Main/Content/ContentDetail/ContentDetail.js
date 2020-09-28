@@ -9,17 +9,6 @@ import Comment from "./Comment";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
 
-/*
-props = {
-  category : "", 
-  clickedContent :{
-    username: "디테일 username",
-    title: "디테일 title",
-    message: "디테일 message",
-  }
-}
-*/
-
 class ContentDetail extends React.Component {
   constructor(props) {
     super(props);
@@ -45,16 +34,31 @@ class ContentDetail extends React.Component {
   3.수정한 value onchange
   4.게시버튼을 누르면 contentDetail 페이지로 렌더링 된다.
   */
-  // editMessage = (key) =>(e)=> {
-  // };
+
+  editMessage = async () => {
+    await this.props.history.push("/main/post");
+
+    await axios.get("http://dev.log/posts/info/id").then((res) => {
+      //main/post의 state가 바뀌어야함
+      this.props.clickEditBtn();
+      this.props.clickedContent();
+    });
+  };
+
   render() {
     return (
       <div className="contentdetail">
         <div className="contentdetail_content">
-          <div className="username">{this.props.clickedContent.username}</div>
-          <div className="title">{this.props.clickedContent.title}</div>
+          <div className="contentdetail_username">
+            {this.props.clickedContent.username}
+          </div>
+          <div className="contentdetail_title">
+            {this.props.clickedContent.title}
+          </div>
         </div>
-        <div>{this.props.clickedContent.message}</div>
+        <div className="contentdetail_message">
+          {this.props.clickedContent.message}
+        </div>
         <div>
           <button
             className="contentdetail_btnDelete"
@@ -64,11 +68,18 @@ class ContentDetail extends React.Component {
           >
             삭제하기
           </button>
-          <button className="contentdetail_btnDelete">수정하기</button>
+          <button
+            className="contentdetail_btnEdit"
+            onClick={() => {
+              this.editMessage();
+            }}
+          >
+            수정하기
+          </button>
         </div>
         <Comment />
         <button
-          className=""
+          className="contentdetail_btnBack"
           onClick={() => {
             this.props.history.push("/main");
           }}

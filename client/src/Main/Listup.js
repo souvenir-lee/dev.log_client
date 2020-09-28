@@ -47,22 +47,39 @@ class Listup extends React.Component {
       ],
       clickedContent: {
         id: null,
+        categoryId: null,
         username: "디테일 username",
         title: "디테일 title",
         message: "디테일 message",
       },
+      editBtn: false,
       //currentContent: {},
     };
     this.handleInputCategory = this.handleInputCategory.bind(this);
     this.handleContentList = this.handleContentList.bind(this);
     this.handleGetDefault = this.handleGetDefault.bind(this);
     this.clickedContent = this.clickedContent.bind(this);
+    this.clickEditBtn = this.clickEditBtn.bind(this);
   }
+  clickEditBtn = () => {
+    {
+      this.setState({ editBtn: true });
+    }
+  };
   clickedContent = (data) => {
     {
       this.setState({ clickedContent: data });
     }
   };
+  // editDetail = (data) => {
+  //   this.setState({
+  //     contentsList: {
+  //       username: data.username,
+  //       title: data.title,
+  //       message: data.message,
+  //     },
+  //   });
+  // };
 
   //시작하자마자 전체 데이터 뿌려주는 함수 -> 주기함수 써야 함.
   componentDidMount() {
@@ -98,9 +115,21 @@ class Listup extends React.Component {
   };
 
   render() {
-    const { isLogin, userinfo, handleLoginClick, getUserData } = this.props;
+    const {
+      isLogin,
+      userinfo,
+      handleLoginClick,
+      getUserData,
+      clickEditBtn,
+    } = this.props;
     console.log("listup props", this.props);
-    const { category, contentsList, clickedContent } = this.state;
+    const {
+      category,
+      contentsList,
+      clickedContent,
+      handleGetDefault,
+      editBtn,
+    } = this.state;
 
     if (category === "전체보기") {
       this.handleGetDefault();
@@ -142,6 +171,8 @@ class Listup extends React.Component {
                 cateory={category}
                 contentsList={contentsList}
                 clickedContent={clickedContent}
+                handleGetDefault={handleGetDefault}
+                editBtn={editBtn}
               />
             )}
           ></Route>
@@ -151,7 +182,9 @@ class Listup extends React.Component {
             render={() => (
               <ContentDetail
                 cateory={category}
+                contentsList={contentsList}
                 clickedContent={clickedContent}
+                clickEditBtn={clickEditBtn}
               />
             )}
           ></Route>
