@@ -6,35 +6,55 @@
 */
 
 import React from "react";
-import { withRouter, useHistory } from 'react-router-dom';
+import { withRouter } from "react-router-dom";
+import axios from "axios";
+axios.defaults.withCredentials = true;
 
-const ContentsEntry = ({cateory, content}) => {
-  let history = useHistory();
+// props = {category=, content=, clickedkContent=}
+class ContentsEntry extends React.Component {
+  constructor(props) {
+    super(props);
+    this.getContentDetail = this.getContentDetail.bind(this);
+  }
+
   //console.log('content',content)
-  return(
-    <div 
-      className="contents_list"
-      onClick={() =>{
-        console.log('클릭되나')
-        return history.push('/main/detail') //contentDetail로 이동하기
-      }}
-      style={{
+
+  getContentDetail = () => {
+    axios.get("https://devyeon.com/posts/info/id").then((res) => {
+      {
+        this.props.clickedContent(res);
+      }
+    });
+  };
+
+  render() {
+    return (
+      <div
+        className="contents_list"
+        onClick={() => {
+          console.log("클릭되나");
+          this.getContentDetail();
+          this.props.history.push("/main/detail"); //contentDetail로 이동하기
+        }}
+        style={{
           width: "400px",
           margin: "5px",
           border: "5px solid",
-        }}>
-      {/**onClick={/*클릭하면 ContentDetail로 이동하기*/}
-      <div className="name">{content.username}</div>
-      <div className="title">{content.title}</div>
-      <div className="comment">댓글{content.comment}</div>
-      <div className="view_count">조회수{content.comment}</div>
-      {content.tag.map(tag => {
-        return ( <div className="tag">{tag}</div>)
-      })}
+        }}
+      >
+        {/**onClick={/*클릭하면 ContentDetail로 이동하기*/}
+        <div className="name">{this.props.content.username}</div>
+        <div className="title">{this.props.content.title}</div>
+        <div className="comment">댓글{this.props.content.comment}</div>
+        <div className="view_count">조회수{this.props.content.comment}</div>
+        {/* {this.props.content.tag.map((tag) => {
+          return <div className="tag">{tag}</div>;
+        })} */}
 
-      {/**view_count: 1, tag:["인사"] */}
-    </div>
-  )
+        {/**view_count: 1, tag:["인사"] */}
+      </div>
+    );
+  }
 }
 
-export default withRouter(ContentsEntry)
+export default withRouter(ContentsEntry);

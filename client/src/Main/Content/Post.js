@@ -41,7 +41,7 @@ class Post extends React.Component {
   handlePost = () => {
     axios.post("url", this.state).then((res) => {
       if (res.status === 200) {
-        this.setState({ success: true });
+        this.handleInputValue("message");
       }
       //   this.props.getUserData(res.data);
     });
@@ -56,10 +56,10 @@ class Post extends React.Component {
             onChange={this.handleInputValue("category")}
           >
             <option></option>
-            <option value="grapefruit">Grapefruit</option>
-            <option value="lime">Lime</option>
-            <option value="coconut">Coconut</option>
-            <option value="mango">Mango</option>
+            <option value="1">Grapefruit</option>
+            <option value="2">Lime</option>
+            <option value="3">Coconut</option>
+            <option value="4">Mango</option>
           </select>
 
           <div>
@@ -67,7 +67,7 @@ class Post extends React.Component {
               className="post_title"
               type="title"
               placeholder="title"
-              onChange={this.handleInputValue("password")}
+              onChange={this.handleInputValue("title")}
             ></input>
           </div>
 
@@ -75,13 +75,12 @@ class Post extends React.Component {
             <CKEditor
               className="post_content"
               data="<p>Hello from CKEditor 4!</p>"
-              onChange={this.handleInputValue("password")}
             />
             <input
               className="post_tag"
               type="tag"
               placeholder="태그를 입력해주세요(최대3개)"
-              onChange={this.handleInputValue("password")}
+              onChange={this.handleInputValue("tag")}
             ></input>
           </div>
           <button
@@ -100,7 +99,9 @@ class Post extends React.Component {
             onClick={() => {
               //클릭했을때 post요청 후 main으로 이동
               this.handlePost();
+
               this.props.history.push("/main");
+              //
             }}
           >
             게시
