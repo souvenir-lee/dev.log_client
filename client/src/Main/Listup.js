@@ -6,6 +6,7 @@ import Contents from "../Main/Content/ContentList/Contents";
 import Post from "../Main/Content/Post";
 import ContentDetail from "../Main/Content/ContentDetail/ContentDetail";
 import axios from "axios";
+axios.defaults.withCredentials = true;
 //import Scrap from "../src/Main/Scrap";
 
 class Listup extends React.Component {
@@ -66,12 +67,12 @@ class Listup extends React.Component {
 
   //시작하자마자 전체 데이터 뿌려주는 함수 -> 주기함수 써야 함.
   componentDidMount() {
-    this.handleGetDefault(); //전체보기 API가 어떻게 되어있을까?
+    this.handleGetDefault(); 
   }
 
   //기본 contestList 불러오는 함수, category
   handleGetDefault = () => {
-    axios.get(`http://localhost:4000/posts/list`).then((res) => {
+    axios.get(`https://devyeon.com/posts/list`).then((res) => {
       console.log(res);
       this.setState({ contentsList: res.data });
     });
@@ -79,22 +80,16 @@ class Listup extends React.Component {
 
   //필터링된 contestList 불러오는 함수
   handleContentList = (value) => {
-    axios.get(`http://localhost:4000/posts/category/${value}`).then((res) => {
+    axios.get(`https://devyeon.com/posts/category/${value}`).then((res) => {
       console.log(res);
       this.setState({ contentsList: res.data });
     });
   };
 
-  //category state 끌어올리기 + 필터링된 contestList 불러오는 함수
+  //category state 끌어올리기
   handleInputCategory = (e) => {
     this.setState({ category: e.target.innerHTML });
-    console.log("카테고리~!!!", this.state.category);
-    // await axios.get(`http://localhost:3001/${this.state.category}`)
-    // .then((res) => {
-    //   console.log(res);
-    //   this.setState({ contentsList: res.data });
-    // });
-    //console.log("state", this.state.category); //state가 렌더링 된 후에야 바뀐 것을 확인할 수 있는듯
+    console.log("카테고리~!!!");
   };
 
   render() {
@@ -104,10 +99,14 @@ class Listup extends React.Component {
 
     if (category === "전체보기") {
       this.handleGetDefault();
-    } else if (category === "카테고리1") {
+    } else if (category === "Grapefruit") {
       this.handleContentList("1");
-    } else if (category === "카테고리1") {
+    } else if (category === "Lime") {
       this.handleContentList("2");
+    } else if (category === "Coconut") {
+      this.handleContentList("3");
+    } else if (category === "Mango") {
+      this.handleContentList("4");
     }
 
     return (
@@ -128,9 +127,7 @@ class Listup extends React.Component {
         />
         <Category
           category={category}
-          contentsList={contentsList}
           handleInputCategory={this.handleInputCategory}
-          handleContentList={this.handleContentList}
         />
         <Switch>
           <Route exact path="/main/post" render={() => <Post />}></Route>

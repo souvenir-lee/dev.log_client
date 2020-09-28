@@ -8,6 +8,7 @@ import React from "react";
 import Comment from "./Comment";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
+axios.defaults.withCredentials = true;
 
 /*
 props = {

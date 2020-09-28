@@ -6,9 +6,9 @@ function Mypage(props) {
         <center>
           <h1>Mypage</h1>
           <div className="mypage_name">이름</div>
-          {/* {props.userinfo.name} */}
+          {/* {this.props.userinfo.username} */}
           <div className="mypage_email">이메일</div>
-          {/* {props.userinfo.email} */}
+          {/* {this.props.userinfo.email} */}
         </center>
       </div>
     );

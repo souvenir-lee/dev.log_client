@@ -4,19 +4,15 @@
 */
 
 import React from "react";
-import axios from "axios";
+import { withRouter } from "react-router-dom";
 
 const Logo = (props) => (
   <div 
     className="nav_logo" 
-    onClick={() => {
-      axios.get('http:localhost:3000/main') //이후에는 Listup.js로 리다이렉트
-      .then(res => console.log(res))
-      .catch(error => console.log(error))
-    }}>
+    onClick={() => props.history.push('/main')}>
     프로젝트 명 및 이미지
     <img src="" alt="우리 웹 사이트 마크"/>
   </div>
 );
 
-export default Logo;
+export default withRouter(Logo);

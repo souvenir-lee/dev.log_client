@@ -56,10 +56,10 @@ class Post extends React.Component {
             onChange={this.handleInputValue("category")}
           >
             <option></option>
-            <option value="grapefruit">Grapefruit</option>
-            <option value="lime">Lime</option>
-            <option value="coconut">Coconut</option>
-            <option value="mango">Mango</option>
+            <option value="1">Grapefruit</option>
+            <option value="2">Lime</option>
+            <option value="3">Coconut</option>
+            <option value="4">Mango</option>
           </select>
 
           <div>

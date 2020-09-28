@@ -18,6 +18,7 @@ export default VideoList;
 import React from "react";
 import CommentEntry from "./CommentEntry";
 import axios from "axios";
+axios.defaults.withCredentials = true;
 
 class Comment extends React.Component {
   constructor(props) {
