@@ -15,7 +15,8 @@ class App extends React.Component {
       userinfo: {
         username: "",
         email: "",
-        token: ""
+        token: "",
+        userId:""
         //여기에 토큰을 만들어야 할것 같아요
       },
     };
@@ -30,8 +31,8 @@ class App extends React.Component {
       userinfo: {
         email: data.email,
         username: data.username,
-        token: data.token
-        //여기에 토큰을 만들어야 할것 같아요
+        token: data.token,
+        userId : data.userId
       },
     });
   };
