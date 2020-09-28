@@ -30,7 +30,7 @@ class Comment extends React.Component {
         { id: "", username: "윤연", message: "word" },
       ],
       commentCount: 3,
-      //` az`: this.state.comments.length,
+      // inputComment: this.state.comments.length,
     };
   }
   handleInputValue = (key) => (e) => {
