@@ -32,7 +32,7 @@ class App extends React.Component {
         email: data.email,
         username: data.username,
         token: data.token,
-        //여기에 토큰을 만들어야 할것 같아요
+        userId: data.userId,
       },
     });
   };

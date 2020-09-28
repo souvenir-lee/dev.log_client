@@ -22,9 +22,7 @@ class Listup extends React.Component {
           username: "한슬",
           title: "인사",
           message: "안녕하세요",
-          comment: "1",
           view_count: 1,
-          tag: ["인사"],
         },
         {
           id: "",
@@ -32,9 +30,7 @@ class Listup extends React.Component {
           username: "한슬",
           title: "인사",
           message: "프로젝트",
-          comment: "2",
           view_count: 1,
-          tag: ["인사"],
         },
         {
           id: "",
@@ -42,9 +38,7 @@ class Listup extends React.Component {
           username: "한슬",
           title: "인사",
           message: "화이팅",
-          comment: "3",
           view_count: 1,
-          tag: ["인사"],
         },
       ],
       clickedContent: {
@@ -64,15 +58,13 @@ class Listup extends React.Component {
     this.clickEditBtn = this.clickEditBtn.bind(this);
   }
   clickEditBtn = () => {
-    {
-      this.setState({ editBtn: true });
-    }
+    this.setState({ editBtn: true });
   };
+
   handleClickedContent = (data) => {
-    {
-      this.setState({ clickedContent: data });
-    }
+    this.setState({ clickedContent: data });
   };
+
   // editDetail = (data) => {
   //   this.setState({
   //     contentsList: {
@@ -91,7 +83,7 @@ class Listup extends React.Component {
   //기본 contestList 불러오는 함수, category
   handleGetDefault = () => {
     axios.get(`https://devyeon.com/posts/list`).then((res) => {
-      console.log(res);
+      console.log(res.data);
       this.setState({ contentsList: res.data });
     });
   };
@@ -99,7 +91,7 @@ class Listup extends React.Component {
   //필터링된 contestList 불러오는 함수
   handleContentList = (value) => {
     axios.get(`https://devyeon.com/posts/category/${value}`).then((res) => {
-      console.log(res);
+      console.log(res.data);
       this.setState({ contentsList: res.data });
     });
   };
@@ -125,6 +117,7 @@ class Listup extends React.Component {
       handleClickedContent,
       handleGetDefault,
       editBtn,
+      clickedContent,
     } = this.state;
 
     if (category === "전체보기") {
@@ -173,7 +166,8 @@ class Listup extends React.Component {
               <Contents
                 cateory={category}
                 contentsList={contentsList}
-                handleClickedContent={handleClickedContent}
+                handleClickedContent={this.handleClickedContent}
+                clickedContent={clickedContent}
                 handleGetDefault={handleGetDefault}
                 editBtn={editBtn}
               />
@@ -186,8 +180,8 @@ class Listup extends React.Component {
               <ContentDetail
                 cateory={category}
                 contentsList={contentsList}
-                handleClickedContent={handleClickedContent}
                 clickEditBtn={clickEditBtn}
+                clickedContent={clickedContent}
               />
             )}
           ></Route>
