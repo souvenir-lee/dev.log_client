@@ -8,6 +8,7 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
+axios.defaults.withCredentials = true;
 
 // props = {category=, content=, clickedkContent=}
 class ContentsEntry extends React.Component {

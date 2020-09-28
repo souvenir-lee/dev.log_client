@@ -6,6 +6,7 @@ import Contents from "../Main/Content/ContentList/Contents";
 import Post from "../Main/Content/Post";
 import ContentDetail from "../Main/Content/ContentDetail/ContentDetail";
 import axios from "axios";
+axios.defaults.withCredentials = true;
 //import Scrap from "../src/Main/Scrap";
 
 class Listup extends React.Component {
@@ -71,7 +72,7 @@ class Listup extends React.Component {
 
   //기본 contestList 불러오는 함수, category
   handleGetDefault = () => {
-    axios.get(`http://devyeon.com/posts/list`).then((res) => {
+    axios.get(`https://devyeon.com/posts/list`).then((res) => {
       console.log(res);
       this.setState({ contentsList: res.data });
     });

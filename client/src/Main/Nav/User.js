@@ -7,6 +7,7 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
+axios.defaults.withCredentials = true;
 
 class User extends React.Component {
   constructor(props) {
@@ -21,9 +22,9 @@ class User extends React.Component {
           className="nav_logOut"
           onClick={() => {
             //this.props.handleLoginClick();
-            console.log("클랙 props", this.props.isLogin);
+            console.log("클랙 props", this.props.userinfo);
             //this.props.history.push("/login");
-            axios.post('https://devyeon.com/users/logout')
+            axios.post('https://devyeon.com/users/logout',)
             .then(() => {
               this.props.handleLoginClick()
               this.props.history.push('/login') //변경된 API

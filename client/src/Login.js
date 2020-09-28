@@ -8,6 +8,7 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
+axios.defaults.withCredentials = true;
 /*
 props={
     islogin : this.state.isLogin(false), 
@@ -20,6 +21,7 @@ class Login extends React.Component {
     this.state = {
       email: "",
       password: "",
+      token: "",
       success: false,
     };
     this.handleInputValue = this.handleInputValue.bind(this);
@@ -30,9 +32,11 @@ class Login extends React.Component {
   };
   handleLogin = () => {
     axios.post("https://devyeon.com/users/login", this.state).then((res) => {
+      console.log(this.state)
       if (res.status === 200) {
         if (res.data.token) {
           this.setState({ success: true });
+          this.props.getUserData(res.data);
           this.props.getUserData(this.state);
           this.props.handleLoginClick();
           console.log(this.props.isLogin)
