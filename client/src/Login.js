@@ -29,14 +29,18 @@ class Login extends React.Component {
     this.setState({ [key]: e.target.value });
   };
   handleLogin = () => {
-    axios.post("url", this.state).then((res) => {
+    axios.post("https://devyeon.com/users/login", this.state).then((res) => {
       if (res.status === 200) {
-        if (res.social_user_id) {
+        if (res.data.token) {
           this.setState({ success: true });
+          this.props.getUserData(this.state);
+          this.props.handleLoginClick();
+          console.log(this.props.isLogin)
+          this.props.history.push("/main");
         }
-      }
-      //   this.props.getUserData(res.data);
-    });
+      } 
+    })
+    .catch(() => alert('정보를 다시 확인해주세요'))
   };
   handleghLogin = () => {};
 
@@ -72,11 +76,7 @@ class Login extends React.Component {
               // 클릭을 했을때 isLogin이 true가 되고 /links로 이동
               // 서버와 요청할 수 있는 함수
               // 먼저 서버에 post요청을 보내면, 서버쪽에서 200과 함께 토큰을 부여해줌
-
               this.handleLogin();
-              this.props.getUserData(this.state.email);
-              this.props.handleLoginClick();
-              this.props.history.push("/main");
             }}
           >
             로그인

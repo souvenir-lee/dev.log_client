@@ -26,19 +26,36 @@ class Signup extends React.Component {
       success: false,
     };
     this.handleInputValue = this.handleInputValue.bind(this);
+    this.checkPassword = this.checkPassword.bind(this)
+    this.checkUsername = this.checkUsername.bind(this)
     this.postSignup = this.postSignup.bind(this);
   }
 
   handleInputValue = (key) => (e) => {
     this.setState({ [key]: e.target.value });
   };
+
+  //pw 체크
+  checkPassword = (value) => {
+    let regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,12}$/; //  8 ~ 12자 영문, 숫자 조합
+    return regExp.test(value); // 형식에 맞는 경우 true 리턴
+  }
+
+  //유저이름 적었는지 체크
+  checkUsername = (value) => {
+    let result = value !== "" ? true : false; //작성되어 있으면 true
+    return result
+  }
+
   handleSignUp = () => {
     axios
-      .post("http://localhost:4000/signup", this.state)
+      .post("https://devyeon.com/users/emailconfirm", this.state)
       .then((res) => {
+        console.log(res)
         if (res.status === 200) {
           alert("사용가능한 아이디입니다");
           this.setState({ success: true });
+          //여기 아래는 안됨
         } else if (res.status === 409) {
           alert("이미 아이디가 있습니다");
         } else {
@@ -46,13 +63,15 @@ class Signup extends React.Component {
         }
         //res가 왔을때 오류
       })
-      .catch(() => {
-        alert("오류발생");
+      .catch((err) => {
+        alert("이미 아이디가 있습니다");
+        //alert("오류발생");
       });
     //res가 오지 않았을 때 오류
   };
+
   postSignup = () => {
-    axios.post("url", this.state).then((res) => {
+    axios.post("https://devyeon.com/users/signup", this.state).then((res) => {
       if (res.status === 200) {
         if (res.res.social_user_id) {
           this.setState({ success: true });
@@ -60,7 +79,9 @@ class Signup extends React.Component {
       }
     });
   };
+
   signupWithGithub = () => {};
+
   render() {
     return (
       <div className="signup_body">
@@ -73,6 +94,9 @@ class Signup extends React.Component {
               placeholder="이름을 입력 해주세요"
               onChange={this.handleInputValue("username")}
             ></input>
+            {this.checkUsername(this.state.username) ? 
+              (<span style={{color:"green"}}><img src="tick.png" width="15em"/>확인</span>) 
+              : (<span style={{color:"red"}}>유저 이름을 입력해주세요</span>)}            
           </div>
           <div>
             <input
@@ -97,6 +121,9 @@ class Signup extends React.Component {
               placeholder="비밀번호를 입력 해주세요"
               onChange={this.handleInputValue("password")}
             ></input>
+            {this.checkPassword(this.state.password) ? 
+            (<span style={{color:"green"}}><img src="tick.png" width="15em"/>확인</span>) 
+            : (<span style={{color:"red"}}>영문+숫자 조합 8-12글자 입력</span>)}    
           </div>
           <button
             className="signup_btn"
