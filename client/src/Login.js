@@ -21,8 +21,8 @@ class Login extends React.Component {
     this.state = {
       email: "",
       password: "",
-      token: "",
       success: false,
+      //success state 가 필요한가?
     };
     this.handleInputValue = this.handleInputValue.bind(this);
   }
@@ -31,20 +31,23 @@ class Login extends React.Component {
     this.setState({ [key]: e.target.value });
   };
   handleLogin = () => {
-    axios.post("https://devyeon.com/users/login", this.state).then((res) => {
-      console.log(this.state)
-      if (res.status === 200) {
-        if (res.data.token) {
-          this.setState({ success: true });
-          this.props.getUserData(res.data);
-          this.props.getUserData(this.state);
-          this.props.handleLoginClick();
-          console.log(this.props.isLogin)
-          this.props.history.push("/main");
+    axios
+      .post("https://devyeon.com/users/login", this.state)
+      .then((res) => {
+        console.log(this.state);
+        if (res.status === 200) {
+          if (res.data.token) {
+            this.setState({ success: true });
+            
+            this.props.getUserData(this.state);
+            this.props.getUserData(res.data); //token, userId
+            this.props.handleLoginClick();
+            console.log(res.data);
+            this.props.history.push("/main");
+          }
         }
-      } 
-    })
-    .catch(() => alert('정보를 다시 확인해주세요'))
+      })
+      .catch(() => alert("정보를 다시 확인해주세요"));
   };
   handleghLogin = () => {};
 
