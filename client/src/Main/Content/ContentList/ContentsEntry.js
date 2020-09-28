@@ -20,11 +20,13 @@ class ContentsEntry extends React.Component {
   //console.log('content',content)
 
   getContentDetail = () => {
-    axios.get("https://devyeon.com/posts/info/id").then((res) => {
-      {
-        this.props.clickedContent(res);
-      }
-    });
+    axios
+      .get(`https://devyeon.com/posts/info/${this.props.content.id}`)
+      .then((res) => {
+        {
+          this.props.handleClickedContent(res.data);
+        }
+      });
   };
 
   render() {
@@ -42,16 +44,13 @@ class ContentsEntry extends React.Component {
           border: "5px solid",
         }}
       >
-        {/**onClick={/*클릭하면 ContentDetail로 이동하기*/}
         <div className="name">{this.props.content.username}</div>
         <div className="title">{this.props.content.title}</div>
         <div className="comment">댓글{this.props.content.comment}</div>
-        <div className="view_count">조회수{this.props.content.comment}</div>
-        {/* {this.props.content.tag.map((tag) => {
-          return <div className="tag">{tag}</div>;
+        <div className="view_count">조회수{this.props.content.view_count}</div>
+        {/* {this.props.content.name.map((name) => {
+          return <div className="name">{name}</div>;
         })} */}
-
-        {/**view_count: 1, tag:["인사"] */}
       </div>
     );
   }

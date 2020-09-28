@@ -44,7 +44,7 @@ class ContentDetail extends React.Component {
     await axios.get("http://devyeon.com/posts/info/id").then((res) => {
       //main/post의 state가 바뀌어야함
       this.props.clickEditBtn();
-      this.props.clickedContent();
+      this.props.handleClickedContent();
     });
   };
 
