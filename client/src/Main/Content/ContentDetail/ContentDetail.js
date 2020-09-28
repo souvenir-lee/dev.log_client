@@ -8,6 +8,7 @@ import React from "react";
 import Comment from "./Comment";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
+axios.defaults.withCredentials = true;
 
 class ContentDetail extends React.Component {
   constructor(props) {
@@ -21,12 +22,14 @@ class ContentDetail extends React.Component {
   //1.해당 컨텐츠를 클릭했을때 ContentDetail로 이동하고 해당 이름,제목,내용을 띄운다
   //post
   deleteMessage = () => {
-    axios.delete("http://dev.log/posts/delete", this.props.id).then((res) => {
-      if (res.status === 200) {
-        alert("삭제되었습니다.");
-        this.props.history.push("/main");
-      }
-    });
+    axios
+      .delete("http://devyeon.com/posts/delete", this.props.id)
+      .then((res) => {
+        if (res.status === 200) {
+          alert("삭제되었습니다.");
+          this.props.history.push("/main");
+        }
+      });
   };
   /*
   1.수정버튼을 누르면 post페이지로 렌더링이 된다.
@@ -38,7 +41,7 @@ class ContentDetail extends React.Component {
   editMessage = async () => {
     await this.props.history.push("/main/post");
 
-    await axios.get("http://dev.log/posts/info/id").then((res) => {
+    await axios.get("http://devyeon.com/posts/info/id").then((res) => {
       //main/post의 state가 바뀌어야함
       this.props.clickEditBtn();
       this.props.clickedContent();

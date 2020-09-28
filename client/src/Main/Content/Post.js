@@ -40,24 +40,28 @@ class Post extends React.Component {
   //   })
   handlePost = async () => {
     await this.handleInputValue("message");
-    await axios.post("url", this.state).then((res) => {
-      if (res.status === 200) {
-        this.props.handleGetDefault();
-        this.props.history.push("/main");
-      }
-      //   this.props.getUserData(res.data);
-    });
+    await axios
+      .post("http://devyeon.com/posts/create", this.state)
+      .then((res) => {
+        if (res.status === 200) {
+          this.props.handleGetDefault();
+          this.props.history.push("/main");
+        }
+        //   this.props.getUserData(res.data);
+      });
   };
 
   handleEdit = async () => {
     await this.handleInputValue("message");
-    await axios.put("http://dev.log/posts/update", this.state).then((res) => {
-      if (res.status === 200) {
-        this.props.handleGetDefault();
-        alert("수정이 완료되었습니다");
-        this.props.history.push("/main");
-      }
-    });
+    await axios
+      .put("http://devyeon.com/posts/update", this.state)
+      .then((res) => {
+        if (res.status === 200) {
+          this.props.handleGetDefault();
+          alert("수정이 완료되었습니다");
+          this.props.history.push("/main");
+        }
+      });
   };
   render() {
     //만약 새글쓰기를 클릭해서 들어왔을때는 취소,게시

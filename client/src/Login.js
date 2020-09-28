@@ -8,6 +8,7 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
+axios.defaults.withCredentials = true;
 /*
 props={
     islogin : this.state.isLogin(false), 
@@ -20,6 +21,7 @@ class Login extends React.Component {
     this.state = {
       email: "",
       password: "",
+      token: "",
       success: false,
       //success state 가 필요한가?
     };
@@ -30,16 +32,22 @@ class Login extends React.Component {
     this.setState({ [key]: e.target.value });
   };
   handleLogin = () => {
-    axios.post("http://dev.log/users/login", this.state).then((res) => {
-      if (res.status === 200) {
-        if (res.social_user_id) {
-          //post요청시 res = {"token":"","status":""}
-          // if (res.token){
-          this.setState({ success: true });
+    axios
+      .post("https://devyeon.com/users/login", this.state)
+      .then((res) => {
+        console.log(this.state);
+        if (res.status === 200) {
+          if (res.data.token) {
+            this.setState({ success: true });
+            this.props.getUserData(res.data);
+            this.props.getUserData(this.state);
+            this.props.handleLoginClick();
+            console.log(this.props.isLogin);
+            this.props.history.push("/main");
+          }
         }
-      }
-      //   this.props.getUserData(res.data);
-    });
+      })
+      .catch(() => alert("정보를 다시 확인해주세요"));
   };
   handleghLogin = () => {};
 
@@ -75,11 +83,7 @@ class Login extends React.Component {
               // 클릭을 했을때 isLogin이 true가 되고 /links로 이동
               // 서버와 요청할 수 있는 함수
               // 먼저 서버에 post요청을 보내면, 서버쪽에서 200과 함께 토큰을 부여해줌
-
               this.handleLogin();
-              this.props.getUserData(this.state.email);
-              this.props.handleLoginClick();
-              this.props.history.push("/main");
             }}
           >
             로그인

@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, Route, useHistory, Router, Redirect } from "react-router-dom";
+import { Switch, Route, useHistory, Redirect } from "react-router-dom";
 import Listup from "../src/Main/Listup";
 import Login from "../src/Login";
 import Signup from "../src/Signup";
@@ -13,8 +13,10 @@ class App extends React.Component {
     this.state = {
       isLogin: false,
       userinfo: {
-        name: "",
+        username: "",
         email: "",
+        token: ""
+        //여기에 토큰을 만들어야 할것 같아요
       },
     };
     this.getUserData = this.getUserData.bind(this);
@@ -26,8 +28,10 @@ class App extends React.Component {
   getUserData = (data) => {
     this.setState({
       userinfo: {
-        email: data,
-        name: data,
+        email: data.email,
+        username: data.username,
+        token: data.token
+        //여기에 토큰을 만들어야 할것 같아요
       },
     });
   };
@@ -55,21 +59,23 @@ class App extends React.Component {
           path="/mypage"
           render={() => <Mypage isLogin={isLogin} userinfo={userinfo} />}
         />
-        <Route
+        <Route 
           path="/main"
+          render={() => 
+          <Listup
+            isLogin={isLogin}
+            userinfo={userinfo}
+            getUserData={this.getUserData}
+            handleLoginClick={this.handleLoginClick}
+          />}
+        />
+        <Route 
+          path="/"
           render={() => {
-            if (isLogin) {
-              //임시로 여기 수정해둠
-              return (
-                <Listup
-                  isLogin={isLogin}
-                  userinfo={userinfo}
-                  getUserData={this.getUserData}
-                  handleLoginClick={this.handleLoginClick}
-                ></Listup>
-              );
+            if(isLogin) {
+              return <Redirect to="/main" />;
             }
-            return <Redirect to="/login" />;
+            return <Redirect to="/login" />
           }}
         />
       </Switch>

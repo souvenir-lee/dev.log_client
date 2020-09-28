@@ -18,6 +18,7 @@ export default VideoList;
 import React from "react";
 import CommentEntry from "./CommentEntry";
 import axios from "axios";
+axios.defaults.withCredentials = true;
 
 class Comment extends React.Component {
   constructor(props) {
@@ -37,7 +38,7 @@ class Comment extends React.Component {
   };
   handleCommentClick = () => {
     axios
-      .post("http://dev.log/comments/create", this.state.inputComment)
+      .post("http://devyeon.com/comments/create", this.state.inputComment)
       .then((res) => {
         if (res.status === 200) {
           this.setState({ comments: res });

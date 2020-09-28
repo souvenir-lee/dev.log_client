@@ -8,6 +8,7 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
+axios.defaults.withCredentials = true;
 
 // props = {category=, content=, clickedkContent=}
 class ContentsEntry extends React.Component {
@@ -19,7 +20,7 @@ class ContentsEntry extends React.Component {
   //console.log('content',content)
 
   getContentDetail = () => {
-    axios.get("http://dev.log/posts/info/id").then((res) => {
+    axios.get("https://devyeon.com/posts/info/id").then((res) => {
       {
         this.props.clickedContent(res);
       }
@@ -46,9 +47,9 @@ class ContentsEntry extends React.Component {
         <div className="title">{this.props.content.title}</div>
         <div className="comment">댓글{this.props.content.comment}</div>
         <div className="view_count">조회수{this.props.content.comment}</div>
-        {this.props.content.tag.map((tag) => {
+        {/* {this.props.content.tag.map((tag) => {
           return <div className="tag">{tag}</div>;
-        })}
+        })} */}
 
         {/**view_count: 1, tag:["인사"] */}
       </div>
