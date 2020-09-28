@@ -22,29 +22,14 @@ class CotegoryEntry extends React.Component {
   //state 끌어올리기
 
   render(){
-    const {contentsList, handleInputCategory, handleContentList} = this.props
+    const {el, handleInputCategory} = this.props
     return (
       <div className="category_list">
         <div 
           className="category_listName" 
           onClick={handleInputCategory}
-          value="1"
           >
-          전체보기
-        </div>
-        <div
-          className="category_listName" 
-          onClick={handleInputCategory}
-          value="2"
-          >
-          카테고리1
-        </div>
-        <div
-          className="category_listName" 
-          onClick={handleInputCategory}
-          value="3"
-          >
-          카테고리2
+          {el}
         </div>
       </div>
     )

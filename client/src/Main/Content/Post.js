@@ -15,11 +15,11 @@ class Post extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      category: "",
+      categoryId: "",
+      userId: "",
       title: "",
       message: "",
       tag: [],
-      success: false,
     };
     this.handleInputValue = this.handleInputValue.bind(this);
     this.handlePost = this.handlePost.bind(this);
@@ -36,30 +36,50 @@ class Post extends React.Component {
   //     title: 'Flintstone'
   //     message:"",
   //     tag:[],
-  //     success:true
+  //     clickEditBtn:false
   //   })
-  handlePost = () => {
-    axios.post("url", this.state).then((res) => {
-      if (res.status === 200) {
-        this.handleInputValue("message");
-      }
-      //   this.props.getUserData(res.data);
-    });
+  handlePost = async () => {
+    await this.handleInputValue("message");
+    await axios
+      .post("http://devyeon.com/posts/create", this.state)
+      .then((res) => {
+        if (res.status === 200) {
+          this.props.handleGetDefault();
+          this.props.history.push("/main");
+        }
+        //   this.props.getUserData(res.data);
+      });
+  };
+
+  handleEdit = async () => {
+    await this.handleInputValue("message");
+    await axios
+      .put("http://devyeon.com/posts/update", this.state)
+      .then((res) => {
+        if (res.status === 200) {
+          this.props.handleGetDefault();
+          alert("수정이 완료되었습니다");
+          this.props.history.push("/main");
+        }
+      });
   };
   render() {
+    //만약 새글쓰기를 클릭해서 들어왔을때는 취소,게시
+    //수정하기 버튼을 클릭해서 들어왔을때는 취소,수정
+
     return (
       <div className="post">
         <center>
           <select
             className="post_tag"
-            value={this.state.category}
-            onChange={this.handleInputValue("category")}
+            value={this.state.categoryId}
+            onChange={this.handleInputValue("categoryId")}
           >
             <option></option>
-            <option value="grapefruit">Grapefruit</option>
-            <option value="lime">Lime</option>
-            <option value="coconut">Coconut</option>
-            <option value="mango">Mango</option>
+            <option value="1">Grapefruit</option>
+            <option value="2">Lime</option>
+            <option value="3">Coconut</option>
+            <option value="4">Mango</option>
           </select>
 
           <div>
@@ -93,19 +113,30 @@ class Post extends React.Component {
           >
             취소
           </button>
-          <button
-            className="post_btnPost"
-            type="submit"
-            onClick={() => {
-              //클릭했을때 post요청 후 main으로 이동
-              this.handlePost();
-
-              this.props.history.push("/main");
-              //
-            }}
-          >
-            게시
-          </button>
+          {this.props.editBtn ? (
+            <button
+              className="post_btnEdit"
+              type="submit"
+              onClick={() => {
+                //클릭했을때 post요청 후 main으로 이동
+                this.handleEdit();
+                console.log(this.props);
+              }}
+            >
+              수정
+            </button>
+          ) : (
+            <button
+              className="post_btnPost"
+              type="submit"
+              onClick={() => {
+                //클릭했을때 post요청 후 main으로 이동
+                this.handlePost();
+              }}
+            >
+              게시
+            </button>
+          )}
         </center>
       </div>
     );

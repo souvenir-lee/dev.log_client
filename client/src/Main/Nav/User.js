@@ -7,6 +7,7 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
+axios.defaults.withCredentials = true;
 
 class User extends React.Component {
   constructor(props) {
@@ -20,16 +21,16 @@ class User extends React.Component {
         <button
           className="nav_logOut"
           onClick={() => {
-            this.props.handleLoginClick();
-            console.log("클랙 props", this.props.isLogin);
-            this.props.history.push("/login");
-            // axios.post('http://localhost:3000/users/logout')
-            // .then(() => {
-            //   this.props.handleLoginClick()
-            //   this.props.history.push('/login') //변경된 API
+            //this.props.handleLoginClick();
+            console.log("클랙 props", this.props.userinfo);
+            //this.props.history.push("/login");
+            axios.post('https://devyeon.com/users/logout',)
+            .then(() => {
+              this.props.handleLoginClick()
+              this.props.history.push('/login') //변경된 API
 
-            // })
-            // .catch(error => console.log(error))
+            })
+            .catch(error => console.log(error))
           }}
         >
           로그아웃
@@ -38,14 +39,12 @@ class User extends React.Component {
         <button
           className="nav_myPage"
           onClick={() => {
-            // console.log('user에서 userinfo',userinfo)
-            // axios.get('http://localhost:3000/users/info/id', userinfo.email) //마이페이지로 리다이렉트
-            // .then(res => {
-            //   console.log(userinfo)
-            //   getUserData(res)})
-            // .then(()=>
-            this.props.history.push("/mypage");
-            // )
+            console.log('user에서 userinfo',userinfo)
+            axios.get('https://devyeon.com/users/info', userinfo.token) //마이페이지로 리다이렉트
+            .then(res => {
+              console.log(res)
+              getUserData(res)})
+            .then(()=> this.props.history.push("/mypage"))
           }}
         >
           마이페이지

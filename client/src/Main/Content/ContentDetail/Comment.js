@@ -18,54 +18,48 @@ export default VideoList;
 import React from "react";
 import CommentEntry from "./CommentEntry";
 import axios from "axios";
+axios.defaults.withCredentials = true;
 
 class Comment extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       comments: [
-        {
-          username: "수진",
-          message: "hello",
-        },
-        {
-          username: "한슬",
-          message: "good",
-        },
-        {
-          username: "윤연",
-          message: "word",
-        },
+        { id: "", username: "수진", message: "hello" },
+        { id: "", username: "한슬", message: "good" },
+        { id: "", username: "윤연", message: "word" },
       ],
       commentCount: 3,
-      inputComment: "",
+      inputComment: this.state.comments.length,
     };
   }
   handleInputValue = (key) => (e) => {
     this.setState({ [key]: e.target.value });
   };
   handleCommentClick = () => {
-    axios.post("url", this.state.inputComment).then((res) => {
-      if (res.status === 200) {
-        this.setState({ comments: res });
-      }
-      //   this.props.getUserData(res.data);
-    });
+    axios
+      .post("http://devyeon.com/comments/create", this.state.inputComment)
+      .then((res) => {
+        if (res.status === 200) {
+          this.setState({ comments: res });
+        }
+        //   this.props.getUserData(res.data);
+      });
   };
 
   render() {
     return (
-      <div>
-        <div>댓글 :0</div>
+      <div className="comment">
+        <div className="comment_count">댓글 :0</div>
         <div>
           <input
-            className=""
-            type=""
+            className="comment_input"
+            type="inputComment"
             placeholder="댓글을 입력해주세요"
             onChange={this.handleInputValue("inputComment")}
           ></input>
           <button
-            className=""
+            className="comment_post"
             onClick={() => {
               this.handleCommentClick();
             }}
