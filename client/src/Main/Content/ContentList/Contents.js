@@ -22,7 +22,7 @@ import React from "react";
 import { withRouter, useHistory } from "react-router-dom";
 import ContentsEntry from "./ContentsEntry";
 
-const Contents = ({ cateory, contentsList, clickedContent }) => {
+const Contents = ({ cateory, contentsList, handleClickedContent }) => {
   let history = useHistory();
 
   return (
@@ -40,7 +40,7 @@ const Contents = ({ cateory, contentsList, clickedContent }) => {
         <ContentsEntry
           cateory={cateory}
           content={content}
-          clickedContent={clickedContent}
+          handleClickedContent={handleClickedContent}
         />
       ))}
     </div>

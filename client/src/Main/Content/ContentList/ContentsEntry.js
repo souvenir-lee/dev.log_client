@@ -20,11 +20,13 @@ class ContentsEntry extends React.Component {
   //console.log('content',content)
 
   getContentDetail = () => {
-    axios.get("https://devyeon.com/posts/info/id").then((res) => {
-      {
-        this.props.clickedContent(res);
-      }
-    });
+    axios
+      .get(`https://devyeon.com/posts/info/${this.props.content.id}`)
+      .then((res) => {
+        {
+          this.props.handleClickedContent(res.data);
+        }
+      });
   };
 
   render() {

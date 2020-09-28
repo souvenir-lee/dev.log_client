@@ -17,6 +17,7 @@ class Listup extends React.Component {
       contentsList: [
         {
           id: "",
+          //postId
           categoryId: "",
           username: "한슬",
           title: "인사",
@@ -59,7 +60,7 @@ class Listup extends React.Component {
     this.handleInputCategory = this.handleInputCategory.bind(this);
     this.handleContentList = this.handleContentList.bind(this);
     this.handleGetDefault = this.handleGetDefault.bind(this);
-    this.clickedContent = this.clickedContent.bind(this);
+    this.handleClickedContent = this.handleClickedContent.bind(this);
     this.clickEditBtn = this.clickEditBtn.bind(this);
   }
   clickEditBtn = () => {
@@ -67,7 +68,7 @@ class Listup extends React.Component {
       this.setState({ editBtn: true });
     }
   };
-  clickedContent = (data) => {
+  handleClickedContent = (data) => {
     {
       this.setState({ clickedContent: data });
     }
@@ -84,7 +85,7 @@ class Listup extends React.Component {
 
   //시작하자마자 전체 데이터 뿌려주는 함수 -> 주기함수 써야 함.
   componentDidMount() {
-    this.handleGetDefault(); 
+    this.handleGetDefault();
   }
 
   //기본 contestList 불러오는 함수, category
@@ -121,21 +122,26 @@ class Listup extends React.Component {
     const {
       category,
       contentsList,
-      clickedContent,
+      handleClickedContent,
       handleGetDefault,
       editBtn,
     } = this.state;
 
     if (category === "전체보기") {
       this.handleGetDefault();
+      this.setState({ category: null });
     } else if (category === "Grapefruit") {
       this.handleContentList("1");
+      this.setState({ category: null });
     } else if (category === "Lime") {
       this.handleContentList("2");
+      this.setState({ category: null });
     } else if (category === "Coconut") {
       this.handleContentList("3");
+      this.setState({ category: null });
     } else if (category === "Mango") {
       this.handleContentList("4");
+      this.setState({ category: null });
     }
 
     return (
@@ -167,7 +173,7 @@ class Listup extends React.Component {
               <Contents
                 cateory={category}
                 contentsList={contentsList}
-                clickedContent={clickedContent}
+                handleClickedContent={handleClickedContent}
                 handleGetDefault={handleGetDefault}
                 editBtn={editBtn}
               />
@@ -180,7 +186,7 @@ class Listup extends React.Component {
               <ContentDetail
                 cateory={category}
                 contentsList={contentsList}
-                clickedContent={clickedContent}
+                handleClickedContent={handleClickedContent}
                 clickEditBtn={clickEditBtn}
               />
             )}
