@@ -17,6 +17,7 @@ class Listup extends React.Component {
       contentsList: [
         {
           id: "",
+          //postId
           categoryId: "",
           username: "한슬",
           title: "인사",
@@ -76,12 +77,13 @@ class Listup extends React.Component {
 
   //시작하자마자 전체 데이터 뿌려주는 함수 -> 주기함수 써야 함.
   componentDidMount() {
-    this.handleGetDefault(); 
+    this.handleGetDefault();
   }
 
   //기본 contestList 불러오는 함수, category
   handleGetDefault = () => {
-    axios.get(`https://devyeon.com/posts/list`).then((res) => {
+    axios.get(`http://localhost:4000/posts/list`).then((res) => {
+    //axios.get(`https://devyeon.com/posts/list`).then((res) => {
       console.log(res.data);
       this.setState({ contentsList: res.data });
     });
@@ -89,7 +91,8 @@ class Listup extends React.Component {
 
   //필터링된 contestList 불러오는 함수
   handleContentList = (value) => {
-    axios.get(`https://devyeon.com/posts/category/${value}`).then((res) => {
+    axios.get(`http://localhost:4000/posts/category/${value}`).then((res) => {
+    //axios.get(`https://devyeon.com/posts/category/${value}`).then((res) => {
       console.log(res.data);
       this.setState({ contentsList: res.data });
     });
@@ -105,6 +108,7 @@ class Listup extends React.Component {
     const {
       isLogin,
       userinfo,
+      serverinfo,
       handleLoginClick,
       getUserData,
       clickEditBtn,
@@ -113,26 +117,27 @@ class Listup extends React.Component {
     const {
       category,
       contentsList,
-      clickedContent,
+      handleClickedContent,
       handleGetDefault,
       editBtn,
+      clickedContent,
     } = this.state;
 
     if (category === "전체보기") {
       this.handleGetDefault();
-      this.setState({category : null})
+      this.setState({ category: null });
     } else if (category === "Grapefruit") {
       this.handleContentList("1");
-      this.setState({category : null})
+      this.setState({ category: null });
     } else if (category === "Lime") {
       this.handleContentList("2");
-      this.setState({category : null})
+      this.setState({ category: null });
     } else if (category === "Coconut") {
       this.handleContentList("3");
-      this.setState({category : null})
+      this.setState({ category: null });
     } else if (category === "Mango") {
       this.handleContentList("4");
-      this.setState({category : null})
+      this.setState({ category: null });
     }
 
     return (
@@ -148,6 +153,7 @@ class Listup extends React.Component {
         <Nav
           isLogin={isLogin}
           userinfo={userinfo}
+          serverinfo={serverinfo}
           handleLoginClick={handleLoginClick}
           getUserData={getUserData}
         />
@@ -178,8 +184,8 @@ class Listup extends React.Component {
               <ContentDetail
                 cateory={category}
                 contentsList={contentsList}
-                clickedContent={clickedContent}
                 clickEditBtn={clickEditBtn}
+                clickedContent={clickedContent}
               />
             )}
           ></Route>

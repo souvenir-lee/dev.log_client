@@ -19,7 +19,7 @@ class Post extends React.Component {
       userId: "",
       title: "",
       message: "",
-      tag: [],
+      names: [],
     };
     this.handleInputValue = this.handleInputValue.bind(this);
     this.handlePost = this.handlePost.bind(this);
@@ -41,7 +41,8 @@ class Post extends React.Component {
   handlePost = async () => {
     await this.handleInputValue("message");
     await axios
-      .post("http://devyeon.com/posts/create", this.state)
+      .post("http://localhost:4000/posts/create", this.state)
+      //.post("http://devyeon.com/posts/create", this.state)
       .then((res) => {
         if (res.status === 200) {
           this.props.handleGetDefault();
@@ -54,7 +55,8 @@ class Post extends React.Component {
   handleEdit = async () => {
     await this.handleInputValue("message");
     await axios
-      .put("http://devyeon.com/posts/update", this.state)
+      .put("http://localhost:4000/posts/update", this.state)
+      //.put("http://devyeon.com/posts/update", this.state)
       .then((res) => {
         if (res.status === 200) {
           this.props.handleGetDefault();

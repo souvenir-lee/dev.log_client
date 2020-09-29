@@ -1,20 +1,3 @@
-/*
-import CommentEntry.js
-참고하세요.
-const VideoList = (props) => (
-  <div className="video-list media">
-    {props.videos.map((video) => (
-      <VideoListEntry
-        key={video.id.videoId}
-        video={video}
-        clickEvent={props.clickEvent}
-      />
-    ))}
-  </div>
-);
-
-export default VideoList;
-*/
 import React from "react";
 import CommentEntry from "./CommentEntry";
 import axios from "axios";
@@ -30,7 +13,7 @@ class Comment extends React.Component {
         { id: "", username: "윤연", message: "word" },
       ],
       commentCount: 3,
-      //` az`: this.state.comments.length,
+      // inputComment: this.state.comments.length,
     };
   }
   handleInputValue = (key) => (e) => {
@@ -38,7 +21,8 @@ class Comment extends React.Component {
   };
   handleCommentClick = () => {
     axios
-      .post("http://devyeon.com/comments/create", this.state.inputComment)
+      .post("http://localhost:4000/comments/create", this.state.inputComment)
+      //.post("http://devyeon.com/comments/create", this.state.inputComment)
       .then((res) => {
         if (res.status === 200) {
           this.setState({ comments: res });

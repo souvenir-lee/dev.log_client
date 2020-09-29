@@ -50,7 +50,8 @@ class Signup extends React.Component {
 
   handleSignUp = () => {
     axios
-      .post("https://devyeon.com/users/emailconfirm", this.state.email)
+      .post("http://localhost:4000/users/emailconfirm", this.state.email)
+      //.post("https://devyeon.com/users/emailconfirm", this.state.email)
       .then((res) => {
         console.log(res);
         if (res.status === 200) {
