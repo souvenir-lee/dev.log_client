@@ -15,7 +15,7 @@ class User extends React.Component {
   }
 
   render() {
-    const { isLogin, userinfo, getUserData, handleLoginClick } = this.props;
+    const { isLogin, userinfo, getUserData, serverinfo, handleLoginClick } = this.props;
     return (
       <div>
         <button
@@ -24,7 +24,8 @@ class User extends React.Component {
             //this.props.handleLoginClick();
             console.log("클랙 props", this.props.userinfo);
             //this.props.history.push("/login");
-            axios.post('https://devyeon.com/users/logout',)
+            axios.post('http://localhost:4000/users/logout', serverinfo.token)
+            //axios.post('https://devyeon.com/users/logout', serverinfo.token)
             .then(() => {
               this.props.handleLoginClick()
               this.props.history.push('/login') //변경된 API
@@ -40,7 +41,7 @@ class User extends React.Component {
           className="nav_myPage"
           onClick={() => {
             console.log('user에서 userinfo',userinfo)
-            axios.get('https://devyeon.com/users/info', userinfo.token) //마이페이지로 리다이렉트
+            axios.get('http://localhost:4000/users/info', serverinfo.token) //마이페이지로 리다이렉트
             .then(res => {
               console.log(res)
               getUserData(res)})

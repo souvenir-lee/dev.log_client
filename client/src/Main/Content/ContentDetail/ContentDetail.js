@@ -23,7 +23,8 @@ class ContentDetail extends React.Component {
   //post
   deleteMessage = () => {
     axios
-      .delete("http://devyeon.com/posts/delete", this.props.id)
+      .delete("http://localhost:4000/posts/delete", this.props.id)
+      //.delete("https://devyeon.com/posts/delete", this.props.id)
       .then((res) => {
         if (res.status === 200) {
           alert("삭제되었습니다.");
@@ -41,7 +42,8 @@ class ContentDetail extends React.Component {
   editMessage = async () => {
     await this.props.history.push("/main/post");
 
-    await axios.get("http://devyeon.com/posts/info/id").then((res) => {
+    await axios.get("http://localhost:4000/posts/info/id").then((res) => {
+    //await axios.get("https://devyeon.com/posts/info/id").then((res) => {
       //main/post의 state가 바뀌어야함
       this.props.clickEditBtn();
       this.props.handleClickedContent();

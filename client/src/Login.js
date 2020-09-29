@@ -32,7 +32,8 @@ class Login extends React.Component {
   };
   handleLogin = () => {
     axios
-      .post("https://devyeon.com/users/login", this.state)
+      .post("http://localhost:4000/users/login", this.state)
+      //.post("https://devyeon.com/users/login", this.state)
       .then((res) => {
         console.log(this.state);
         if (res.status === 200) {
@@ -40,7 +41,7 @@ class Login extends React.Component {
             this.setState({ success: true });
             
             this.props.getUserData(this.state);
-            this.props.getUserData(res.data); //token, userId
+            this.props.getServerData(res.data); //token, userId
             this.props.handleLoginClick();
             console.log(res.data);
             this.props.history.push("/main");

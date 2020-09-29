@@ -82,7 +82,8 @@ class Listup extends React.Component {
 
   //기본 contestList 불러오는 함수, category
   handleGetDefault = () => {
-    axios.get(`https://devyeon.com/posts/list`).then((res) => {
+    axios.get(`http://localhost:4000/posts/list`).then((res) => {
+    //axios.get(`https://devyeon.com/posts/list`).then((res) => {
       console.log(res.data);
       this.setState({ contentsList: res.data });
     });
@@ -90,7 +91,8 @@ class Listup extends React.Component {
 
   //필터링된 contestList 불러오는 함수
   handleContentList = (value) => {
-    axios.get(`https://devyeon.com/posts/category/${value}`).then((res) => {
+    axios.get(`http://localhost:4000/posts/category/${value}`).then((res) => {
+    //axios.get(`https://devyeon.com/posts/category/${value}`).then((res) => {
       console.log(res.data);
       this.setState({ contentsList: res.data });
     });
@@ -106,6 +108,7 @@ class Listup extends React.Component {
     const {
       isLogin,
       userinfo,
+      serverinfo,
       handleLoginClick,
       getUserData,
       clickEditBtn,
@@ -150,6 +153,7 @@ class Listup extends React.Component {
         <Nav
           isLogin={isLogin}
           userinfo={userinfo}
+          serverinfo={serverinfo}
           handleLoginClick={handleLoginClick}
           getUserData={getUserData}
         />
