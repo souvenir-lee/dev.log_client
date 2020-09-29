@@ -1,22 +1,25 @@
-/*
-1.e.target.value(onChage)
-2.카테고리 선택(select)
-3.title, content, tag를 작성
-4.게시버튼을 누르면 서버에 post요청을 보낸 후 Listup.js로 추가된 데이터를 리다이렉트
-*/
-
-//http://dev.log/posts/create
 import React from "react";
 import axios from "axios";
 import { Link, Route, Redirect, withRouter } from "react-router-dom";
 import CKEditor from "ckeditor4-react";
 
+/*
+props={
+  {
+        userId: "",
+        username: "",
+        email: "",
+        token: "",
+      }
+}
+*/
+
 class Post extends React.Component {
   constructor(props) {
     super(props);
+    console.log("콘솔", this.props);
     this.state = {
       categoryId: "",
-      userId: "",
       title: "",
       message: "",
       tag: [],
@@ -41,7 +44,14 @@ class Post extends React.Component {
   handlePost = async () => {
     await this.handleInputValue("message");
     await axios
-      .post("http://devyeon.com/posts/create", this.state)
+
+      .post("http://localhost:4000/posts/create", {
+        categoryId: this.state.categoryId,
+        userId: this.props.userId,
+        message: this.state.message,
+        title: this.state.title,
+      })
+      // .post("http://devyeon.com/posts/create", this.state)
       .then((res) => {
         if (res.status === 200) {
           this.props.handleGetDefault();
@@ -54,7 +64,9 @@ class Post extends React.Component {
   handleEdit = async () => {
     await this.handleInputValue("message");
     await axios
-      .put("http://devyeon.com/posts/update", this.state)
+
+      .put("http://localhost:4000/posts/update", this.state)
+      // .put("http://devyeon.com/posts/update", this.state)
       .then((res) => {
         if (res.status === 200) {
           this.props.handleGetDefault();

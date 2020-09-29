@@ -9,6 +9,19 @@ import axios from "axios";
 axios.defaults.withCredentials = true;
 //import Scrap from "../src/Main/Scrap";
 
+/*
+ props = {
+   isLogin:true,         
+   userinfo:{{
+        userId: "",
+        username: "",
+        email: "",
+        token: "",
+      }},          
+   getUserData:{this.getUserData},    
+   handleLoginClick:{this.handleLoginClick}
+}
+*/
 class Listup extends React.Component {
   constructor(props) {
     super(props); //isLogin, userinfo, handleIsLoginChange
@@ -82,7 +95,8 @@ class Listup extends React.Component {
 
   //기본 contestList 불러오는 함수, category
   handleGetDefault = () => {
-    axios.get(`https://devyeon.com/posts/list`).then((res) => {
+    axios.get(`http://localhost:4000/posts/list`).then((res) => {
+      // axios.get(`https://devyeon.com/posts/list`).then((res) => {
       console.log(res.data);
       this.setState({ contentsList: res.data });
     });
@@ -90,7 +104,8 @@ class Listup extends React.Component {
 
   //필터링된 contestList 불러오는 함수
   handleContentList = (value) => {
-    axios.get(`https://devyeon.com/posts/category/${value}`).then((res) => {
+    axios.get(`http://localhost:4000/posts/category/${value}`).then((res) => {
+      // axios.get(`https://devyeon.com/posts/category/${value}`).then((res) => {
       console.log(res.data);
       this.setState({ contentsList: res.data });
     });
@@ -164,12 +179,13 @@ class Listup extends React.Component {
             path="/main"
             render={() => (
               <Contents
-                cateory={category}
+                // cateory={category} post에 카테고리가 필요한가?
                 contentsList={contentsList}
                 handleClickedContent={this.handleClickedContent}
                 clickedContent={clickedContent}
                 handleGetDefault={handleGetDefault}
                 editBtn={editBtn}
+                userinfo={userinfo}
               />
             )}
           ></Route>
