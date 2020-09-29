@@ -21,7 +21,8 @@ class ContentsEntry extends React.Component {
 
   getContentDetail = () => {
     axios
-      .get(`https://devyeon.com/posts/info/${this.props.content.id}`)
+      .get(`http://localhost:4000/posts/info/${this.props.content.id}`)
+      //.get(`https://devyeon.com/posts/info/${this.props.content.id}`)
       .then((res) => {
         {
           this.props.handleClickedContent(res.data);

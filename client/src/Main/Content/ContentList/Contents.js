@@ -26,7 +26,7 @@ const Contents = ({
   cateory,
   contentsList,
   clickedContent,
-  handleclickedContent,
+  handleClickedContent,
 }) => {
   let history = useHistory();
 
@@ -46,7 +46,7 @@ const Contents = ({
           cateory={cateory}
           content={content}
           clickedContent={clickedContent}
-          handleclickedContent={handleclickedContent}
+          handleClickedContent={handleClickedContent}
         />
       ))}
     </div>
