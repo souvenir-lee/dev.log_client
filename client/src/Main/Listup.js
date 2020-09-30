@@ -5,32 +5,19 @@ import Category from "../Main/Category/Category";
 import Contents from "../Main/Content/ContentList/Contents";
 import Post from "../Main/Content/Post";
 import ContentDetail from "../Main/Content/ContentDetail/ContentDetail";
+import Mypage from "../Mypage";
 import axios from "axios";
 axios.defaults.withCredentials = true;
 //import Scrap from "../src/Main/Scrap";
 
-/*
- props = {
-   isLogin:true,         
-   userinfo:{{
-        userId: "",
-        username: "",
-        email: "",
-        token: "",
-      }},          
-   getUserData:{this.getUserData},    
-   handleLoginClick:{this.handleLoginClick}
-}
-*/
 class Listup extends React.Component {
   constructor(props) {
-    super(props); //isLogin, userinfo, handleIsLoginChange
+    super(props); //isLogin, userInfo, handleIsLoginChange
     this.state = {
-      category: null, //여기를 나중에는 category id로 수정하기
+      categoryId: null,
       contentsList: [
         {
-          id: "",
-          //postId
+          id: "", //postId
           categoryId: "",
           username: "",
           title: "",
@@ -40,11 +27,12 @@ class Listup extends React.Component {
       ],
       clickedContent: {
         id: null,
-        categoryId: null,
-        username: "디테일 username",
-        title: "디테일 title",
-        message: "디테일 message",
+        // categoryId: null,
+        // username: "디테일 username",
+        // title: "디테일 title",
+        // message: "디테일 message",
       },
+      newPost: false,
       editBtn: false,
       //currentContent: {},
     };
@@ -52,8 +40,10 @@ class Listup extends React.Component {
     this.handleContentList = this.handleContentList.bind(this);
     this.handleGetDefault = this.handleGetDefault.bind(this);
     this.handleClickedContent = this.handleClickedContent.bind(this);
+    this.clickNewMessage = this.clickNewMessage.bind(this)
     this.clickEditBtn = this.clickEditBtn.bind(this);
   }
+
   clickEditBtn = () => {
     this.setState({ editBtn: true });
   };
@@ -76,8 +66,10 @@ class Listup extends React.Component {
   componentDidMount() {
     this.handleGetDefault();
   }
-  clickNewMessage() {
-    this.props.history.push("/main/post");
+
+  //새글 쓰기 리다이렉트
+  clickNewMessage = () => {
+    this.setState({newPost : !this.state.newPost})
   }
 
   //기본 contestList 불러오는 함수, category
@@ -107,8 +99,7 @@ class Listup extends React.Component {
   render() {
     const {
       isLogin,
-      userinfo,
-      serverinfo,
+      userInfo,
       handleLoginClick,
       getUserData,
       clickEditBtn,
@@ -141,68 +132,75 @@ class Listup extends React.Component {
     }
 
     return (
-      <div
-        className="listup_body"
-        style={{
-          width: "400px",
-          margin: "5px",
-          border: "5px solid",
-        }}
-      >
-        Listup에서 'Hello World'
+      <div id="outer">
         <Nav
           isLogin={isLogin}
-          userinfo={userinfo}
-          serverinfo={serverinfo}
+          userInfo={userInfo}
           handleLoginClick={handleLoginClick}
           getUserData={getUserData}
         />
-        <Category
-          category={category}
-          handleInputCategory={this.handleInputCategory}
-        />
-        <Switch>
-          <Route
-            exact
-            path="/main/post"
-            render={() => (
-              <Post
-                serverinfo={serverinfo}
-                editBtn={editBtn}
-                clickEditBtn={clickEditBtn}
-              />
-            )}
-          ></Route>
-          <Route
-            exact
-            path="/main"
-            render={() => (
-              <Contents
-                // cateory={category} post에 카테고리가 필요한가?
-                contentsList={contentsList}
-                handleClickedContent={this.handleClickedContent}
-                clickedContent={clickedContent}
-                handleGetDefault={handleGetDefault}
-                editBtn={editBtn}
-                userinfo={userinfo}
-              />
-            )}
-          ></Route>
-          <Route
-            exact
-            path="/main/detail"
-            render={() => (
-              <ContentDetail
-                cateory={category}
-                contentsList={contentsList}
-                clickEditBtn={clickEditBtn}
-                clickedContent={clickedContent}
-              />
-            )}
-          ></Route>
-        </Switch>
-        {/*
-        <Scrap />*/}
+
+        <div className="container" id="main">
+
+        {(this.state.newPost) ? <Redirect to="/main/post" /> : ""}  
+          <Category
+            category={category}
+            handleInputCategory={this.handleInputCategory}
+          />
+
+          <Switch>
+            <Route
+              exact
+              path="/main/post"
+              render={() => (
+                <Post
+                  userInfo={userInfo}
+                  editBtn={editBtn}
+                  clickEditBtn={clickEditBtn}
+                />
+              )}
+            ></Route>
+            <Route
+              exact
+              path="/main"
+              render={() => (
+                <Contents
+                  // cateory={category} post에 카테고리가 필요한가?
+                  contentsList={contentsList}
+                  handleClickedContent={this.handleClickedContent}
+                  clickedContent={clickedContent}
+                  handleGetDefault={handleGetDefault}
+                  editBtn={editBtn}
+                  userInfo={userInfo}
+                />
+              )}
+            ></Route>
+            <Route
+              exact
+              path="/main/detail"
+              render={() => (
+                <ContentDetail
+                  cateory={category}
+                  contentsList={contentsList}
+                  clickEditBtn={clickEditBtn}
+                  clickedContent={clickedContent}
+                />
+              )}
+            ></Route>
+            <Route
+              exact
+              path="/mypage"
+              render={() => (
+                <Mypage
+                  isLogin={isLogin}
+                  userInfo={userInfo}
+                />
+              )}
+            />
+          </Switch>
+          {/*
+          <Scrap />*/}
+        </div>
       </div>
     );
   }

@@ -1,12 +1,14 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
+import { Redirect, withRouter } from "react-router-dom";
 import axios from "axios";
 axios.defaults.withCredentials = true;
 
-// props = {category=, content=, clickedkContent=}
 class ContentsEntry extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      isDetail : false
+    }
     this.getContentDetail = this.getContentDetail.bind(this);
   }
 
@@ -14,32 +16,25 @@ class ContentsEntry extends React.Component {
     axios
       // .get(`http://localhost:4000/posts/info/${this.props.content.id}`)
        .get(`https://devyeon.com/posts/info/${this.props.content.id}`)
-      .then((res) => {
-        {
-          this.props.handleClickedContent(res.data);
-        }
-      });
+      .then((res) => this.props.handleClickedContent(res.data));
   };
 
   render() {
     return (
       <div
-        className="contents_list"
+        className="contentBox"
         onClick={() => {
           console.log("클릭되나");
           this.getContentDetail();
-          this.props.history.push("/main/detail"); //contentDetail로 이동하기
-        }}
-        style={{
-          width: "400px",
-          margin: "5px",
-          border: "5px solid",
+          this.setState({ isDetail : !this.state.isDetail})
         }}
       >
-        <div className="name">{this.props.content.username}</div>
-        <div className="title">{this.props.content.title}</div>
-        <div className="comment">댓글{this.props.content.comment}</div>
-        <div className="view_count">조회수{this.props.content.view_count}</div>
+      { (this.state.isDetail) ? <Redirect to ="/main/detail" /> : ''}
+
+        <div className="detailName">{this.props.content.username}</div>
+        <div className="detailTitle">{this.props.content.title}</div>
+        <div className="detailComment">댓글{this.props.content.comment}</div>
+        <div className="detailViewCount">조회수{this.props.content.view_count}</div>
         {/* {this.props.content.name.map((name) => {
           return <div className="name">{name}</div>;
         })} */}
