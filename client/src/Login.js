@@ -1,20 +1,8 @@
-/*
-1. email, pw를 입력을 한다. 
-2. email, pw를 서버쪽으로 요청
-3. Signin버튼 누르면 email, pw 확인 후 Listup.js로 리다이렉트 한다/ 확인이 되지 않을 경우 false
-4. Signup버튼 누르면 Signup.js로 리다이렉트
-5. 상태변경(App.js를 통해 상태를 true로 바꿔준다)
-*/
 import React from "react";
-import { withRouter } from "react-router-dom";
+import { Redirect, withRouter } from "react-router-dom";
 import axios from "axios";
-// import { useCookies } from "react-cookie";
 axios.defaults.withCredentials = true;
-/*
-props={
-    islogin : this.state.isLogin(false), 
-    handleLoginClick : handleLoginClick()}
-*/
+
 class Login extends React.Component {
   constructor(props) {
     super(props);
@@ -22,28 +10,28 @@ class Login extends React.Component {
     this.state = {
       email: "",
       password: "",
-      success: false,
-      //success state 가 필요한가?
     };
     this.handleInputValue = this.handleInputValue.bind(this);
+    //this.handleLogin = this.handleLogin.bind(this)
   }
 
+  //input 마다 상태가 변경
   handleInputValue = (key) => (e) => {
     this.setState({ [key]: e.target.value });
   };
+
+  //로그인 함수
   handleLogin = () => {
-    // const [cookies, setCookie] = useCookies(["userId"]);
     axios
-      .post("http://localhost:4000/users/login", this.state)
-      // .post("https://devyeon.com/users/login", this.state)
+      //.post("http://localhost:4000/users/login", this.state)
+       .post("https://devyeon.com/users/login", this.state)
       .then((res) => {
         console.log(this.state);
         if (res.status === 200) {
           console.log(res.data.token);
           if (res.data.token) {
-            this.setState({ success: true });
+            //this.setState({ success: true });
 
-            // setCookie("userId", res.data.userId, { path: "/" });
             this.props.getUserData(this.state);
             this.props.getServerData(res.data); //token, userId
             this.props.handleLoginClick();
@@ -54,11 +42,11 @@ class Login extends React.Component {
       })
       .catch(() => alert("정보를 다시 확인해주세요"));
   };
-  handleghLogin = () => {};
 
   render() {
     return (
       <div className="login_body">
+        { (this.props.isLogin) ? <Redirect to='/main' /> : ''}
         <center>
           <img
             className="login_img"

@@ -3,17 +3,6 @@ import axios from "axios";
 import { Link, Route, Redirect, withRouter } from "react-router-dom";
 import CKEditor from "ckeditor4-react";
 
-/*
-props={
-  {
-        userId: "",
-        username: "",
-        email: "",
-        token: "",
-      }
-}
-*/
-
 class Post extends React.Component {
   constructor(props) {
     super(props);
@@ -42,23 +31,18 @@ class Post extends React.Component {
   //     clickEditBtn:false
   //   })
   handlePost = () => {
-    console.log("1");
     console.log(this.state);
     axios
-
-      .post("http://localhost:4000/posts/create", {
+      .post("http://devyeon.com/posts/create", {
         categoryId: this.state.categoryId,
         userId: this.props.serverinfo.userId,
         message: this.state.message,
         title: this.state.title,
       })
-      // .post("http://devyeon.com/posts/create", this.state)
       .then((res) => {
         if (res.status === 201) {
-          // this.props.handleGetDefault();
           this.props.history.push("/main");
         }
-        //   this.props.getUserData(res.data);
       });
   };
 
@@ -66,7 +50,7 @@ class Post extends React.Component {
     await this.handleInputValue("message");
     await axios
 
-      .put("http://localhost:4000/posts/update", this.state)
+       .put("http://localhost:4000/posts/update", this.state)
       // .put("http://devyeon.com/posts/update", this.state)
       .then((res) => {
         if (res.status === 200) {

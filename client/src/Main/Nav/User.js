@@ -1,9 +1,3 @@
-/*
-<a> or <submit> 상관없다, <li> 로 감싸기
-1. 로그아웃을 클릭하면 {isLogin:false} + Login.js로 리다이렉트
-2. 마이페이지를 클릭하면 Mypage.js로 리다이렉트
-*/
-
 import React from "react";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
@@ -29,8 +23,6 @@ class User extends React.Component {
           onClick={() => {
             //this.props.handleLoginClick();
             console.log("클랙 props", this.props.userinfo);
-            //this.props.history.push("/login");
-            //localhost:4000
             http: axios
               .post("http://localhost:4000/users/logout")
               // axios.post('https://devyeon.com/users/logout',)
@@ -58,6 +50,7 @@ class User extends React.Component {
           }}
         >
           마이페이지
+          {/* <Link to='/mypage'> */}
         </button>
       </div>
     );
