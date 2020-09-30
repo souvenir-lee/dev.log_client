@@ -22,7 +22,7 @@ class Post extends React.Component {
       categoryId: "",
       title: "",
       message: "",
-      tag: [],
+      names: [],
     };
     this.handleInputValue = this.handleInputValue.bind(this);
     this.handlePost = this.handlePost.bind(this);
@@ -41,20 +41,21 @@ class Post extends React.Component {
   //     tag:[],
   //     clickEditBtn:false
   //   })
-  handlePost = async () => {
-    await this.handleInputValue("message");
-    await axios
+  handlePost = () => {
+    console.log("1");
+    console.log(this.state);
+    axios
 
       .post("http://localhost:4000/posts/create", {
         categoryId: this.state.categoryId,
-        userId: this.props.userId,
+        userId: this.props.serverinfo.userId,
         message: this.state.message,
         title: this.state.title,
       })
       // .post("http://devyeon.com/posts/create", this.state)
       .then((res) => {
-        if (res.status === 200) {
-          this.props.handleGetDefault();
+        if (res.status === 201) {
+          // this.props.handleGetDefault();
           this.props.history.push("/main");
         }
         //   this.props.getUserData(res.data);
@@ -107,6 +108,10 @@ class Post extends React.Component {
             <CKEditor
               className="post_content"
               data="<p>Hello from CKEditor 4!</p>"
+              onInit={(editor) => {}}
+              onChange={(event) => {
+                this.setState({ message: event.editor.getData() });
+              }}
             />
             <input
               className="post_tag"

@@ -40,14 +40,16 @@ class ContentDetail extends React.Component {
   4.게시버튼을 누르면 contentDetail 페이지로 렌더링 된다.
   */
 
-  editMessage = async () => {
-    await this.props.history.push("/main/post");
-    await axios.get("http://localhost:4000/posts/info/id").then((res) => {
-      // await axios.get("http://devyeon.com/posts/info/id").then((res) => {
-      //main/post의 state가 바뀌어야함
-      this.props.clickEditBtn();
-      this.props.handleClickedContent();
-    });
+  editMessage = () => {
+    this.props.history.push("/main/post");
+    axios
+      .get(`http://localhost:4000/posts/info/${this.props.contentsList.id}`)
+      .then((res) => {
+        // await axios.get(`http://localhost:4000/posts/info/${this.props.contentsList.id}`).then((res) => {
+        //main/post의 state가 바뀌어야함
+        this.props.clickEditBtn();
+        this.props.handleClickedContent();
+      });
   };
 
   render() {
@@ -61,9 +63,12 @@ class ContentDetail extends React.Component {
             {this.props.clickedContent.title}
           </div>
         </div>
-        <div className="contentdetail_message">
-          {this.props.clickedContent.message}
-        </div>
+        <div
+          className="contentdetail_message"
+          dangerouslySetInnerHTML={{
+            __html: this.props.clickedContent.message,
+          }}
+        ></div>
         <div>
           <button
             className="contentdetail_btnDelete"

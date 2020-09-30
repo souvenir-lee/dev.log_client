@@ -32,26 +32,10 @@ class Listup extends React.Component {
           id: "",
           //postId
           categoryId: "",
-          username: "한슬",
-          title: "인사",
-          message: "안녕하세요",
-          view_count: 1,
-        },
-        {
-          id: "",
-          categoryId: "",
-          username: "한슬",
-          title: "인사",
-          message: "프로젝트",
-          view_count: 1,
-        },
-        {
-          id: "",
-          categoryId: "",
-          username: "한슬",
-          title: "인사",
-          message: "화이팅",
-          view_count: 1,
+          username: "",
+          title: "",
+          message: "",
+          view_count: "",
         },
       ],
       clickedContent: {
@@ -92,6 +76,9 @@ class Listup extends React.Component {
   componentDidMount() {
     this.handleGetDefault();
   }
+  clickNewMessage() {
+    this.props.history.push("/main/post");
+  }
 
   //기본 contestList 불러오는 함수, category
   handleGetDefault = () => {
@@ -121,6 +108,7 @@ class Listup extends React.Component {
     const {
       isLogin,
       userinfo,
+      serverinfo,
       handleLoginClick,
       getUserData,
       clickEditBtn,
@@ -165,6 +153,7 @@ class Listup extends React.Component {
         <Nav
           isLogin={isLogin}
           userinfo={userinfo}
+          serverinfo={serverinfo}
           handleLoginClick={handleLoginClick}
           getUserData={getUserData}
         />
@@ -173,7 +162,17 @@ class Listup extends React.Component {
           handleInputCategory={this.handleInputCategory}
         />
         <Switch>
-          <Route exact path="/main/post" render={() => <Post />}></Route>
+          <Route
+            exact
+            path="/main/post"
+            render={() => (
+              <Post
+                serverinfo={serverinfo}
+                editBtn={editBtn}
+                clickEditBtn={clickEditBtn}
+              />
+            )}
+          ></Route>
           <Route
             exact
             path="/main"

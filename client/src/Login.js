@@ -8,6 +8,7 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
+// import { useCookies } from "react-cookie";
 axios.defaults.withCredentials = true;
 /*
 props={
@@ -31,17 +32,20 @@ class Login extends React.Component {
     this.setState({ [key]: e.target.value });
   };
   handleLogin = () => {
+    // const [cookies, setCookie] = useCookies(["userId"]);
     axios
       .post("http://localhost:4000/users/login", this.state)
       // .post("https://devyeon.com/users/login", this.state)
       .then((res) => {
         console.log(this.state);
         if (res.status === 200) {
+          console.log(res.data.token);
           if (res.data.token) {
             this.setState({ success: true });
 
+            // setCookie("userId", res.data.userId, { path: "/" });
             this.props.getUserData(this.state);
-            this.props.getUserData(res.data); //token, userId
+            this.props.getServerData(res.data); //token, userId
             this.props.handleLoginClick();
             console.log(res.data);
             this.props.history.push("/main");

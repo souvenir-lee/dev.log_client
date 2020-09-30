@@ -15,7 +15,13 @@ class User extends React.Component {
   }
 
   render() {
-    const { isLogin, userinfo, getUserData, handleLoginClick } = this.props;
+    const {
+      isLogin,
+      userinfo,
+      getUserData,
+      serverinfo,
+      handleLoginClick,
+    } = this.props;
     return (
       <div>
         <button
@@ -43,8 +49,7 @@ class User extends React.Component {
           onClick={() => {
             console.log("user에서 userinfo", userinfo);
             axios
-              .get("http://localhost:4000/users/info", userinfo.token)
-              // axios.get('https://devyeon.com/users/info', userinfo.token) //마이페이지로 리다이렉트
+              .get("http://localhost:4000/users/info", serverinfo.token) //마이페이지로 리다이렉트
               .then((res) => {
                 console.log(res);
                 getUserData(res);
