@@ -13,13 +13,6 @@ function Mypage(props) {
       </div>
     );
   }
-  // else {
-  //   return (
-  //     <div>
-  //       <h1 className="not_found">NOT FOUND</h1>
-  //     </div>
-  //   );
-  // }
 }
 //랜더링 테스트를 위해 props.isLogin === false로 임시지정
 export default Mypage;

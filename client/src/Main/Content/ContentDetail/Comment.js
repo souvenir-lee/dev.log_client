@@ -19,11 +19,12 @@ class Comment extends React.Component {
   handleInputValue = (key) => (e) => {
     this.setState({ [key]: e.target.value });
   };
+
   handleCommentClick = () => {
     axios
 
-      .post("http://localhost:4000/comments/create", this.state.inputComment)
-      // .post("http://devyeon.com/comments/create", this.state.inputComment)
+      //.post("http://localhost:4000/comments/create", this.state.inputComment)
+       .post("http://devyeon.com/comments/create", this.state.inputComment)
       .then((res) => {
         if (res.status === 200) {
           this.setState({ comments: res });

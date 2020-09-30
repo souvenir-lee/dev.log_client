@@ -1,9 +1,3 @@
-/*
-1. Contents.js에서 해당 글을 클릭했을때 Listup.js로 state 끌어올리기를 통해 해당 글을 랜더링 한다.
-2. 삭제하기를 클릭했을때 해당 글을 delete한다.
-3. 댓글 개수를 표시
-*/
-
 import React from "react";
 import Comment from "./Comment";
 import axios from "axios";
@@ -24,8 +18,8 @@ class ContentDetail extends React.Component {
   deleteMessage = () => {
     axios
 
-      .delete("http://localhost:4000/posts/delete", this.props.id)
-      // .delete("http://devyeon.com/posts/delete", this.props.id)
+      // .delete("http://localhost:4000/posts/delete", this.props.id)
+       .delete("http://devyeon.com/posts/delete", this.props.id)
       .then((res) => {
         if (res.status === 200) {
           alert("삭제되었습니다.");
@@ -33,17 +27,12 @@ class ContentDetail extends React.Component {
         }
       });
   };
-  /*
-  1.수정버튼을 누르면 post페이지로 렌더링이 된다.
-  2.해당 category, username, title, message를 담아서 가져온다
-  3.수정한 value onchange
-  4.게시버튼을 누르면 contentDetail 페이지로 렌더링 된다.
-  */
 
   editMessage = () => {
     this.props.history.push("/main/post");
     axios
-      .get(`http://localhost:4000/posts/info/${this.props.contentsList.id}`)
+      .get(`http://devyeon.com/posts/info/${this.props.contentsList.id}`)
+      // .get(`http://localhost:4000/posts/info/${this.props.contentsList.id}`)
       .then((res) => {
         // await axios.get(`http://localhost:4000/posts/info/${this.props.contentsList.id}`).then((res) => {
         //main/post의 state가 바뀌어야함
