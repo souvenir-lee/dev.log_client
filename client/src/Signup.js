@@ -50,8 +50,9 @@ class Signup extends React.Component {
 
   handleSignUp = () => {
     axios
+
       .post("http://localhost:4000/users/emailconfirm", this.state.email)
-      //.post("https://devyeon.com/users/emailconfirm", this.state.email)
+      // .post("https://devyeon.com/users/emailconfirm", this.state.email)
       .then((res) => {
         console.log(res);
         if (res.status === 200) {
@@ -73,7 +74,8 @@ class Signup extends React.Component {
   };
 
   postSignup = () => {
-    axios.post("https://devyeon.com/users/signup", this.state).then((res) => {
+    axios.post("http://localhost:4000/users/signup", this.state).then((res) => {
+      // axios.post("https://devyeon.com/users/signup", this.state).then((res) => {
       if (res.status === 200) {
         if (res.social_user_id) {
           //social_user_id? 복습필요

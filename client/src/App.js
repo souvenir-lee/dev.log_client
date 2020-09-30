@@ -20,10 +20,10 @@ class App extends React.Component {
         userId: "",
         username: "",
         token: "",
-      }
+      },
     };
     this.getUserData = this.getUserData.bind(this);
-    this.getServerData = this.getServerData.bind(this)
+    this.getServerData = this.getServerData.bind(this);
     this.handleLoginClick = this.handleLoginClick.bind(this);
   }
 
@@ -40,12 +40,12 @@ class App extends React.Component {
   getServerData = (data) => {
     this.setState({
       serverinfo: {
-        username: data.username,
+        username: data.userData.username,
         token: data.token,
-        userId: data.userId,
-      }
+        userId: data.userData.id,
+      },
     });
-  }
+  };
 
   handleLoginClick = () => {
     this.setState({ isLogin: !this.state.isLogin }); //추후에는 클릭할 때마다 상태변겅하도록
@@ -67,10 +67,19 @@ class App extends React.Component {
             />
           )}
         />
-        <Route path="/signup" render={() => <Signup isLogin={isLogin} serverinfo={serverinfo}/>} />
+        <Route
+          path="/signup"
+          render={() => <Signup isLogin={isLogin} serverinfo={serverinfo} />}
+        />
         <Route
           path="/mypage"
-          render={() => <Mypage isLogin={isLogin} userinfo={userinfo} serverinfo={serverinfo}/>}
+          render={() => (
+            <Mypage
+              isLogin={isLogin}
+              userinfo={userinfo}
+              serverinfo={serverinfo}
+            />
+          )}
         />
         <Route
           path="/main"
