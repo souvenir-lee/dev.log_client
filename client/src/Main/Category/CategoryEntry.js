@@ -12,14 +12,14 @@ class CotegoryEntry extends React.Component {
   render(){
     const {el, handleInputCategory} = this.props
     return (
-      <div className="category_list">
+      <>
         <div 
-          className="category_listName" 
+          className="categoryBox" 
           onClick={handleInputCategory}
           >
           {el}
         </div>
-      </div>
+      </>
     )
   }
 }

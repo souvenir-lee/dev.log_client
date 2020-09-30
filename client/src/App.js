@@ -3,42 +3,30 @@ import { Switch, Route, useHistory, Redirect } from "react-router-dom";
 import Listup from "../src/Main/Listup";
 import Login from "../src/Login";
 import Signup from "../src/Signup";
-import Mypage from "../src/Mypage";
+import "./App.css";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isLogin: false,
-      userinfo: {
-        email: "",
-      },
-      serverinfo: {
+      userInfo: {
         userId: "",
         username: "",
         token: "",
       },
     };
     this.getUserData = this.getUserData.bind(this);
-    this.getServerData = this.getServerData.bind(this);
     this.handleLoginClick = this.handleLoginClick.bind(this);
   }
 
-  //로그인 시 userinfo를 끌어올리는 함수
+  //로그인 시 userInfo를 끌어올리는 함수
   getUserData = (data) => {
     this.setState({
-      userinfo: {
-        email: data.email,
-      },
-    });
-  };
-  //로그인 시 serverinfo 끌어올리는 함수
-  getServerData = (data) => {
-    this.setState({
-      serverinfo: {
+      userInfo: {
+        userId: data.userData.id,
         username: data.userData.username,
         token: data.token,
-        userId: data.userData.id,
       },
     });
   };
@@ -49,7 +37,7 @@ class App extends React.Component {
   };
 
   render() {
-    const { isLogin, userinfo, serverinfo } = this.state;
+    const { isLogin, userInfo } = this.state;
     return (
       <Switch>
         <Route
@@ -57,9 +45,7 @@ class App extends React.Component {
           render={() => (
             <Login
               isLogin={isLogin}
-              userinfo={userinfo}
-              serverinfo={serverinfo}
-              getServerData={this.getServerData}
+              userInfo={userInfo}
               getUserData={this.getUserData}
               handleLoginClick={this.handleLoginClick}
             />
@@ -70,22 +56,11 @@ class App extends React.Component {
           render={() => <Signup />}
         />
         <Route
-          path="/mypage"
-          render={() => (
-            <Mypage
-              isLogin={isLogin}
-              userinfo={userinfo}
-              serverinfo={serverinfo}
-            />
-          )}
-        />
-        <Route
           path="/main"
           render={() => (
             <Listup
               isLogin={isLogin}
-              userinfo={userinfo}
-              serverinfo={serverinfo}
+              userInfo={userInfo}
               getUserData={this.getUserData}
               handleLoginClick={this.handleLoginClick}
             />

@@ -1,34 +1,39 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
+import { Redirect, withRouter } from "react-router-dom";
 import axios from "axios";
 axios.defaults.withCredentials = true;
 
 class User extends React.Component {
   constructor(props) {
     super(props);
+    this.state={
+      isMypage : false
+    }
   }
 
   render() {
     const {
       isLogin,
-      userinfo,
+      userInfo,
       getUserData,
-      serverinfo,
       handleLoginClick,
     } = this.props;
+
     return (
       <div>
+      {(!isLogin) ? <Redirect to="/login" /> : ''}
+      {(this.state.isMypage) ? <Redirect to="/mypage" /> : ''}
+
         <button
-          className="nav_logOut"
+          id="logoutBtn"
           onClick={() => {
-            //this.props.handleLoginClick();
-            console.log("클랙 props", this.props.userinfo);
-            http: axios
-              .post("http://localhost:4000/users/logout")
-              // axios.post('https://devyeon.com/users/logout',)
+            console.log("클랙 props", this.props.userInfo);
+            //axios
+              //.post("http://localhost:4000/users/logout")
+              axios.post('https://devyeon.com/users/logout', userInfo.token)
               .then(() => {
                 handleLoginClick();
-                this.props.history.push("/login"); //변경된 API
+                //this.props.history.push("/login"); //변경된 API
               })
               .catch((error) => console.log(error));
           }}
@@ -37,16 +42,16 @@ class User extends React.Component {
         </button>
 
         <button
-          className="nav_myPage"
+          id="mypageBtn"
           onClick={() => {
-            console.log("user에서 userinfo", userinfo);
+            console.log("user에서 userInfo", userInfo);
             axios
-              .get("http://localhost:4000/users/info", serverinfo.token) //마이페이지로 리다이렉트
+              //.get("http://localhost:4000/users/info", serverinfo.token) //마이페이지로 리다이렉트
+              .get("https://devyeon.com/users/info",) //마이페이지로 리다이렉트
               .then((res) => {
-                console.log(res);
                 getUserData(res);
+                this.setState({isMypage : !this.state.isMypage})
               })
-              .then(() => this.props.history.push("/mypage"));
           }}
         >
           마이페이지

@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, Route, Redirect, withRouter } from "react-router-dom";
+import { Redirect, withRouter } from "react-router-dom";
 import axios from "axios";
 
 class Signup extends React.Component {
@@ -10,6 +10,8 @@ class Signup extends React.Component {
       username: "",
       email: "",
       password: "",
+      password2 : "",
+      signup : false
     };
     this.handleInputValue = this.handleInputValue.bind(this);
     this.checkPassword = this.checkPassword.bind(this);
@@ -23,9 +25,9 @@ class Signup extends React.Component {
   };
 
   //pw 체크
-  checkPassword = (value) => {
-    let regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{6,12}$/; //  8 ~ 12자 영문, 숫자 조합
-    return regExp.test(value); // 형식에 맞는 경우 true 리턴
+  checkPassword = (value1, value2) => {
+    let regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{6,12}$/; //  6 ~ 12자 영문, 숫자 조합
+    return regExp.test(value1) && value1 === value2 ? true : false // 형식에 맞는 경우 true 리턴
   };
 
   //유저이름 적었는지 체크
@@ -55,7 +57,7 @@ class Signup extends React.Component {
     axios.post("https://devyeon.com/users/signup", this.state).then((res) => {
       if (res.status === 201) {
         alert('회원가입이 완료되셨습니다')
-        return <Redirect to="/login" />
+        this.setState({signup : true})
       }
     });
   };
@@ -64,90 +66,108 @@ class Signup extends React.Component {
   signupWithGithub = () => {};
 
   render() {
+    
     return (
-      <div className="signup_body">
+      <div className="container" id="signup">
+        {(this.state.signup) ? <Redirect to="/login" /> : ''}
         <center>
-          <h1>Sign Up</h1>
-          <div>
-            <input
-              className="signup_name"
-              type="username"
-              placeholder="이름을 입력 해주세요"
-              onChange={this.handleInputValue("username")}
-            ></input>
-            {this.checkUsername(this.state.username) ? (
-              <span style={{ color: "green" }}>
-                <img src="tick.png" width="15em" />
-                확인
-              </span>
-            ) : (
-              <span style={{ color: "red" }}>유저 이름을 입력해주세요</span>
-            )}
-          </div>
-          <div>
-            <input
-              className="signup_email"
-              type="email"
-              placeholder="이메일을 입력 해주세요"
-              onChange={this.handleInputValue("email")}
-            ></input>
+          <div className="inputContainer">
+            <h1>Sign Up</h1>
+
+            <div className="inputArea">
+              <input
+                id="inputEmail"
+                type="email"
+                placeholder="이메일을 입력 해주세요"
+                onChange={this.handleInputValue("email")}
+              ></input>
+              <button
+                className="signup_check"
+                onClick={() => {
+                  this.handleSignUp();
+                }}
+              >
+                중복확인
+              </button>
+            </div>
+
+            <div className="inputArea">
+              <input
+                id="inputUsername"
+                type="username"
+                placeholder="이름을 입력 해주세요"
+                onChange={this.handleInputValue("username")}
+              ></input>
+              
+              {this.checkUsername(this.state.username) ? (
+                <span style={{ color: "green" }}>
+                  <img src="tick.png" width="15em" />
+                  확인
+                </span>
+              ) : (
+                <span style={{ color: "red" }}>유저 이름을 입력해주세요</span>
+              )}
+            </div>
+        
+            <div className="inputArea">
+              <input
+                className="inputPassword"
+                type="password"
+                placeholder="비밀번호를 입력 해주세요"
+                onChange={this.handleInputValue("password")}
+              ></input>
+              <input
+                className="inputPassword"
+                type="password"
+                placeholder="비밀번호를 입력 해주세요"
+                onChange={this.handleInputValue("password2")}
+              ></input>
+              {this.checkPassword(this.state.password, this.state.password2) ? (
+                <span style={{ color: "green" }}>
+                  <img src="tick.png" width="15em" />
+                  확인
+                </span>
+              ) : (
+                <span style={{ color: "red" }}>영문,숫자 조합 8-12글자 입력</span>
+              )}
+            </div>
+
             <button
-              className="signup_check"
+              id="goToLoginBtn"
               onClick={() => {
-                this.handleSignUp();
+                this.props.history.push("/login");
               }}
             >
-              중복확인
+              메인으로
+            </button>
+            <button
+              id="submitSignupBtn"
+              onClick={() => {
+                this.postSignup();
+                //this.props.history.push("/login");
+              }}
+            >
+              회원가입
             </button>
           </div>
+        
           <div>
-            <input
-              className="signup_pw"
-              type="password"
-              placeholder="비밀번호를 입력 해주세요"
-              onChange={this.handleInputValue("password")}
-            ></input>
-            {this.checkPassword(this.state.password) ? (
-              <span style={{ color: "green" }}>
-                <img src="tick.png" width="15em" />
-                확인
-              </span>
-            ) : (
-              <span style={{ color: "red" }}>영문,숫자 조합 8-12글자 입력</span>
-            )}
-          </div>
-          <button
-            className="signup_btn"
-            onClick={() => {
-              this.props.history.push("/login");
-            }}
-          >
-            메인으로
-          </button>
-          <button
-            className="signup_btn"
-            onClick={() => {
-              this.postSignup();
-              //this.props.history.push("/login");
-            }}
-          >
-            회원가입
-          </button>
-          <div className="signup_social">
-            <button
-              className="signup_btnGoogle"
-              type="submit"
-              onClick={() => {}}
-            >
-              Google
-            </button>
-            <button
-              className="signup_btnGithub"
-              type="submit"
-              onClick={() => {}}
-            >
-              Github
-            </button>
+            <div className="signup_social">
+              <button
+                className="signup_btnGoogle"
+                type="submit"
+                onClick={() => {}}
+              >
+                Google
+              </button>
+              <button
+                className="signup_btnGithub"
+                type="submit"
+                onClick={() => {}}
+              >
+                Github
+              </button>
+            </div>
           </div>
         </center>
       </div>
