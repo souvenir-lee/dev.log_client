@@ -26,17 +26,19 @@ const Contents = ({
   cateory,
   contentsList,
   clickedContent,
-  handleclickedContent,
+  handleClickedContent,
+  userinfo,
+  history,
 }) => {
-  let history = useHistory();
-
   return (
     <div>
       <button
         className="contents_btn"
         onClick={() => {
           console.log("클릭되나");
-          return history.push("/main/post"); // 나중에 Post.js로 연결하기
+          history.push("/main/post");
+          // 나중에 Post.js로 연결하기
+          // this.props.clickNewMessage();
         }}
       >
         새글 쓰기
@@ -46,7 +48,7 @@ const Contents = ({
           cateory={cateory}
           content={content}
           clickedContent={clickedContent}
-          handleclickedContent={handleclickedContent}
+          handleClickedContent={handleClickedContent}
         />
       ))}
     </div>

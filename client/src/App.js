@@ -13,14 +13,17 @@ class App extends React.Component {
     this.state = {
       isLogin: false,
       userinfo: {
+        email: "",
+        //여기에 토큰을 만들어야 할것 같아요
+      },
+      serverinfo: {
         userId: "",
         username: "",
-        email: "",
         token: "",
-        //여기에 토큰을 만들어야 할것 같아요
       },
     };
     this.getUserData = this.getUserData.bind(this);
+    this.getServerData = this.getServerData.bind(this);
     this.handleLoginClick = this.handleLoginClick.bind(this);
   }
 
@@ -30,9 +33,16 @@ class App extends React.Component {
     this.setState({
       userinfo: {
         email: data.email,
-        username: data.username,
+      },
+    });
+  };
+
+  getServerData = (data) => {
+    this.setState({
+      serverinfo: {
+        username: data.userData.username,
         token: data.token,
-        userId: data.userId,
+        userId: data.userData.id,
       },
     });
   };
@@ -41,7 +51,7 @@ class App extends React.Component {
     this.setState({ isLogin: !this.state.isLogin }); //추후에는 클릭할 때마다 상태변겅하도록
   };
   render() {
-    const { isLogin, userinfo } = this.state;
+    const { isLogin, userinfo, serverinfo } = this.state;
     return (
       <Switch>
         <Route
@@ -50,15 +60,26 @@ class App extends React.Component {
             <Login
               isLogin={isLogin}
               userinfo={userinfo}
+              serverinfo={serverinfo}
+              getServerData={this.getServerData}
               getUserData={this.getUserData}
               handleLoginClick={this.handleLoginClick}
             />
           )}
         />
-        <Route path="/signup" render={() => <Signup isLogin={isLogin} />} />
+        <Route
+          path="/signup"
+          render={() => <Signup isLogin={isLogin} serverinfo={serverinfo} />}
+        />
         <Route
           path="/mypage"
-          render={() => <Mypage isLogin={isLogin} userinfo={userinfo} />}
+          render={() => (
+            <Mypage
+              isLogin={isLogin}
+              userinfo={userinfo}
+              serverinfo={serverinfo}
+            />
+          )}
         />
         <Route
           path="/main"
@@ -66,6 +87,7 @@ class App extends React.Component {
             <Listup
               isLogin={isLogin}
               userinfo={userinfo}
+              serverinfo={serverinfo}
               getUserData={this.getUserData}
               handleLoginClick={this.handleLoginClick}
             />
