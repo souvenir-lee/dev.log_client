@@ -5,7 +5,7 @@ class CotegoryEntry extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-      category : "" //{cateory, contentsList, handleInputCategory, handleContentList}
+      categoryId : "" //{cateory, contentsList, handleInputCategory, handleContentList}
     }
   }
 
