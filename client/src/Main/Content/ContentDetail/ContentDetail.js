@@ -2,7 +2,7 @@ import React from "react";
 import Comment from "./Comment";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
-axios.defaults.withCredentials = true;
+axios.defaults.withCredentials = "include";
 
 class ContentDetail extends React.Component {
   constructor(props) {
@@ -31,8 +31,8 @@ class ContentDetail extends React.Component {
   editMessage = () => {
     this.props.history.push("/main/post");
     axios
-      .get(`http://devyeon.com/posts/info/${this.props.contentsList.id}`)
-      // .get(`http://localhost:4000/posts/info/${this.props.contentsList.id}`)
+      //.get(`http://devyeon.com/posts/info/${this.props.contentsList.id}`)
+       .get(`http://localhost:4000/posts/info/${this.props.contentsList.id}`)
       .then((res) => {
         // await axios.get(`http://localhost:4000/posts/info/${this.props.contentsList.id}`).then((res) => {
         //main/post의 state가 바뀌어야함

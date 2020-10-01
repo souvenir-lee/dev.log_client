@@ -1,5 +1,5 @@
 import React from "react";
-function Mypage({isLogin, userInfo}) {
+function Mypage({isLogin, token, userInfo}) {
   return (
     <div className="container" id="mypage">
       <center>
@@ -9,6 +9,7 @@ function Mypage({isLogin, userInfo}) {
         <div id="mypageEmail">Email : {userInfo.email}</div>
         {/* {this.props.userInfo.email} */}
       </center>
+      {/* 메인으로 돌아가는 버튼 필요 */}
     </div>
   );
 }

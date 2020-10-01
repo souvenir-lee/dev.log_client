@@ -1,6 +1,7 @@
 import React from "react";
 import { Redirect, withRouter } from "react-router-dom";
 import axios from "axios";
+axios.defaults.withCredentials = "include";
 
 class Signup extends React.Component {
   constructor(props) {
@@ -17,6 +18,7 @@ class Signup extends React.Component {
     this.checkPassword = this.checkPassword.bind(this);
     this.checkUsername = this.checkUsername.bind(this);
     this.postSignup = this.postSignup.bind(this);
+    this.handleSignUp = this.handleSignUp.bind(this)
   }
 
   //input 작성 내용을 state로 변경
@@ -38,15 +40,15 @@ class Signup extends React.Component {
 
   handleSignUp = () => {
     axios
-      // .post("http://localhost:4000/users/emailconfirm", this.state.email)
-       .post("https://devyeon.com/users/emailconfirm", this.state.email)
+       .post("http://localhost:4000/users/emailconfirm", this.state.email)
+      // .post("https://devyeon.com/users/emailconfirm", this.state.email)
       .then((res) => {
         console.log('signup:res',res);
         if (res.status === 200) {
           alert("사용가능한 아이디입니다");
         }
       })
-      .catch((err) => {
+      .catch((err, res) => {
         alert("이미 아이디가 있습니다");
         console.log(err)
       });
