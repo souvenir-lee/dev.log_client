@@ -1,93 +1,67 @@
 import React from "react";
-import { Switch, Route, useHistory, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import Listup from "../src/Main/Listup";
 import Login from "../src/Login";
 import Signup from "../src/Signup";
-import Mypage from "../src/Mypage";
-
-//branch test!!
+import "./App.css";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isLogin: false,
-      userinfo: {
-        email: "",
-        //여기에 토큰을 만들어야 할것 같아요
-      },
-      serverinfo: {
+      token: "",
+      userInfo: {
         userId: "",
         username: "",
-        token: "",
       },
     };
     this.getUserData = this.getUserData.bind(this);
-    this.getServerData = this.getServerData.bind(this);
     this.handleLoginClick = this.handleLoginClick.bind(this);
   }
 
-  //로그인 시 userinfo를 끌어올리는 함수
-  //한슬 -> 이부분 수정한적 있는지?
+  //로그인 시 userInfo를 끌어올리는 함수
   getUserData = (data) => {
+    delete data.status;
     this.setState({
-      userinfo: {
-        email: data.email,
+      token: data.token,
+      userInfo: {
+        ...data.userData,
       },
     });
   };
 
-  getServerData = (data) => {
-    this.setState({
-      serverinfo: {
-        username: data.userData.username,
-        token: data.token,
-        userId: data.userData.id,
-      },
-    });
-  };
-
+  //클릭하면 isLogin 번경
   handleLoginClick = () => {
-    this.setState({ isLogin: !this.state.isLogin }); //추후에는 클릭할 때마다 상태변겅하도록
+    setTimeout(() => {
+      this.setState({ isLogin: !this.state.isLogin }); 
+    }, 1000)
   };
+
   render() {
-    const { isLogin, userinfo, serverinfo } = this.state;
+    const { isLogin, token, userInfo } = this.state;
     return (
       <Switch>
         <Route
-          path="/login" //변경됨
+          path="/login" 
           render={() => (
             <Login
               isLogin={isLogin}
-              userinfo={userinfo}
-              serverinfo={serverinfo}
-              getServerData={this.getServerData}
+              userInfo={userInfo}
+              token={token}
               getUserData={this.getUserData}
               handleLoginClick={this.handleLoginClick}
             />
           )}
         />
-        <Route
-          path="/signup"
-          render={() => <Signup isLogin={isLogin} serverinfo={serverinfo} />}
-        />
-        <Route
-          path="/mypage"
-          render={() => (
-            <Mypage
-              isLogin={isLogin}
-              userinfo={userinfo}
-              serverinfo={serverinfo}
-            />
-          )}
-        />
+        <Route path="/signup" render={() => <Signup />} />
         <Route
           path="/main"
           render={() => (
             <Listup
               isLogin={isLogin}
-              userinfo={userinfo}
-              serverinfo={serverinfo}
+              userInfo={userInfo}
+              token={token}
               getUserData={this.getUserData}
               handleLoginClick={this.handleLoginClick}
             />
