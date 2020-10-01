@@ -2,7 +2,7 @@ import React from "react";
 import Comment from "./Comment";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
-axios.defaults.withCredentials = true;
+axios.defaults.withCredentials = "include";
 
 class ContentDetail extends React.Component {
   constructor(props) {
