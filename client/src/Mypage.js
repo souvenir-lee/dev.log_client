@@ -4,9 +4,9 @@ function Mypage({isLogin, userInfo}) {
     <div className="container" id="mypage">
       <center>
         <h1>Mypage</h1>
-        <div id="mypageUsername">{userInfo.username}</div>
+        <div id="mypageUsername">이름 : {userInfo.username}</div>
         {/* {this.props.userInfo.username} */}
-        <div id="mypageEmail">{userInfo.email}</div>
+        <div id="mypageEmail">Email : {userInfo.email}</div>
         {/* {this.props.userInfo.email} */}
       </center>
     </div>

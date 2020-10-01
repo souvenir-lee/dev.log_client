@@ -2,10 +2,16 @@ import React from 'react';
 import Logo from './Logo'
 import User from './User'
 
-const Nav = ({isLogin, userInfo, handleLoginClick, getUserDate}) => (
-  <div className="nav">
+const Nav = ({isLogin, token, userInfo, handleLoginClick, getUserData}) => (
+  <div id="nav">
     <Logo></Logo>
-    <User isLogin={isLogin} userInfo={userInfo} handleLoginClick={handleLoginClick} getUserDate={getUserDate}></User>
+    <User 
+      isLogin={isLogin} 
+      token={token} 
+      userInfo={userInfo} 
+      handleLoginClick={handleLoginClick} 
+      getUserData={getUserData}
+    ></User>
   </div>
 );
 

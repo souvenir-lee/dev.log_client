@@ -33,8 +33,10 @@ class ContentsEntry extends React.Component {
 
         <div className="detailName">{this.props.content.username}</div>
         <div className="detailTitle">{this.props.content.title}</div>
-        <div className="detailComment">댓글{this.props.content.comment}</div>
-        <div className="detailViewCount">조회수{this.props.content.view_count}</div>
+        <div>
+          <span className="detailComment">댓글{this.props.content.comment}</span>
+          <span className="detailViewCount">조회수{this.props.content.view_count}</span>
+        </div>
         {/* {this.props.content.name.map((name) => {
           return <div className="name">{name}</div>;
         })} */}

@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, Route, useHistory, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import Listup from "../src/Main/Listup";
 import Login from "../src/Login";
 import Signup from "../src/Signup";
@@ -10,10 +10,10 @@ class App extends React.Component {
     super(props);
     this.state = {
       isLogin: false,
+      token: "",
       userInfo: {
         userId: "",
         username: "",
-        token: "",
       },
     };
     this.getUserData = this.getUserData.bind(this);
@@ -22,22 +22,24 @@ class App extends React.Component {
 
   //로그인 시 userInfo를 끌어올리는 함수
   getUserData = (data) => {
+    delete data.status;
     this.setState({
+      token: data.token,
       userInfo: {
-        userId: data.userData.id,
-        username: data.userData.username,
-        token: data.token,
+        ...data.userData,
       },
     });
   };
 
   //클릭하면 isLogin 번경
   handleLoginClick = () => {
-    this.setState({ isLogin: !this.state.isLogin }); 
+    setTimeout(() => {
+      this.setState({ isLogin: !this.state.isLogin }); 
+    }, 1000)
   };
 
   render() {
-    const { isLogin, userInfo } = this.state;
+    const { isLogin, token, userInfo } = this.state;
     return (
       <Switch>
         <Route
@@ -46,21 +48,20 @@ class App extends React.Component {
             <Login
               isLogin={isLogin}
               userInfo={userInfo}
+              token={token}
               getUserData={this.getUserData}
               handleLoginClick={this.handleLoginClick}
             />
           )}
         />
-        <Route
-          path="/signup"
-          render={() => <Signup />}
-        />
+        <Route path="/signup" render={() => <Signup />} />
         <Route
           path="/main"
           render={() => (
             <Listup
               isLogin={isLogin}
               userInfo={userInfo}
+              token={token}
               getUserData={this.getUserData}
               handleLoginClick={this.handleLoginClick}
             />

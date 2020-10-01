@@ -75,6 +75,7 @@ class Signup extends React.Component {
             <h1>Sign Up</h1>
 
             <div className="inputArea">
+              Email
               <input
                 id="inputEmail"
                 type="email"
@@ -82,7 +83,7 @@ class Signup extends React.Component {
                 onChange={this.handleInputValue("email")}
               ></input>
               <button
-                className="signup_check"
+                id="checkSignupBtn"
                 onClick={() => {
                   this.handleSignUp();
                 }}
@@ -90,48 +91,58 @@ class Signup extends React.Component {
                 중복확인
               </button>
             </div>
+          
+          <div className="inputArea">
+            이름
+            <input
+              id="inputUsername"
+              type="username"
+              placeholder="이름을 입력 해주세요"
+              onChange={this.handleInputValue("username")}
+            ></input>
+            
+            {this.checkUsername(this.state.username) ? (
+              <span style={{ color: "green" }}>
+                <img src="tick.png" width="15em" />
+                확인
+              </span>
+            ) : (
+              <span style={{ color: "red" }}>유저 이름을 입력해주세요</span>
+            )}
+          </div>
+      
+          <div className="inputArea">
+            비밀번호
+            <input
+              className="inputPassword"
+              type="password"
+              placeholder="비밀번호를 입력 해주세요"
+              onChange={this.handleInputValue("password")}
+            ></input>
 
-            <div className="inputArea">
-              <input
-                id="inputUsername"
-                type="username"
-                placeholder="이름을 입력 해주세요"
-                onChange={this.handleInputValue("username")}
-              ></input>
-              
-              {this.checkUsername(this.state.username) ? (
-                <span style={{ color: "green" }}>
-                  <img src="tick.png" width="15em" />
-                  확인
-                </span>
-              ) : (
-                <span style={{ color: "red" }}>유저 이름을 입력해주세요</span>
-              )}
-            </div>
-        
-            <div className="inputArea">
-              <input
-                className="inputPassword"
-                type="password"
-                placeholder="비밀번호를 입력 해주세요"
-                onChange={this.handleInputValue("password")}
-              ></input>
-              <input
-                className="inputPassword"
-                type="password"
-                placeholder="비밀번호를 입력 해주세요"
-                onChange={this.handleInputValue("password2")}
-              ></input>
-              {this.checkPassword(this.state.password, this.state.password2) ? (
-                <span style={{ color: "green" }}>
-                  <img src="tick.png" width="15em" />
-                  확인
-                </span>
-              ) : (
-                <span style={{ color: "red" }}>영문,숫자 조합 8-12글자 입력</span>
-              )}
-            </div>
+            {this.checkPassword(this.state.password, this.state.password2) ? (
+              <span style={{ color: "green" }}>
+                <img src="tick.png" width="15em" />
+                확인
+              </span>
+            ) : (
+              <span style={{ color: "red" }}>영문,숫자 조합 6-12글자 입력</span>
+            )}
+            <br/>
 
+            비밀번호 확인
+            <input
+              className="inputPassword"
+              type="password"
+              placeholder="비밀번호를 입력 해주세요"
+              onChange={this.handleInputValue("password2")}
+            ></input>
+            
+          </div>
+        </div>
+        {/* inputArea 끝 */}
+
+          <div className="signupArea">
             <button
               id="goToLoginBtn"
               onClick={() => {
@@ -144,31 +155,28 @@ class Signup extends React.Component {
               id="submitSignupBtn"
               onClick={() => {
                 this.postSignup();
-                //this.props.history.push("/login");
               }}
             >
               회원가입
             </button>
           </div>
-        
-          <div>
-            <div className="signup_social">
-              <button
-                className="signup_btnGoogle"
-                type="submit"
-                onClick={() => {}}
-              >
-                Google
-              </button>
-              <button
-                className="signup_btnGithub"
-                type="submit"
-                onClick={() => {}}
-              >
-                Github
-              </button>
-            </div>
-          </div>
+          
+          <div className="signupSocialArea">
+            <button
+              id="submitGithuBtn"
+              type="submit"
+              onClick={() => {}}
+            >
+              Github
+            </button>
+            <button
+              id="submitNaverBtn"
+              type="submit"
+              onClick={() => {}}
+            >
+              Naver
+            </button>
+        </div>
         </center>
       </div>
     );
