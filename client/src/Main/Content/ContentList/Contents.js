@@ -3,21 +3,29 @@ import { withRouter, useHistory, Redirect } from "react-router-dom";
 import ContentsEntry from "./ContentsEntry";
 
 class Contents extends React.Component {
-  constructor(props){
-    super(props)
+  constructor(props) {
+    super(props);
   }
-  render(){
-    const {contentsList, handleClickedContent, clickedContent, editBtn, handleClickedContnet, newPost, userInfo } = this.props
+  render() {
+    const {
+      contentsList,
+      handleClickedContent,
+      clickedContent,
+      editBtn,
+      handleClickedContnet,
+      newPost,
+      userInfo,
+    } = this.props;
 
     return (
       <div className="container" id="middle">
-      {(newPost) ? <Redirect to='/main/post' /> : ''}
+        {newPost ? <Redirect to="/main/post" /> : ""}
 
         <button
           id="newPostBtn"
           onClick={() => {
             console.log("클릭되나");
-            handleClickedContnet()
+            handleClickedContnet();
             // this.props.clickNewMessage();
           }}
         >
@@ -33,6 +41,6 @@ class Contents extends React.Component {
       </div>
     );
   }
-};
+}
 
 export default withRouter(Contents);

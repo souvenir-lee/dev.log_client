@@ -11,10 +11,10 @@ axios.defaults.withCredentials = "include";
 
 class Listup extends React.Component {
   constructor(props) {
-    super(props); 
+    super(props);
     this.state = {
       clickedContent: {
-        id: null,
+        id: "",
         categoryId: "",
         username: "",
         title: "",
@@ -54,9 +54,18 @@ class Listup extends React.Component {
 
   render() {
     const {
-      isLogin, isMypage, token, userInfo, categoryId, contentsList,
-      handleGetDefault, handleInputCategory, handleContentList,
-      getUserData, handleMypage, handleLoginClick,
+      isLogin,
+      isMypage,
+      token,
+      userInfo,
+      categoryId,
+      contentsList,
+      handleGetDefault,
+      handleInputCategory,
+      handleContentList,
+      getUserData,
+      handleMypage,
+      handleLoginClick,
     } = this.props;
     console.log("listup props", this.props);
     const {
@@ -67,7 +76,7 @@ class Listup extends React.Component {
       clickNewMessage,
       clickEditBtn,
     } = this.state;
-    console.log(categoryId)
+    console.log(categoryId);
 
     if (categoryId === "전체보기") {
       this.props.handleGetDefault();
@@ -142,6 +151,7 @@ class Listup extends React.Component {
                   contentsList={contentsList}
                   clickEditBtn={clickEditBtn}
                   clickedContent={clickedContent}
+                  userInfo={userInfo}
                 />
               )}
             ></Route>

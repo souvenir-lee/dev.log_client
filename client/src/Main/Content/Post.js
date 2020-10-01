@@ -7,13 +7,13 @@ axios.defaults.withCredentials = "include";
 class Post extends React.Component {
   constructor(props) {
     super(props);
-    console.log("콘솔", this.props);
+    console.log("포스트", this.props);
     this.state = {
       categoryId: "",
       title: "",
       message: "",
       names: [],
-      isPost : false
+      isPost: false,
     };
     this.handleInputValue = this.handleInputValue.bind(this);
     this.handlePost = this.handlePost.bind(this);
@@ -35,8 +35,8 @@ class Post extends React.Component {
   handlePost = () => {
     console.log(this.state);
     axios
-      //.post("http://devyeon.com/posts/create", {
-      .post("http://localhost:4000/posts/create", {  
+      .post("http://localhost:4000/posts/create", {
+        // .post("http://devyeon.com/posts/create", {
         categoryId: this.state.categoryId,
         userId: this.props.userInfo.id,
         message: this.state.message,
@@ -45,7 +45,7 @@ class Post extends React.Component {
       .then((res) => {
         if (res.status === 201) {
           //새글 쓰고 main으로 이동
-          this.setState({ isPost : !this.state.isPost})
+          this.setState({ isPost: !this.state.isPost });
           //this.props.history.push("/main");
         }
       });
@@ -55,7 +55,12 @@ class Post extends React.Component {
     await this.handleInputValue("message");
     await axios
 
-       .put("http://localhost:4000/posts/update", this.state)
+      .put("http://localhost:4000/posts/update", {
+        id: "",
+        categoryId: "",
+        message: "",
+        title: "",
+      })
       // .put("http://devyeon.com/posts/update", this.state)
       .then((res) => {
         if (res.status === 200) {
@@ -71,7 +76,7 @@ class Post extends React.Component {
 
     return (
       <div className="post">
-      {(this.state.isPost) ? <Redirect to="/main" /> : ''}
+        {this.state.isPost ? <Redirect to="/main" /> : ""}
         <center>
           <select
             className="post_tag"

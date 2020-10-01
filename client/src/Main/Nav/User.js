@@ -6,9 +6,9 @@ axios.defaults.withCredentials = "include";
 class User extends React.Component {
   constructor(props) {
     super(props);
-    this.state={
-      isMypage : false
-    }
+    this.state = {
+      isMypage: false,
+    };
   }
 
   render() {
@@ -24,8 +24,8 @@ class User extends React.Component {
 
     return (
       <div className="userArea">
-      {(!isLogin) ? <Redirect to="/login" /> : ''}
-      {(isMypage) ? <Redirect to="/mypage" /> : ''}
+        {!isLogin ? <Redirect to="/login" /> : ""}
+        {isMypage ? <Redirect to="/mypage" /> : ""}
 
         <button
           id="logoutBtn"
@@ -35,7 +35,7 @@ class User extends React.Component {
               .post("http://localhost:4000/users/logout")
               //axios.post('https://devyeon.com/users/logout', token)
               .then((result) => {
-                getUserData(result)
+                getUserData(result);
                 handleLoginClick(); //로그아웃 되었을 때 토큰 없애기
               })
               .catch((error) => console.log(error));
@@ -52,8 +52,8 @@ class User extends React.Component {
               .get("http://localhost:4000/users/info", userInfo.token) //마이페이지로 리다이렉트
               //.get("https://devyeon.com/users/info",) //마이페이지로 리다이렉트
               .then((res) => {
-                handleMypage()
-              })
+                handleMypage();
+              });
           }}
         >
           마이페이지
