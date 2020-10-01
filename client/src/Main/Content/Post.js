@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import { Link, Route, Redirect, withRouter } from "react-router-dom";
 import CKEditor from "ckeditor4-react";
+axios.defaults.withCredentials = "include";
 
 class Post extends React.Component {
   constructor(props) {
@@ -34,9 +35,10 @@ class Post extends React.Component {
   handlePost = () => {
     console.log(this.state);
     axios
-      .post("http://devyeon.com/posts/create", {
+      //.post("http://devyeon.com/posts/create", {
+      .post("http://localhost:4000/posts/create", {  
         categoryId: this.state.categoryId,
-        userId: this.props.userInfo.userId,
+        userId: this.props.userInfo.id,
         message: this.state.message,
         title: this.state.title,
       })

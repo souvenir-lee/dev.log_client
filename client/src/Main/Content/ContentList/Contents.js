@@ -5,22 +5,19 @@ import ContentsEntry from "./ContentsEntry";
 class Contents extends React.Component {
   constructor(props){
     super(props)
-    this.state = {
-      isPost : false
-    }
   }
   render(){
-    const {contentsList, handleClickedContent, clickedContent, handleGetDefault, editBtn, userInfo } = this.props
+    const {contentsList, handleClickedContent, clickedContent, editBtn, handleClickedContnet, newPost, userInfo } = this.props
 
     return (
       <div className="container" id="middle">
-      {(this.state.isPost) ? <Redirect to='/main/post' /> : ''}
+      {(newPost) ? <Redirect to='/main/post' /> : ''}
 
         <button
           id="newPostBtn"
           onClick={() => {
             console.log("클릭되나");
-            this.setState({ isPost : true})
+            handleClickedContnet()
             // this.props.clickNewMessage();
           }}
         >
