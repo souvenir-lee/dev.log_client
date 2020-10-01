@@ -7,8 +7,9 @@ import Post from "../Main/Content/Post";
 import ContentDetail from "../Main/Content/ContentDetail/ContentDetail";
 import Mypage from "../Mypage";
 import axios from "axios";
-axios.defaults.withCredentials = true;
-//import Scrap from "../src/Main/Scrap";
+import Scrap from "../Main/Scrap";
+axios.defaults.withCredentials = "include";
+
 
 class Listup extends React.Component {
   constructor(props) {
@@ -99,6 +100,7 @@ class Listup extends React.Component {
   render() {
     const {
       isLogin,
+      token,
       userInfo,
       handleLoginClick,
       getUserData,
@@ -135,6 +137,7 @@ class Listup extends React.Component {
       <div id="outer">
         <Nav
           isLogin={isLogin}
+          token={token}
           userInfo={userInfo}
           handleLoginClick={handleLoginClick}
           getUserData={getUserData}
@@ -144,6 +147,7 @@ class Listup extends React.Component {
 
         {(this.state.newPost) ? <Redirect to="/main/post" /> : ""}  
           <Category
+            token={token}
             category={category}
             handleInputCategory={this.handleInputCategory}
           />
@@ -155,6 +159,7 @@ class Listup extends React.Component {
               render={() => (
                 <Post
                   userInfo={userInfo}
+                  token={token}
                   editBtn={editBtn}
                   clickEditBtn={clickEditBtn}
                 />
@@ -166,6 +171,7 @@ class Listup extends React.Component {
               render={() => (
                 <Contents
                   // cateory={category} post에 카테고리가 필요한가?
+                  token={token}
                   contentsList={contentsList}
                   handleClickedContent={this.handleClickedContent}
                   clickedContent={clickedContent}
@@ -180,6 +186,7 @@ class Listup extends React.Component {
               path="/main/detail"
               render={() => (
                 <ContentDetail
+                  token={token}
                   cateory={category}
                   contentsList={contentsList}
                   clickEditBtn={clickEditBtn}
@@ -193,6 +200,7 @@ class Listup extends React.Component {
               render={() => (
                 <Mypage
                   isLogin={isLogin}
+                  token={token}
                   userInfo={userInfo}
                 />
               )}

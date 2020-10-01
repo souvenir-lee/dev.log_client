@@ -12,6 +12,7 @@ class Post extends React.Component {
       title: "",
       message: "",
       names: [],
+      isPost : false
     };
     this.handleInputValue = this.handleInputValue.bind(this);
     this.handlePost = this.handlePost.bind(this);
@@ -35,13 +36,15 @@ class Post extends React.Component {
     axios
       .post("http://devyeon.com/posts/create", {
         categoryId: this.state.categoryId,
-        userId: this.props.serverinfo.userId,
+        userId: this.props.userInfo.userId,
         message: this.state.message,
         title: this.state.title,
       })
       .then((res) => {
         if (res.status === 201) {
-          this.props.history.push("/main");
+          //새글 쓰고 main으로 이동
+          this.setState({ isPost : !this.state.isPost})
+          //this.props.history.push("/main");
         }
       });
   };
@@ -66,6 +69,7 @@ class Post extends React.Component {
 
     return (
       <div className="post">
+      {(this.state.isPost) ? <Redirect to="/main" /> : ''}
         <center>
           <select
             className="post_tag"

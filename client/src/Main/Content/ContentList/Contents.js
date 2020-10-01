@@ -1,5 +1,4 @@
 import React from "react";
-import { render } from "react-dom";
 import { withRouter, useHistory, Redirect } from "react-router-dom";
 import ContentsEntry from "./ContentsEntry";
 

@@ -8,7 +8,7 @@ import { Redirect, withRouter } from "react-router-dom";
 
 const Logo = (props) => (
   <div 
-    className="nav_logo" 
+    className="navLogo" 
     onClick={() => <Redirect to="/" />}>
     프로젝트 명 및 이미지
     <img src="" alt="우리 웹 사이트 마크"/>

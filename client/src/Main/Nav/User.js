@@ -1,7 +1,7 @@
 import React from "react";
 import { Redirect, withRouter } from "react-router-dom";
 import axios from "axios";
-axios.defaults.withCredentials = true;
+axios.defaults.withCredentials = "include";
 
 class User extends React.Component {
   constructor(props) {
@@ -14,13 +14,14 @@ class User extends React.Component {
   render() {
     const {
       isLogin,
+      token,
       userInfo,
       getUserData,
       handleLoginClick,
     } = this.props;
 
     return (
-      <div>
+      <div className="userArea">
       {(!isLogin) ? <Redirect to="/login" /> : ''}
       {(this.state.isMypage) ? <Redirect to="/mypage" /> : ''}
 
@@ -31,9 +32,9 @@ class User extends React.Component {
             //axios
               //.post("http://localhost:4000/users/logout")
               axios.post('https://devyeon.com/users/logout', userInfo.token)
-              .then(() => {
-                handleLoginClick();
-                //this.props.history.push("/login"); //변경된 API
+              .then((result) => {
+                getUserData(result)
+                handleLoginClick(); //로그아웃 되었을 때 토큰 없애기
               })
               .catch((error) => console.log(error));
           }}
@@ -46,7 +47,7 @@ class User extends React.Component {
           onClick={() => {
             console.log("user에서 userInfo", userInfo);
             axios
-              //.get("http://localhost:4000/users/info", serverinfo.token) //마이페이지로 리다이렉트
+              //.get("http://localhost:4000/users/info", userInfo.token) //마이페이지로 리다이렉트
               .get("https://devyeon.com/users/info",) //마이페이지로 리다이렉트
               .then((res) => {
                 getUserData(res);
