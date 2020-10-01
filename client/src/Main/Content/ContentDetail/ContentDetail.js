@@ -8,18 +8,42 @@ class ContentDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: this.props.username,
-      title: this.props.title,
-      message: this.props.message,
+      commentCount: 0,
+      comments: [
+        {
+          id: "",
+          username: "",
+          message: "",
+        },
+      ],
     };
+    this.commentCount = this.commentCount.bind(this);
+    // console.log("디테일정보id", this.props.clickedContent.id);
+    // console.log("디테일정보", this.props.clickedContent);
   }
-  //1.해당 컨텐츠를 클릭했을때 ContentDetail로 이동하고 해당 이름,제목,내용을 띄운다
-  //post
+  commentCount = () => {
+    this.setState({ commentCount: +1 });
+  };
+  createComment = (data) => {
+    this.setState({ comments: data });
+  };
+  getComments = () => {
+    axios
+      .get(
+        `http://localhost:4000/comments/list/${this.props.clickedContent.id}`
+      )
+      .then((res) => {
+        this.setState({ comments: res.data });
+      });
+  };
   deleteMessage = () => {
     axios
 
-      // .delete("http://localhost:4000/posts/delete", this.props.id)
-       .delete("http://devyeon.com/posts/delete", this.props.id)
+      .post("http://localhost:4000/posts/delete", {
+        id: this.props.clickedContent.id,
+      })
+      //  .delete("http://devyeon.com/posts/delete", {
+      // id: this.props.clickedContent.id})
       .then((res) => {
         if (res.status === 200) {
           alert("삭제되었습니다.");
@@ -31,17 +55,20 @@ class ContentDetail extends React.Component {
   editMessage = () => {
     this.props.history.push("/main/post");
     axios
-      .get(`http://devyeon.com/posts/info/${this.props.contentsList.id}`)
-      // .get(`http://localhost:4000/posts/info/${this.props.contentsList.id}`)
+      // .get(`http://devyeon.com/posts/info/${this.props.contentsList.id}`)
+      .get(`http://localhost:4000/posts/info/${this.props.clickedContent.id}`)
       .then((res) => {
         // await axios.get(`http://localhost:4000/posts/info/${this.props.contentsList.id}`).then((res) => {
         //main/post의 state가 바뀌어야함
-        this.props.clickEditBtn();
-        this.props.handleClickedContent();
+        // this.props.clickEditBtn();
+        // this.props.handleClickedContent();
+        console.log(this.props.clickedContent);
       });
   };
 
   render() {
+    const { clickedContent, userInfo, getComments } = this.props;
+    const { commentCount, comments } = this.state;
     return (
       <div className="contentdetail">
         <div className="contentdetail_content">
@@ -76,7 +103,13 @@ class ContentDetail extends React.Component {
             수정하기
           </button>
         </div>
-        <Comment />
+        <Comment
+          clickedContent={clickedContent}
+          commentCount={commentCount}
+          comments={comments}
+          userInfo={userInfo}
+          getComments={getComments}
+        />
         <button
           className="contentdetail_btnBack"
           onClick={() => {

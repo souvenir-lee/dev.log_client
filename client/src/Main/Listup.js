@@ -10,7 +10,6 @@ import axios from "axios";
 import Scrap from "../Main/Scrap";
 axios.defaults.withCredentials = "include";
 
-
 class Listup extends React.Component {
   constructor(props) {
     super(props); //isLogin, userInfo, handleIsLoginChange
@@ -27,11 +26,11 @@ class Listup extends React.Component {
         },
       ],
       clickedContent: {
-        id: null,
-        // categoryId: null,
-        // username: "디테일 username",
-        // title: "디테일 title",
-        // message: "디테일 message",
+        id: "",
+        categoryId: "",
+        username: "",
+        title: "",
+        message: "",
       },
       newPost: false,
       editBtn: false,
@@ -41,7 +40,7 @@ class Listup extends React.Component {
     this.handleContentList = this.handleContentList.bind(this);
     this.handleGetDefault = this.handleGetDefault.bind(this);
     this.handleClickedContent = this.handleClickedContent.bind(this);
-    this.clickNewMessage = this.clickNewMessage.bind(this)
+    this.clickNewMessage = this.clickNewMessage.bind(this);
     this.clickEditBtn = this.clickEditBtn.bind(this);
   }
 
@@ -70,13 +69,13 @@ class Listup extends React.Component {
 
   //새글 쓰기 리다이렉트
   clickNewMessage = () => {
-    this.setState({newPost : !this.state.newPost})
-  }
+    this.setState({ newPost: !this.state.newPost });
+  };
 
   //기본 contestList 불러오는 함수, category
   handleGetDefault = () => {
-    //axios.get(`http://localhost:4000/posts/list`).then((res) => {
-       axios.get(`https://devyeon.com/posts/list`).then((res) => {
+    axios.get(`http://localhost:4000/posts/list`).then((res) => {
+      //  axios.get(`https://devyeon.com/posts/list`).then((res) => {
       console.log(res.data);
       this.setState({ contentsList: res.data });
     });
@@ -84,8 +83,8 @@ class Listup extends React.Component {
 
   //필터링된 contestList 불러오는 함수
   handleContentList = (value) => {
-    //axios.get(`http://localhost:4000/posts/category/${value}`).then((res) => {
-       axios.get(`https://devyeon.com/posts/category/${value}`).then((res) => {
+    axios.get(`http://localhost:4000/posts/category/${value}`).then((res) => {
+      //  axios.get(`https://devyeon.com/posts/category/${value}`).then((res) => {
       console.log(res.data);
       this.setState({ contentsList: res.data });
     });
@@ -144,8 +143,7 @@ class Listup extends React.Component {
         />
 
         <div className="container" id="main">
-
-        {(this.state.newPost) ? <Redirect to="/main/post" /> : ""}  
+          {this.state.newPost ? <Redirect to="/main/post" /> : ""}
           <Category
             token={token}
             category={category}
@@ -191,6 +189,7 @@ class Listup extends React.Component {
                   contentsList={contentsList}
                   clickEditBtn={clickEditBtn}
                   clickedContent={clickedContent}
+                  userInfo={userInfo}
                 />
               )}
             ></Route>
@@ -198,11 +197,7 @@ class Listup extends React.Component {
               exact
               path="/mypage"
               render={() => (
-                <Mypage
-                  isLogin={isLogin}
-                  token={token}
-                  userInfo={userInfo}
-                />
+                <Mypage isLogin={isLogin} token={token} userInfo={userInfo} />
               )}
             />
           </Switch>
