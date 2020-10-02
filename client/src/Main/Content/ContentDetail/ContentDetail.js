@@ -24,26 +24,28 @@ class ContentDetail extends React.Component {
   commentCount = () => {
     this.setState({ commentCount: +1 });
   };
-  createComment = (data) => {
-    this.setState({ comments: data });
-  };
+  // createComment = (data) => {
+  //   this.setState({ comments: data });
+  // };
   getComments = () => {
     axios
-      .get(
-        `http://localhost:4000/comments/list/${this.props.clickedContent.id}`
-      )
+      // .get(
+      //   `http://localhost:4000/comments/list/${this.props.clickedContent.id}`
+      // )
+      .get(`https://devyeon.com/comments/list/${this.props.clickedContent.id}`)
       .then((res) => {
         this.setState({ comments: res.data });
       });
   };
   deleteMessage = () => {
     axios
-
-      .post("http://localhost:4000/posts/delete", {
+      .post("https://devyeon.com/posts/delete", {
         id: this.props.clickedContent.id,
       })
-      //  .delete("http://devyeon.com/posts/delete", {
-      // id: this.props.clickedContent.id})
+      // .post("http://localhost:4000/posts/delete", {
+      //   id: this.props.clickedContent.id,
+      // })
+
       .then((res) => {
         if (res.status === 200) {
           alert("삭제되었습니다.");
@@ -55,8 +57,8 @@ class ContentDetail extends React.Component {
   editMessage = () => {
     this.props.history.push("/main/post");
     axios
-      // .get(`http://devyeon.com/posts/info/${this.props.contentsList.id}`)
-      .get(`http://localhost:4000/posts/info/${this.props.clickedContent.id}`)
+      .get(`https://devyeon.com/posts/info/${this.props.clickedContent.id}`)
+      // .get(`http://localhost:4000/posts/info/${this.props.clickedContent.id}`)
       .then((res) => {
         // await axios.get(`http://localhost:4000/posts/info/${this.props.contentsList.id}`).then((res) => {
         //main/post의 state가 바뀌어야함
@@ -67,16 +69,16 @@ class ContentDetail extends React.Component {
   };
 
   render() {
-    const { clickedContent, userInfo, getComments } = this.props;
-    const { commentCount, comments } = this.state;
+    const { clickedContent, userInfo } = this.props;
+    const { commentCount, comments, createComment, getComments } = this.state;
     return (
       <div className="contentdetail">
         <div className="contentdetail_content">
           <div className="contentdetail_username">
-            {this.props.clickedContent.username}
+            작성자{this.props.clickedContent.username}
           </div>
           <div className="contentdetail_title">
-            {this.props.clickedContent.title}
+            제목{this.props.clickedContent.title}
           </div>
         </div>
         <div
@@ -104,10 +106,13 @@ class ContentDetail extends React.Component {
           </button>
         </div>
         <Comment
+          userInfo={userInfo}
+          comments={comments}
           clickedContent={clickedContent}
           commentCount={commentCount}
-          comments={comments}
-          userInfo={userInfo}
+          getComments={getComments}
+          createComment={createComment}
+          commentCount={commentCount}
           getComments={getComments}
         />
         <button

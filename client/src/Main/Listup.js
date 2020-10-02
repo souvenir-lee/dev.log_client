@@ -5,14 +5,26 @@ import Category from "../Main/Category/Category";
 import Contents from "../Main/Content/ContentList/Contents";
 import Post from "../Main/Content/Post";
 import ContentDetail from "../Main/Content/ContentDetail/ContentDetail";
+import Mypage from "../Mypage";
+import Custom from "../Main/Custom/Custom";
 import axios from "axios";
 axios.defaults.withCredentials = "include";
-//import Scrap from "../src/Main/Scrap";
-
 class Listup extends React.Component {
   constructor(props) {
-    super(props);
+    super();
     this.state = {
+      categoryId: 0,
+      category: "전체보기",
+      contentsList: [
+        {
+          id: "", //postId
+          categoryId: "",
+          username: "",
+          title: "",
+          message: "",
+          view_count: "",
+        },
+      ],
       clickedContent: {
         id: "",
         categoryId: "",
@@ -22,15 +34,46 @@ class Listup extends React.Component {
       },
       newPost: false,
       editBtn: false,
+      isMypage: false,
+      customListOp: "scrap",
       //currentContent: {},
     };
+    this.handleInputCategory = this.handleInputCategory.bind(this);
+    this.handleGetDefault = this.handleGetDefault.bind(this);
+    this.handleContentList = this.handleContentList.bind(this);
     this.handleClickedContent = this.handleClickedContent.bind(this);
     this.clickNewMessage = this.clickNewMessage.bind(this);
     this.clickEditBtn = this.clickEditBtn.bind(this);
+    this.handleMypage = this.handleMypage.bind(this);
   }
 
-  clickEditBtn = () => {
-    this.setState({ editBtn: true });
+  //category state 끌어올리기
+  handleInputCategory = (e) => {
+    const list = ["전체보기", "Grapefruit", "Lime", "Coconut", "Mango"];
+    this.setState({ category: e.target.innerHTML });
+    this.setState({
+      categoryId: list.indexOf(e.target.innerHTML),
+    });
+    this.handleContentList(this.state.categoryId);
+    // console.log("카테고리~!!!");
+  };
+
+  //기본 contestList 불러오는 함수, category
+  handleGetDefault = () => {
+    // axios.get(`http://localhost:4000/posts/list`).then((res) => {
+    axios.get(`https://devyeon.com/posts/list`).then((res) => {
+      // console.log(res.data);
+      this.setState({ contentsList: res.data });
+    });
+  };
+
+  //필터링된 contentList 불러오는 함수
+  handleContentList = (value) => {
+    // axios.get(`http://localhost:4000/posts/category/${value}`).then((res) => {
+    axios.get(`https://devyeon.com/posts/category/${value}`).then((res) => {
+      console.log(res.data);
+      this.setState({ contentsList: res.data });
+    });
   };
 
   handleClickedContent = (data) => {
@@ -42,6 +85,9 @@ class Listup extends React.Component {
     this.setState({ newPost: !this.state.newPost });
   };
 
+  clickEditBtn = () => {
+    this.setState({ editBtn: true });
+  };
   // editDetail = (data) => {
   //   this.setState({
   //     contentsList: {
@@ -51,47 +97,47 @@ class Listup extends React.Component {
   //     },
   //   });
   // };
-
+  //마이페이지 바꾸기
+  handleMypage = () => {
+    this.setState({ isMypage: !this.state.isMypage });
+    console.log("마이페이지");
+  };
+  //시작하자마자 전체 데이터 뿌려주는 함수 -> 주기함수 써야 함.
+  componentDidMount() {
+    this.handleGetDefault();
+  }
   render() {
     const {
+      getUserData,
+      handleLoginClick,
       isLogin,
-      isMypage,
       token,
       userInfo,
-      categoryId,
-      contentsList,
-      handleGetDefault,
-      handleInputCategory,
-      handleContentList,
-      getUserData,
-      handleMypage,
-      handleLoginClick,
     } = this.props;
-    console.log("listup props", this.props);
+    // console.log("listup props", this.props);
     const {
+      category,
+      categoryId,
       clickedContent,
+      contentsList,
+      customListOp,
       editBtn,
+      isMypage,
       newPost,
+    } = this.state;
+    const {
+      handleInputCategory,
+      handleGetDefault,
+      handleContentList,
       handleClickedContent,
       clickNewMessage,
       clickEditBtn,
-    } = this.state;
-    console.log(categoryId);
-
-    if (categoryId === "전체보기") {
-      this.props.handleGetDefault();
-    } else if (categoryId === "Grapefruit") {
-      handleContentList("1");
-    } else if (categoryId === "Lime") {
-      handleContentList("2");
-    } else if (categoryId === "Coconut") {
-      handleContentList("3");
-    } else if (categoryId === "Mango") {
-      handleContentList("4");
-    }
-
+      handleMypage,
+    } = this;
     return (
       <div id="outer">
+        {!isLogin ? <Redirect to="/login" /> : ""}
+        {isMypage ? <Redirect to="/main/mypage" /> : <Redirect to="/main" /> }
         <Nav
           isLogin={isLogin}
           token={token}
@@ -101,14 +147,14 @@ class Listup extends React.Component {
           handleLoginClick={handleLoginClick}
           getUserData={getUserData}
         />
-
         <div className="container" id="main">
-          {this.state.newPost ? <Redirect to="/main/post" /> : ""}
+          {newPost ? <Redirect to="/main/post" /> : ""}
           <Category
+            token={token}
             categoryId={categoryId}
+            category={category}
             handleInputCategory={handleInputCategory}
           />
-
           <Switch>
             <Route
               exact
@@ -127,14 +173,14 @@ class Listup extends React.Component {
               path="/main"
               render={() => (
                 <Contents
-                  // cateory={category} post에 카테고리가 필요한가?
+                  // category={category} post에 카테고리가 필요한가?
                   token={token}
                   userInfo={userInfo}
                   contentsList={contentsList}
                   clickedContent={clickedContent}
                   newPost={newPost}
                   editBtn={editBtn}
-                  handleClickedContent={this.handleClickedContent}
+                  handleClickedContent={handleClickedContent}
                   clickNewMessage={clickNewMessage}
                 />
               )}
@@ -144,23 +190,34 @@ class Listup extends React.Component {
               path="/main/detail"
               render={() => (
                 <ContentDetail
-                  categoryId={categoryId}
                   token={token}
-                  handleClickedContent={handleClickedContent}
-                  contentsList={contentsList}
-                  clickEditBtn={clickEditBtn}
-                  clickedContent={clickedContent}
                   userInfo={userInfo}
+                  categoryId={categoryId}
+                  clickedContent={clickedContent}
+                  handleClickedContent={handleClickedContent}
+                  clickEditBtn={clickEditBtn}
                 />
               )}
             ></Route>
+            <Route
+              exact
+              path="/main/mypage"
+              render={() => (
+                <Mypage
+                  isLogin={isLogin}
+                  isMypage={isMypage}
+                  userInfo={userInfo}
+                  token={token}
+                  handleMypage={handleMypage}
+                />
+              )}
+            />
           </Switch>
-          {/*
-          <Scrap />*/}
+          <Custom userInfo={userInfo} token={token} />
+          {console.log("-----")}
         </div>
       </div>
     );
   }
 }
-
 export default Listup;

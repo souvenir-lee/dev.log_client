@@ -9,7 +9,7 @@ class Comment extends React.Component {
     this.state = {
       commentValue: "",
     };
-    console.log("댓글", this.props.userInfo);
+    console.log("댓글", this.props.comments);
   }
   handleInputValue = (key) => (e) => {
     this.setState({ [key]: e.target.value });
@@ -17,17 +17,17 @@ class Comment extends React.Component {
 
   handleCommentClick = () => {
     axios
-
-      .post("http://localhost:4000/comments/create", {
+      .post("https://devyeon.com/comments/create", {
+        // .post("http://localhost:4000/comments/create", {
         userId: this.props.userInfo.id,
         postId: this.props.clickedContent.id,
         message: this.state.commentValue,
         email: this.props.userInfo.email,
       })
-      //  .post("http://devyeon.com/comments/create", this.state.inputComment)
       .then((res) => {
         if (res.status === 200) {
-          this.setState({ comments: res });
+          this.props.getComments(res.data);
+          this.props.commentCount();
         }
         //   this.props.getUserData(res.data);
       });
@@ -55,7 +55,7 @@ class Comment extends React.Component {
           </button>
         </div>
         {this.props.comments.map((comment) => (
-          <CommentEntry comments={comments} />
+          <CommentEntry comment={comment} />
         ))}
       </div>
     );
