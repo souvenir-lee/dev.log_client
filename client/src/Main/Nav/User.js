@@ -1,39 +1,40 @@
 import React from "react";
-import { Redirect, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import axios from "axios";
-axios.defaults.withCredentials = true;
+axios.defaults.withCredentials = "include";
 
 class User extends React.Component {
   constructor(props) {
     super(props);
-    this.state={
-      isMypage : false
-    }
+    this.state = {
+      isMypage: false,
+    };
   }
 
   render() {
     const {
-      isLogin,
+      token,
       userInfo,
+      handleMypage,
       getUserData,
       handleLoginClick,
     } = this.props;
 
     return (
-      <div>
-      {(!isLogin) ? <Redirect to="/login" /> : ''}
-      {(this.state.isMypage) ? <Redirect to="/mypage" /> : ''}
+      <div className="userArea">
+        {/* {!isLogin ? <Redirect to="/login" /> : ""} */}
 
         <button
           id="logoutBtn"
           onClick={() => {
             console.log("클랙 props", this.props.userInfo);
-            //axios
-              //.post("http://localhost:4000/users/logout")
-              axios.post('https://devyeon.com/users/logout', userInfo.token)
-              .then(() => {
-                handleLoginClick();
-                //this.props.history.push("/login"); //변경된 API
+            axios
+              .post("https://devyeon.com/users/logout", {
+                token: token,
+              })
+              .then((result) => {
+                getUserData(result);
+                handleLoginClick(); //로그아웃 되었을 때 토큰 없애기
               })
               .catch((error) => console.log(error));
           }}
@@ -46,12 +47,15 @@ class User extends React.Component {
           onClick={() => {
             console.log("user에서 userInfo", userInfo);
             axios
-              //.get("http://localhost:4000/users/info", serverinfo.token) //마이페이지로 리다이렉트
-              .get("https://devyeon.com/users/info",) //마이페이지로 리다이렉트
+              // .post("http://localhost:4000/users/info", {
+              //   token: token,
+              // }) //마이페이지로 리다이렉트
+              .post("https://devyeon.com/users/info", {
+                token: token,
+              }) //마이페이지로 리다이렉트
               .then((res) => {
-                getUserData(res);
-                this.setState({isMypage : !this.state.isMypage})
-              })
+                handleMypage();
+              });
           }}
         >
           마이페이지

@@ -1,17 +1,18 @@
 import React from "react";
 import axios from "axios";
-import { Link, Route, Redirect, withRouter } from "react-router-dom";
-import CKEditor from "ckeditor4-react";
+import { Redirect, withRouter } from "react-router-dom";
+axios.defaults.withCredentials = "include";
 
 class Post extends React.Component {
   constructor(props) {
     super(props);
-    console.log("콘솔", this.props);
+    console.log("포스트", this.props);
     this.state = {
       categoryId: "",
       title: "",
       message: "",
       names: [],
+      isPost: false,
     };
     this.handleInputValue = this.handleInputValue.bind(this);
     this.handlePost = this.handlePost.bind(this);
@@ -33,15 +34,22 @@ class Post extends React.Component {
   handlePost = () => {
     console.log(this.state);
     axios
-      .post("http://devyeon.com/posts/create", {
-        categoryId: this.state.categoryId,
-        userId: this.props.serverinfo.userId,
-        message: this.state.message,
-        title: this.state.title,
-      })
+      .post(
+        "https://devyeon.com/posts/create",
+        {
+          token: this.props.token,
+          categoryId: this.state.categoryId,
+          authorId: String(this.props.userInfo.id),
+          message: this.state.message,
+          title: this.state.title,
+        },
+        { headers: { "Access-Control-Allow-Origin": true } }
+      )
       .then((res) => {
         if (res.status === 201) {
-          this.props.history.push("/main");
+          //새글 쓰고 main으로 이동
+          this.setState({ isPost: !this.state.isPost });
+          //this.props.history.push("/main");
         }
       });
   };
@@ -49,12 +57,14 @@ class Post extends React.Component {
   handleEdit = async () => {
     await this.handleInputValue("message");
     await axios
-
-       .put("http://localhost:4000/posts/update", this.state)
-      // .put("http://devyeon.com/posts/update", this.state)
+      // .put("http://localhost:4000/posts/update", {
+      .put("https://devyeon.com/posts/update", {
+        token: this.props.token,
+        ...this.state,
+      })
       .then((res) => {
         if (res.status === 200) {
-          this.props.handleGetDefault();
+          // this.props.handleGetDefault();
           alert("수정이 완료되었습니다");
           this.props.history.push("/main");
         }
@@ -66,6 +76,7 @@ class Post extends React.Component {
 
     return (
       <div className="post">
+        {this.state.isPost ? <Redirect to="/main" /> : ""}
         <center>
           <select
             className="post_tag"
@@ -80,23 +91,21 @@ class Post extends React.Component {
           </select>
 
           <div>
-            <input
+            <textarea
               className="post_title"
               type="title"
               placeholder="title"
               onChange={this.handleInputValue("title")}
-            ></input>
+            ></textarea>
           </div>
 
           <div>
-            <CKEditor
+            <input
               className="post_content"
-              data="<p>Hello from CKEditor 4!</p>"
-              onInit={(editor) => {}}
-              onChange={(event) => {
-                this.setState({ message: event.editor.getData() });
-              }}
-            />
+              type="message"
+              placeholder="message"
+              onChange={this.handleInputValue("message")}
+            ></input>
             <input
               className="post_tag"
               type="tag"
@@ -109,6 +118,7 @@ class Post extends React.Component {
             type="submit"
             onClick={() => {
               //클릭했을때 /main으로 이동
+              this.props.clickNewMessage();
               this.props.history.push("/main");
             }}
           >
