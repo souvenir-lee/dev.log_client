@@ -88,7 +88,7 @@ class Listup extends React.Component {
   }
 
   clickEditBtn() {
-    this.setState({ editBtn: true });
+    this.setState({ editBtn: !this.state.editBtn });
   }
 
   //검색된 contentList 불러오는 함수
@@ -202,7 +202,12 @@ class Listup extends React.Component {
               exact
               path="/main/post"
               render={() => (
-                <Post isLogin={isLogin} token={token} userInfo={userInfo} />
+                <Post
+                  isLogin={isLogin}
+                  token={token}
+                  userInfo={userInfo}
+                  clickNewMessage={clickNewMessage}
+                />
               )}
             ></Route>
           </Switch>
