@@ -13,7 +13,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       isLogin: false,
-      isMypage :false,
+      isMypage: false,
       token: "",
       userInfo: {
         userId: "",
@@ -31,13 +31,13 @@ class App extends React.Component {
         },
       ],
     };
-    this.handleGetDefault = this.handleGetDefault.bind(this)
-    this.handleContentList = this.handleContentList.bind(this)
-    this.handleInputCategory = this.handleInputCategory.bind(this)
+    this.handleGetDefault = this.handleGetDefault.bind(this);
+    this.handleContentList = this.handleContentList.bind(this);
+    this.handleInputCategory = this.handleInputCategory.bind(this);
     this.handleLoginClick = this.handleLoginClick.bind(this);
-    this.getUserData = this.getUserData.bind(this)
-    this.handleLoginClick = this.handleLoginClick.bind(this)
-    this.handleMypage = this.handleMypage.bind(this)
+    this.getUserData = this.getUserData.bind(this);
+    this.handleLoginClick = this.handleLoginClick.bind(this);
+    this.handleMypage = this.handleMypage.bind(this);
   }
 
   componentDidMount() {
@@ -52,6 +52,7 @@ class App extends React.Component {
         // axios.get('https://devyeon.com/posts/list').then((res) => {
         console.log(res.data);
         this.setState({ contentsList: res.data });
+        this.setState({ categoryId: null });
       })
       .catch((err) => console.log(err));
   };
@@ -72,7 +73,6 @@ class App extends React.Component {
     console.log("카테고리~!!!");
   };
 
-
   //로그인 시 userInfo를 끌어올리는 함수
   getUserData = (data) => {
     this.setState({
@@ -85,22 +85,29 @@ class App extends React.Component {
 
   //클릭하면 isLogin 번경
   handleLoginClick = () => {
-    setTimeout(
-      () => {this.setState({ isLogin: !this.state.isLogin })}
-      ,500) 
+    setTimeout(() => {
+      this.setState({ isLogin: !this.state.isLogin });
+    }, 500);
   };
 
   //마이페이지 바꾸기
   handleMypage = () => {
-    this.setState({isMypage : !this.state.isMypage})
-  }
+    this.setState({ isMypage: !this.state.isMypage });
+  };
 
   render() {
-    const { isLogin, token, userInfo, categoryId, isMypage, contentsList } = this.state;
+    const {
+      isLogin,
+      token,
+      userInfo,
+      categoryId,
+      isMypage,
+      contentsList,
+    } = this.state;
     return (
       <Switch>
         <Route
-          path="/login" 
+          path="/login"
           render={() => (
             <Login
               isLogin={isLogin}
@@ -111,10 +118,7 @@ class App extends React.Component {
             />
           )}
         />
-        <Route
-          path="/signup"
-          render={() => <Signup />}
-        />
+        <Route path="/signup" render={() => <Signup />} />
         <Route
           path="/main"
           render={() => (
@@ -145,8 +149,8 @@ class App extends React.Component {
           path="/"
           render={() => {
             if (isLogin) {
-              if(isMypage) {
-                return <Redirect to='/mypage' />
+              if (isMypage) {
+                return <Redirect to="/mypage" />;
               }
               return <Redirect to="/main" />;
             }
