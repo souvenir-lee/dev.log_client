@@ -134,8 +134,7 @@ class Listup extends React.Component {
                   clickedContent={clickedContent}
                   newPost={newPost}
                   editBtn={editBtn}
-                  handleClickedContent={handleClickedContent}
-                  handleClickedContent={handleClickedContent}
+                  handleClickedContent={this.handleClickedContent}
                   clickNewMessage={clickNewMessage}
                 />
               )}
