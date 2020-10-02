@@ -9,7 +9,6 @@ import Mypage from "../Mypage";
 import Custom from "../Main/Custom/Custom";
 import axios from "axios";
 axios.defaults.withCredentials = "include";
-
 class Listup extends React.Component {
   constructor(props) {
     super();
@@ -49,7 +48,6 @@ class Listup extends React.Component {
     this.handleMypage = this.handleMypage.bind(this);
     this.handleSearchList = this.handleSearchList.bind(this);
   }
-
   //category state 끌어올리기
   handleInputCategory = (e) => {
     const list = ["전체보기", "Grapefruit", "Lime", "Coconut", "Mango"];
@@ -78,7 +76,6 @@ class Listup extends React.Component {
       this.setState({ contentsList: res.data });
     });
   };
-
   handleClickedContent = (data) => {
     this.setState({ clickedContent: data });
   };

@@ -25,6 +25,7 @@ class User extends React.Component {
     return (
       <div className="userArea">
         {/* {!isLogin ? <Redirect to="/login" /> : ""} */}
+
         <button
           id="logoutBtn"
           onClick={() => {

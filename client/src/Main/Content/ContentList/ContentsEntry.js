@@ -16,7 +16,6 @@ class ContentsEntry extends React.Component {
     axios
       //.get(`http://localhost:4000/posts/info/${this.props.content.id}`)
       .get(`https://devyeon.com/posts/info/${this.props.content.id}`) //이건되는데 왜 위에는 안될까
-
       .then((res) => {
         this.props.handleClickedContent(res.data);
       });
