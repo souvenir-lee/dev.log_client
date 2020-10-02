@@ -1,93 +1,158 @@
 import React from "react";
-import { Switch, Route, useHistory, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import Listup from "../src/Main/Listup";
 import Login from "../src/Login";
 import Signup from "../src/Signup";
-import Mypage from "../src/Mypage";
-
-//branch test!!
+import Mypage from "./Mypage";
+import "./App.css";
+import axios from "axios";
+axios.defaults.withCredentials = "include";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isLogin: false,
-      userinfo: {
-        email: "",
-        //여기에 토큰을 만들어야 할것 같아요
-      },
-      serverinfo: {
+      isMypage: false,
+      token: "",
+      userInfo: {
         userId: "",
         username: "",
-        token: "",
-      }
+      },
+      categoryId: null,
+      contentsList: [
+        {
+          id: "", //postId
+          categoryId: "",
+          username: "",
+          title: "",
+          message: "",
+          view_count: "",
+        },
+      ],
     };
-    this.getUserData = this.getUserData.bind(this);
-    this.getServerData = this.getServerData.bind(this)
+    this.handleGetDefault = this.handleGetDefault.bind(this);
+    this.handleContentList = this.handleContentList.bind(this);
+    this.handleInputCategory = this.handleInputCategory.bind(this);
     this.handleLoginClick = this.handleLoginClick.bind(this);
+    this.getUserData = this.getUserData.bind(this);
+    this.handleLoginClick = this.handleLoginClick.bind(this);
+    this.handleMypage = this.handleMypage.bind(this);
   }
 
-  //로그인 시 userinfo를 끌어올리는 함수
-  //한슬 -> 이부분 수정한적 있는지?
+  componentDidMount() {
+    this.handleGetDefault();
+  }
+
+  //기본 contestList 불러오는 함수, category
+  handleGetDefault = () => {
+    axios
+      .get(`http://localhost:4000/posts/list`)
+      .then((res) => {
+        // axios.get('https://devyeon.com/posts/list').then((res) => {
+        console.log(res.data);
+        this.setState({ contentsList: res.data });
+        this.setState({ categoryId: null });
+      })
+      .catch((err) => console.log(err));
+  };
+
+  //필터링된 contestList 불러오는 함수
+  handleContentList = (value) => {
+    axios.get(`http://localhost:4000/posts/category/${value}`).then((res) => {
+      // axios.get(`https://devyeon.com/posts/category/${value}`).then((res) => {
+      console.log(res.data);
+      this.setState({ contentsList: res.data });
+      this.setState({ categoryId: null });
+    });
+  };
+
+  //category state 끌어올리기
+  handleInputCategory = (e) => {
+    this.setState({ categoryId: e.target.innerHTML });
+    console.log("카테고리~!!!");
+  };
+
+  //로그인 시 userInfo를 끌어올리는 함수
   getUserData = (data) => {
     this.setState({
-      userinfo: {
-        email: data.email,
+      token: data.token,
+      userInfo: {
+        ...data.userData,
       },
     });
   };
 
-  getServerData = (data) => {
-    this.setState({
-      serverinfo: {
-        username: data.username,
-        token: data.token,
-        userId: data.userId,
-      }
-    });
-  }
-
+  //클릭하면 isLogin 번경
   handleLoginClick = () => {
-    this.setState({ isLogin: !this.state.isLogin }); //추후에는 클릭할 때마다 상태변겅하도록
+    setTimeout(() => {
+      this.setState({ isLogin: !this.state.isLogin });
+    }, 500);
   };
+
+  //마이페이지 바꾸기
+  handleMypage = () => {
+    this.setState({ isMypage: !this.state.isMypage });
+    console.log('마이페이지')
+  };
+
   render() {
-    const { isLogin, userinfo, serverinfo } = this.state;
+    const {
+      isLogin,
+      token,
+      userInfo,
+      categoryId,
+      isMypage,
+      contentsList,
+    } = this.state;
     return (
       <Switch>
         <Route
-          path="/login" //변경됨
+          path="/login"
           render={() => (
             <Login
               isLogin={isLogin}
-              userinfo={userinfo}
-              serverinfo={serverinfo}
-              getServerData={this.getServerData}
+              token={token}
+              userInfo={userInfo}
               getUserData={this.getUserData}
               handleLoginClick={this.handleLoginClick}
             />
           )}
         />
-        <Route path="/signup" render={() => <Signup isLogin={isLogin} serverinfo={serverinfo}/>} />
-        <Route
-          path="/mypage"
-          render={() => <Mypage isLogin={isLogin} userinfo={userinfo} serverinfo={serverinfo}/>}
-        />
+        <Route path="/signup" render={() => <Signup />} />
         <Route
           path="/main"
           render={() => (
             <Listup
               isLogin={isLogin}
-              userinfo={userinfo}
-              serverinfo={serverinfo}
+              isMypage={isMypage}
+              token={token}
+              userInfo={userInfo}
+              categoryId={categoryId}
+              contentsList={contentsList}
+              handleGetDefault={this.handleGetDefault}
+              handleInputCategory={this.handleInputCategory}
+              handleContentList={this.handleContentList}
               getUserData={this.getUserData}
               handleLoginClick={this.handleLoginClick}
+              handleMypage={this.handleMypage}
             />
+          )}
+        />
+        <Route
+          exact
+          path="/mypage"
+          render={() => (
+            <Mypage isLogin={isLogin} isMypage={isMypage} userInfo={userInfo} token={token} handleMypage={this.handleMypage}/>
           )}
         />
         <Route
           path="/"
           render={() => {
             if (isLogin) {
+              if (isMypage) {
+                return <Redirect to="/mypage" />;
+              }
               return <Redirect to="/main" />;
             }
             return <Redirect to="/login" />;

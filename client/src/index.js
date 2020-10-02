@@ -5,9 +5,11 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(
+  // <CookiesProvider>
   <BrowserRouter>
     <App />
   </BrowserRouter>,
+  // </CookiesProvider>,
   document.getElementById("root")
 );
 

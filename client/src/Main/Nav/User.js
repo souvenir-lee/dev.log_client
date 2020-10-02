@@ -1,54 +1,63 @@
-/*
-<a> or <submit> 상관없다, <li> 로 감싸기
-1. 로그아웃을 클릭하면 {isLogin:false} + Login.js로 리다이렉트
-2. 마이페이지를 클릭하면 Mypage.js로 리다이렉트
-*/
-
 import React from "react";
-import { withRouter } from "react-router-dom";
+import { Redirect, withRouter } from "react-router-dom";
 import axios from "axios";
-axios.defaults.withCredentials = true;
+axios.defaults.withCredentials = "include";
 
 class User extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      isMypage: false,
+    };
   }
 
   render() {
-    const { isLogin, userinfo, getUserData, serverinfo, handleLoginClick } = this.props;
-    return (
-      <div>
-        <button
-          className="nav_logOut"
-          onClick={() => {
-            //this.props.handleLoginClick();
-            console.log("클랙 props", this.props.userinfo);
-            //this.props.history.push("/login");
-            axios.post('http://localhost:4000/users/logout', serverinfo.token)
-            //axios.post('https://devyeon.com/users/logout', serverinfo.token)
-            .then(() => {
-              this.props.handleLoginClick()
-              this.props.history.push('/login') //변경된 API
+    const {
+      isLogin,
+      token,
+      isMypage,
+      userInfo,
+      handleMypage,
+      getUserData,
+      handleLoginClick,
+    } = this.props;
 
-            })
-            .catch(error => console.log(error))
+    return (
+      <div className="userArea">
+        {!isLogin ? <Redirect to="/login" /> : ""}
+        {isMypage ? <Redirect to="/mypage" /> : ""}
+
+        <button
+          id="logoutBtn"
+          onClick={() => {
+            console.log("클랙 props", this.props.userInfo);
+            axios
+              .post("http://localhost:4000/users/logout")
+              //axios.post('https://devyeon.com/users/logout', token)
+              .then((result) => {
+                getUserData(result);
+                handleLoginClick(); //로그아웃 되었을 때 토큰 없애기
+              })
+              .catch((error) => console.log(error));
           }}
         >
           로그아웃
         </button>
 
         <button
-          className="nav_myPage"
+          id="mypageBtn"
           onClick={() => {
-            console.log('user에서 userinfo',userinfo)
-            axios.get('http://localhost:4000/users/info', serverinfo.token) //마이페이지로 리다이렉트
-            .then(res => {
-              console.log(res)
-              getUserData(res)})
-            .then(()=> this.props.history.push("/mypage"))
+            console.log("user에서 userInfo", userInfo);
+            axios
+              .get("http://localhost:4000/users/info", userInfo.token) //마이페이지로 리다이렉트
+              //.get("https://devyeon.com/users/info",) //마이페이지로 리다이렉트
+              .then((res) => {
+                handleMypage();
+              });
           }}
         >
           마이페이지
+          {/* <Link to='/mypage'> */}
         </button>
       </div>
     );

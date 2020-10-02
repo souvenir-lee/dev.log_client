@@ -1,11 +1,14 @@
-/*
-<div>내가 스크랩한 글</div>
-<ul>
-    <li></li>
-    <li></li>
-    <li></li>
-    <li></li>
-</ul>
+/* eslint-disable no-unused-vars */
+import React from "react";
+import { Switch, Route, Redirect } from "react-router-dom";
+class Scrap extends React.Component {
+  constructor(props) {
+    super();
+  }
 
-advanced이기 때문에 일단 무늬만 만들기
-*/
+  render() {
+    return <div className="">scrap</div>;
+  }
+}
+
+export default Scrap;

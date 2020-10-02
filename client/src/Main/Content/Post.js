@@ -1,25 +1,19 @@
-/*
-1.e.target.value(onChage)
-2.카테고리 선택(select)
-3.title, content, tag를 작성
-4.게시버튼을 누르면 서버에 post요청을 보낸 후 Listup.js로 추가된 데이터를 리다이렉트
-*/
-
-//http://dev.log/posts/create
 import React from "react";
 import axios from "axios";
 import { Link, Route, Redirect, withRouter } from "react-router-dom";
 import CKEditor from "ckeditor4-react";
+axios.defaults.withCredentials = "include";
 
 class Post extends React.Component {
   constructor(props) {
     super(props);
+    console.log("포스트", this.props);
     this.state = {
       categoryId: "",
-      userId: "",
       title: "",
       message: "",
       names: [],
+      isPost: false,
     };
     this.handleInputValue = this.handleInputValue.bind(this);
     this.handlePost = this.handlePost.bind(this);
@@ -38,25 +32,36 @@ class Post extends React.Component {
   //     tag:[],
   //     clickEditBtn:false
   //   })
-  handlePost = async () => {
-    await this.handleInputValue("message");
-    await axios
-      .post("http://localhost:4000/posts/create", this.state)
-      //.post("http://devyeon.com/posts/create", this.state)
+  handlePost = () => {
+    console.log(this.state);
+    axios
+      .post("http://localhost:4000/posts/create", {
+        // .post("http://devyeon.com/posts/create", {
+        categoryId: this.state.categoryId,
+        userId: this.props.userInfo.id,
+        message: this.state.message,
+        title: this.state.title,
+      })
       .then((res) => {
-        if (res.status === 200) {
-          this.props.handleGetDefault();
-          this.props.history.push("/main");
+        if (res.status === 201) {
+          //새글 쓰고 main으로 이동
+          this.setState({ isPost: !this.state.isPost });
+          //this.props.history.push("/main");
         }
-        //   this.props.getUserData(res.data);
       });
   };
 
   handleEdit = async () => {
     await this.handleInputValue("message");
     await axios
-      .put("http://localhost:4000/posts/update", this.state)
-      //.put("http://devyeon.com/posts/update", this.state)
+
+      .put("http://localhost:4000/posts/update", {
+        id: "",
+        categoryId: "",
+        message: "",
+        title: "",
+      })
+      // .put("http://devyeon.com/posts/update", this.state)
       .then((res) => {
         if (res.status === 200) {
           this.props.handleGetDefault();
@@ -71,6 +76,7 @@ class Post extends React.Component {
 
     return (
       <div className="post">
+        {this.state.isPost ? <Redirect to="/main" /> : ""}
         <center>
           <select
             className="post_tag"
@@ -97,6 +103,10 @@ class Post extends React.Component {
             <CKEditor
               className="post_content"
               data="<p>Hello from CKEditor 4!</p>"
+              onInit={(editor) => {}}
+              onChange={(event) => {
+                this.setState({ message: event.editor.getData() });
+              }}
             />
             <input
               className="post_tag"

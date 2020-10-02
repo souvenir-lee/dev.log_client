@@ -1,30 +1,49 @@
-/*
-1. Contents.js에서 해당 글을 클릭했을때 Listup.js로 state 끌어올리기를 통해 해당 글을 랜더링 한다.
-2. 삭제하기를 클릭했을때 해당 글을 delete한다.
-3. 댓글 개수를 표시
-*/
-
 import React from "react";
 import Comment from "./Comment";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
-axios.defaults.withCredentials = true;
+axios.defaults.withCredentials = "include";
 
 class ContentDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: this.props.username,
-      title: this.props.title,
-      message: this.props.message,
+      commentCount: 0,
+      comments: [
+        {
+          id: "",
+          username: "",
+          message: "",
+        },
+      ],
     };
+    this.commentCount = this.commentCount.bind(this);
+    // console.log("디테일정보id", this.props.clickedContent.id);
+    // console.log("디테일정보", this.props.clickedContent);
   }
-  //1.해당 컨텐츠를 클릭했을때 ContentDetail로 이동하고 해당 이름,제목,내용을 띄운다
-  //post
+  commentCount = () => {
+    this.setState({ commentCount: +1 });
+  };
+  createComment = (data) => {
+    this.setState({ comments: data });
+  };
+  getComments = () => {
+    axios
+      .get(
+        `http://localhost:4000/comments/list/${this.props.clickedContent.id}`
+      )
+      //.get(`http://devyeon.com/comments/list/${this.props.clickedContent.id}`)
+      .then((res) => {
+        this.setState({ comments: res.data });
+      });
+  };
   deleteMessage = () => {
     axios
-      .delete("http://localhost:4000/posts/delete", this.props.id)
-      //.delete("https://devyeon.com/posts/delete", this.props.id)
+      .post("http://localhost:4000/posts/delete", {
+        id: this.props.clickedContent.id,
+      })
+      //  .delete("http://devyeon.com/posts/delete", {
+      // id: this.props.clickedContent.id})
       .then((res) => {
         if (res.status === 200) {
           alert("삭제되었습니다.");
@@ -32,38 +51,40 @@ class ContentDetail extends React.Component {
         }
       });
   };
-  /*
-  1.수정버튼을 누르면 post페이지로 렌더링이 된다.
-  2.해당 category, username, title, message를 담아서 가져온다
-  3.수정한 value onchange
-  4.게시버튼을 누르면 contentDetail 페이지로 렌더링 된다.
-  */
 
-  editMessage = async () => {
-    await this.props.history.push("/main/post");
-
-    await axios.get("http://localhost:4000/posts/info/id").then((res) => {
-    //await axios.get("https://devyeon.com/posts/info/id").then((res) => {
-      //main/post의 state가 바뀌어야함
-      this.props.clickEditBtn();
-      this.props.handleClickedContent();
-    });
+  editMessage = () => {
+    this.props.history.push("/main/post");
+    axios
+      // .get(`http://devyeon.com/posts/info/${this.props.contentsList.id}`)
+      .get(`http://localhost:4000/posts/info/${this.props.clickedContent.id}`)
+      .then((res) => {
+        // await axios.get(`http://localhost:4000/posts/info/${this.props.contentsList.id}`).then((res) => {
+        //main/post의 state가 바뀌어야함
+        // this.props.clickEditBtn();
+        // this.props.handleClickedContent();
+        console.log(this.props.clickedContent);
+      });
   };
 
   render() {
+    const { clickedContent, userInfo, getComments } = this.props;
+    const { commentCount, comments } = this.state;
     return (
       <div className="contentdetail">
         <div className="contentdetail_content">
           <div className="contentdetail_username">
-            {this.props.clickedContent.username}
+            작성자{this.props.clickedContent.username}
           </div>
           <div className="contentdetail_title">
-            {this.props.clickedContent.title}
+            제목{this.props.clickedContent.title}
           </div>
         </div>
-        <div className="contentdetail_message">
-          {this.props.clickedContent.message}
-        </div>
+        <div
+          className="contentdetail_message"
+          dangerouslySetInnerHTML={{
+            __html: this.props.clickedContent.message,
+          }}
+        ></div>
         <div>
           <button
             className="contentdetail_btnDelete"
@@ -82,7 +103,13 @@ class ContentDetail extends React.Component {
             수정하기
           </button>
         </div>
-        <Comment />
+        <Comment
+          userInfo={userInfo}
+          comments={comments}
+          clickedContent={clickedContent}
+          commentCount={commentCount}
+          getComments={getComments}
+        />
         <button
           className="contentdetail_btnBack"
           onClick={() => {
