@@ -57,18 +57,20 @@ class Listup extends React.Component {
     this.handleContentList(this.state.categoryId);
     // console.log("카테고리~!!!");
   };
+
   //기본 contestList 불러오는 함수, category
   handleGetDefault = () => {
-    axios.get(`http://localhost:4000/posts/list`).then((res) => {
-      // axios.get(`https://devyeon.com/posts/list`).then((res) => {
+    // axios.get(`http://localhost:4000/posts/list`).then((res) => {
+    axios.get(`https://devyeon.com/posts/list`).then((res) => {
       // console.log(res.data);
       this.setState({ contentsList: res.data });
     });
   };
+
   //필터링된 contentList 불러오는 함수
   handleContentList = (value) => {
-    axios.get(`http://localhost:4000/posts/category/${value}`).then((res) => {
-      // axios.get(`https://devyeon.com/posts/category/${value}`).then((res) => {
+    // axios.get(`http://localhost:4000/posts/category/${value}`).then((res) => {
+    axios.get(`https://devyeon.com/posts/category/${value}`).then((res) => {
       console.log(res.data);
       this.setState({ contentsList: res.data });
     });
@@ -80,6 +82,7 @@ class Listup extends React.Component {
   clickNewMessage = () => {
     this.setState({ newPost: !this.state.newPost });
   };
+
   clickEditBtn = () => {
     this.setState({ editBtn: true });
   };
@@ -99,8 +102,8 @@ class Listup extends React.Component {
   };
   //검색된 contentList 불러오는 함수
   handleSearchList = (value) => {
-    axios.get(`http://localhost:4000/search/title/${value}`).then((res) => {
-      // axios.get(`https://devyeon.com/search/title/${value}`).then((res) => {
+    // axios.get(`http://localhost:4000/search/title/${value}`).then((res) => {
+    axios.get(`https://devyeon.com/search/title/${value}`).then((res) => {
       console.log(res.data);
       this.setState({ contentsList: res.data });
     });
@@ -141,7 +144,8 @@ class Listup extends React.Component {
     return (
       <div id="outer">
         {!isLogin ? <Redirect to="/login" /> : ""}
-        {isMypage ? <Redirect to="/mypage" /> : ""}
+        {/* {isMypage ? <Redirect to="/mypage" /> : ""} */}
+        {isMypage ? <Redirect to="/main/mypage" /> : <Redirect to="/main" />}
         <Nav
           isLogin={isLogin}
           token={token}
@@ -206,7 +210,7 @@ class Listup extends React.Component {
             ></Route>
             <Route
               exact
-              path="/mypage"
+              path="/main/mypage"
               render={() => (
                 <Mypage
                   isLogin={isLogin}
