@@ -100,7 +100,7 @@ class Listup extends React.Component {
   }
 
   render() {
-    const { isLogin, isMypage, token, userInfo } = this.props;
+    const { isLogin, isMypage, token, userInfo, handleMypage } = this.props;
 
     const {
       category,
@@ -140,6 +140,7 @@ class Listup extends React.Component {
           userInfo={userInfo}
           isMypage={isMypage}
           handleSearchList={handleSearchList}
+          handleMypage={handleMypage}
         />
 
         <div className="container" id="main">
