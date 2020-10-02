@@ -5,11 +5,9 @@ function Mypage({isLogin, token, userInfo, handleMypage}) {
       <center>
         <h1>Mypage</h1>
         <div id="mypageUsername">이름 : {userInfo.username}</div>
-        {/* {this.props.userInfo.username} */}
         <div id="mypageEmail">Email : {userInfo.email}</div>
-        {/* {this.props.userInfo.email} */}
         <button 
-          onClick={() => handleMypage}>
+          onClick={handleMypage}>
           메인으로
         </button>
       </center>

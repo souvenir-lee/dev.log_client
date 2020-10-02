@@ -1,7 +1,6 @@
 import React from "react";
 import axios from "axios";
 import { Link, Route, Redirect, withRouter } from "react-router-dom";
-import CKEditor from "ckeditor4-react";
 axios.defaults.withCredentials = "include";
 
 class Post extends React.Component {
@@ -35,13 +34,17 @@ class Post extends React.Component {
   handlePost = () => {
     console.log(this.state);
     axios
-      .post("http://devyeon.com/posts/create", {
-        token: this.props.token,
-        categoryId: this.state.categoryId,
-        authorId: this.props.userInfo.id,
-        message: this.state.message,
-        title: this.state.title,
-      })
+      .post(
+        "https://devyeon.com/posts/create",
+        {
+          token: this.props.token,
+          categoryId: this.state.categoryId,
+          authorId: String(this.props.userInfo.id),
+          message: this.state.message,
+          title: this.state.title,
+        },
+        { headers: { "Access-Control-Allow-Origin": true } }
+      )
       .then((res) => {
         if (res.status === 201) {
           //새글 쓰고 main으로 이동
@@ -55,9 +58,6 @@ class Post extends React.Component {
     await this.handleInputValue("message");
     await axios
       // .put("http://localhost:4000/posts/update", {
-      //   token: this.props.token,
-      //   data: this.state,
-      // })
       .put("https://devyeon.com/posts/update", {
         token: this.props.token,
         ...this.state,
@@ -91,23 +91,21 @@ class Post extends React.Component {
           </select>
 
           <div>
-            <input
+            <textarea
               className="post_title"
               type="title"
               placeholder="title"
               onChange={this.handleInputValue("title")}
-            ></input>
+            ></textarea>
           </div>
 
           <div>
-            <CKEditor
+            <input
               className="post_content"
-              data="<p>Hello from CKEditor 4!</p>"
-              onInit={(editor) => {}}
-              onChange={(event) => {
-                this.setState({ message: event.editor.getData() });
-              }}
-            />
+              type="message"
+              placeholder="message"
+              onChange={this.handleInputValue("message")}
+            ></input>
             <input
               className="post_tag"
               type="tag"

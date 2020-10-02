@@ -6,7 +6,6 @@ import Signup from "../src/Signup";
 import "./App.css";
 import axios from "axios";
 axios.defaults.withCredentials = "include";
-
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -42,17 +41,14 @@ class App extends React.Component {
       },
     });
   };
-
   //클릭하면 isLogin 번경
   handleLoginClick = () => {
     setTimeout(() => {
       this.setState({ isLogin: !this.state.isLogin });
     }, 500);
   };
-
   render() {
     const { isLogin, token, userInfo } = this.state;
-
     return (
       <Switch>
         {isLogin ? (
@@ -94,5 +90,4 @@ class App extends React.Component {
     );
   }
 }
-
 export default App;

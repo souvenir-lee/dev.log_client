@@ -30,8 +30,8 @@ class CommentEntry extends React.Component {
   render() {
     return (
       <div className="commentEntry">
-        <div className="comment_username">{this.props.comments.username}</div>
-        <div className="comment_message">{this.props.comments.message}</div>
+        <div className="comment_username">{this.props.comment.username}</div>
+        <div className="comment_message">{this.props.comment.message}</div>
         <div className="comment_btn">
           <button className="comment_btnEdit" onClick={() => {}}>
             수정

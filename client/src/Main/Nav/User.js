@@ -24,6 +24,7 @@ class User extends React.Component {
 
     return (
       <div className="userArea">
+        {/* {!isLogin ? <Redirect to="/login" /> : ""} */}
         <button
           id="logoutBtn"
           onClick={() => {
@@ -55,9 +56,9 @@ class User extends React.Component {
               // }) //마이페이지로 리다이렉트
               .post("https://devyeon.com/users/info", {
                 token: token,
-              })
+              }) //마이페이지로 리다이렉트
               .then((res) => {
-                this.setState({ isMypage: !this.state.isMypage });
+                handleMypage();
               });
           }}
         >
