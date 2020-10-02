@@ -1,25 +1,46 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
+import axios from "axios";
+
 class CategoryEntry extends React.Component {
   constructor(props) {
     super();
+    this.handleAddCategory = this.handleAddCategory.bind(this);
   }
+
+  handleAddCategory() {
+    const inputCategory = prompt("카테고리를 입력해주세요.");
+    axios
+      .post(`https://devyeon.com/category`, { title: inputCategory })
+      .then(() => {
+        this.props.handleCategoryEntry();
+        alert(`${inputCategory}가 추가되었습니다.`);
+      });
+  }
+
   render() {
-    const { handleInputCategory } = this.props;
-    const list = ["전체보기", "Grapefruit", "Lime", "Coconut", "Mango"];
+    const { categoryList, handleInputCategory } = this.props;
     return (
       <>
-        {list.map((ele) => {
+        {categoryList.map((ele) => {
           return (
             <div
               className="categoryBox"
               onClick={handleInputCategory}
-              key={`category${list.indexOf(ele)}`}
+              key={`category${categoryList.indexOf(ele)}`}
             >
               {ele}
             </div>
           );
         })}
+        <button
+          className="addCategory"
+          onClick={() => {
+            this.handleAddCategory();
+          }}
+        >
+          + 추가하기
+        </button>
       </>
     );
   }

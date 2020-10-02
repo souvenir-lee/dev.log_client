@@ -5,7 +5,7 @@ axios.defaults.withCredentials = "include";
 
 class Post extends React.Component {
   constructor(props) {
-    super(props);
+    super();
     console.log("포스트", this.props);
     this.state = {
       categoryId: "",

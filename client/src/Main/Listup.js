@@ -14,8 +14,9 @@ class Listup extends React.Component {
   constructor(props) {
     super();
     this.state = {
+      categoryList: [],
       categoryId: 0,
-      category: "전체보기",
+      // category: "전체보기",
       contentsList: [],
       clickedContent: {},
       comments: [],
@@ -26,7 +27,7 @@ class Listup extends React.Component {
       // 다시 목록으로 갔을 때 reset 설정
       // post 전송 후 리스트 리프래시
     };
-
+    this.handleCategoryEntry = this.handleCategoryEntry.bind(this);
     this.handleInputCategory = this.handleInputCategory.bind(this);
     this.handleContentList = this.handleContentList.bind(this);
     this.handleClickedContent = this.handleClickedContent.bind(this);
@@ -40,15 +41,24 @@ class Listup extends React.Component {
 
   // category 관련 (1) 전체 글 (2) 카테고리 필터링
   componentDidMount() {
+    this.handleCategoryEntry();
     this.handleContentList(this.state.categoryId);
     console.log(this.state.clickedContent);
   }
+
+  handleCategoryEntry() {
+    axios
+      .get(`https://devyeon.com/category`)
+      .then((res) => res.data.map((ele) => ele.title))
+      .then((list) => {
+        this.setState({ categoryList: ["전체보기", ...list] });
+      });
+  }
   handleInputCategory(e) {
-    const list = ["전체보기", "Grapefruit", "Lime", "Coconut", "Mango"];
     this.setState({ category: e.target.innerHTML });
     this.setState(
       {
-        categoryId: list.indexOf(e.target.innerHTML),
+        categoryId: this.state.categoryList.indexOf(e.target.innerHTML),
       },
       () => this.handleContentList(this.state.categoryId)
     );
@@ -103,8 +113,6 @@ class Listup extends React.Component {
 
   //선택된 정렬 기준으로 contentList 불러오는 함수
   handleSortList = (e) => {
-    // axios.get(`http://localhost:4000/posts/sort/${e.target.value}`)
-    // .then((res) => {
     axios
       .get(`https://devyeon.com/posts/sort/${e.target.value}`)
       .then((res) => {
@@ -117,7 +125,7 @@ class Listup extends React.Component {
     const { isLogin, isMypage, token, userInfo, handleMypage } = this.props;
 
     const {
-      category,
+      categoryList,
       categoryId,
       clickedContent,
       comments,
@@ -132,6 +140,7 @@ class Listup extends React.Component {
       handleContentList,
       handleClickedContent,
       handleResetClickedContent,
+      handleCategoryEntry,
       clickNewMessage,
       clickEditBtn,
       handleSearchList,
@@ -166,8 +175,9 @@ class Listup extends React.Component {
             token={token}
             userInfo={userInfo}
             categoryId={categoryId}
-            category={category}
+            categoryList={categoryList}
             handleInputCategory={handleInputCategory}
+            handleCategoryEntry={handleCategoryEntry}
           />
           <Switch>
             <Route

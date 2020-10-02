@@ -11,12 +11,9 @@ class App extends React.Component {
   constructor(props) {
     super();
     this.state = {
-      isLogin: false,
+      isLogin: true,
       token: "",
-      userInfo: {
-        userId: "",
-        username: "",
-      },
+      userInfo: {},
       isMypage: false,
     };
     this.handleLoginClick = this.handleLoginClick.bind(this);

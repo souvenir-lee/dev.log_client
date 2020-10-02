@@ -1,12 +1,18 @@
 import React from "react";
-import CatgeoryEntry from "./CategoryEntry";
-const Catgeory = ({ category, categoryId, handleInputCategory }) => (
+import CategoryEntry from "./CategoryEntry";
+const Category = ({
+  handleCategoryEntry,
+  categoryList,
+  categoryId,
+  handleInputCategory,
+}) => (
   <div className="container" id="category">
-    <CatgeoryEntry
+    <CategoryEntry
+      categoryList={categoryList}
       categoryId={categoryId}
-      category={category}
       handleInputCategory={handleInputCategory}
+      handleCategoryEntry={handleCategoryEntry}
     />
   </div>
 );
-export default Catgeory;
+export default Category;
