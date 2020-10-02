@@ -33,7 +33,6 @@ class User extends React.Component {
                 token: token,
               })
               .then((result) => {
-                getUserData(result);
                 handleLoginClick(); //로그아웃 되었을 때 토큰 없애기
               })
               .catch((error) => console.log(error));

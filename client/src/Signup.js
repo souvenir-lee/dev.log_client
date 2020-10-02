@@ -1,11 +1,11 @@
 import React from "react";
-import { Redirect, withRouter } from "react-router-dom";
+import { Redirect, Route, withRouter } from "react-router-dom";
 import axios from "axios";
 axios.defaults.withCredentials = "include";
 
 class Signup extends React.Component {
   constructor(props) {
-    super(props);
+    super();
 
     this.state = {
       username: "",
@@ -20,6 +20,7 @@ class Signup extends React.Component {
     this.checkUsername = this.checkUsername.bind(this);
     this.postSignup = this.postSignup.bind(this);
     this.handleSignUp = this.handleSignUp.bind(this);
+    // this.signupWithGithub = this.signupWithGithub.bind(this);
   }
 
   //input 작성 내용을 state로 변경
@@ -40,16 +41,16 @@ class Signup extends React.Component {
 
   //유저이름 적었는지 체크
   checkUsername = (value) => {
-    let result = value !== "" ? true : false; //작성되어 있으면 true
-    return result;
+    return value !== "" ? true : false; //작성되어 있으면 true
   };
 
   handleSignUp = () => {
+    console.log(this.state.email);
     axios
-      //.post("http://localhost:4000/users/emailconfirm", this.state.email)
-      .post("https://devyeon.com/users/emailconfirm", this.state.email)
+      .post("https://devyeon.com/users/emailconfirm", {
+        email: this.state.email,
+      })
       .then((res) => {
-        console.log("signup:res", res);
         if (res.status === 200) {
           alert("사용가능한 아이디입니다");
         }
@@ -61,20 +62,32 @@ class Signup extends React.Component {
   };
 
   postSignup = () => {
-    if (this.checkPassword() && this.checkPassword2() && this.checkUsername()) {
+    if (
+      this.checkPassword(this.state.password) &&
+      this.checkPassword2(this.state.password, this.state.password2) &&
+      this.checkUsername(this.state.username)
+    ) {
       //axios.post("http://localhost:4000/users/signup", this.state).then((res) => {
-      axios.post("https://devyeon.com/users/signup", this.state).then((res) => {
-        if (res.status === 201) {
-          alert("회원가입이 완료되셨습니다");
-          this.setState({ signup: true });
-        }
-      });
+      axios
+        .post("https://devyeon.com/users/signup", {
+          email: this.state.email,
+          username: this.state.username,
+          password: this.state.password,
+        })
+        .then((res) => {
+          if (res.status === 201) {
+            alert("회원가입이 완료되셨습니다");
+            this.setState({ signup: true });
+          }
+        });
     }
     alert("모든 항목을 작성해주세요");
   };
 
   //소셜 로그인 회원가입 함수
-  signupWithGithub = () => {};
+  // signupWithGithub() {
+  //
+  // }
 
   render() {
     return (
@@ -181,10 +194,24 @@ class Signup extends React.Component {
           </div>
 
           <div className="signupSocialArea">
-            <button id="submitGithuBtn" type="submit" onClick={() => {}}>
+            <button
+              id="submitGithuBtn"
+              type="submit"
+              onClick={() => {
+                this.props.history.push("/login");
+                // this.signupWithGithub();
+              }}
+            >
               Github
             </button>
-            <button id="submitNaverBtn" type="submit" onClick={() => {}}>
+            <button
+              id="submitNaverBtn"
+              type="submit"
+              onClick={() => {
+                this.props.history.push("/login");
+                // this.signupWithGithub();
+              }}
+            >
               Naver
             </button>
           </div>

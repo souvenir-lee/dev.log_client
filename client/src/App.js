@@ -11,7 +11,7 @@ class App extends React.Component {
   constructor(props) {
     super();
     this.state = {
-      isLogin: true,
+      isLogin: false,
       token: "",
       userInfo: {},
       isMypage: false,
@@ -35,7 +35,7 @@ class App extends React.Component {
   handleLoginClick = () => {
     setTimeout(() => {
       this.setState({ isLogin: !this.state.isLogin });
-    }, 500);
+    }, 300);
   };
 
   //마이페이지 바꾸기

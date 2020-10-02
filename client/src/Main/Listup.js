@@ -122,7 +122,14 @@ class Listup extends React.Component {
   };
 
   render() {
-    const { isLogin, isMypage, token, userInfo, handleMypage } = this.props;
+    const {
+      isLogin,
+      isMypage,
+      token,
+      userInfo,
+      handleMypage,
+      handleLoginClick,
+    } = this.props;
 
     const {
       categoryList,
@@ -165,6 +172,7 @@ class Listup extends React.Component {
           isMypage={isMypage}
           handleSearchList={handleSearchList}
           handleMypage={handleMypage}
+          handleLoginClick={handleLoginClick}
         />
 
         <div className="container" id="main">
@@ -233,6 +241,7 @@ class Listup extends React.Component {
                   token={token}
                   userInfo={userInfo}
                   clickNewMessage={clickNewMessage}
+                  categoryList={categoryList}
                 />
               )}
             ></Route>

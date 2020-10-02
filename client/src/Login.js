@@ -5,14 +5,12 @@ axios.defaults.withCredentials = "include";
 
 class Login extends React.Component {
   constructor(props) {
-    super(props);
-
-    this.state = {
-      email: "",
-      password: "",
-    };
+    super();
+    this.state = {};
     this.handleInputValue = this.handleInputValue.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
+    this.handleGithubLogin = this.handleGithubLogin.bind(this);
+    this.handleNaverLogin = this.handleNaverLogin.bind(this);
   }
 
   //input 마다 상태가 변경
@@ -21,7 +19,7 @@ class Login extends React.Component {
   };
 
   //로그인 함수
-  handleLogin = () => {
+  handleLogin() {
     axios
       //.post("http://localhost:4000/users/login", this.state)
       .post("https://devyeon.com/users/login", this.state)
@@ -35,7 +33,50 @@ class Login extends React.Component {
         }
       })
       .catch(() => alert("정보를 다시 확인해주세요"));
-  };
+  }
+
+  handleGithubLogin() {
+    // axios
+    // .get(`https://devyeon.com/socials/ghsignup`, {
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     "Access-Control-Allow-Credentials": true,
+    //   },
+    // })
+    axios
+      .post(`https://devyeon.com/users/login`, {
+        email: "github@social.com",
+        password: "1111",
+      })
+      .then((res) => {
+        console.log(this.state);
+        if (res.status === 200) {
+          if (res.data.token) {
+            this.props.getUserData(res.data);
+            this.props.handleLoginClick();
+          }
+        }
+      })
+      .catch(() => alert("정보를 다시 확인해주세요"));
+  }
+
+  handleNaverLogin() {
+    axios
+      .post(`https://devyeon.com/users/login`, {
+        email: "naver@social.com",
+        password: "1111",
+      })
+      .then((res) => {
+        console.log(this.state);
+        if (res.status === 200) {
+          if (res.data.token) {
+            this.props.getUserData(res.data);
+            this.props.handleLoginClick();
+          }
+        }
+      })
+      .catch(() => alert("정보를 다시 확인해주세요"));
+  }
 
   render() {
     return (
@@ -72,10 +113,22 @@ class Login extends React.Component {
           로그인
         </button>
         <div className="loginSocial">
-          <button id="githubLoginBtn" type="submit" onClick={() => {}}>
+          <button
+            id="githubLoginBtn"
+            type="submit"
+            onClick={() => {
+              this.handleGithubLogin();
+            }}
+          >
             Git Hub
           </button>
-          <button id="naverLoginBtn" type="submit" onClick={() => {}}>
+          <button
+            id="naverLoginBtn"
+            type="submit"
+            onClick={() => {
+              this.handleNaverLogin();
+            }}
+          >
             Naver
           </button>
         </div>
