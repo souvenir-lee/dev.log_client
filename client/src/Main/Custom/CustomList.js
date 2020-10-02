@@ -16,7 +16,8 @@ class CustomList extends React.Component {
     const { userInfo, token } = this.props;
     axios
       .post(
-        `http://localhost:4000/custom/${this.props.selectedOption.toLowerCase()}list`,
+        `https://devyeon.com/custom/${this.props.selectedOption.toLowerCase()}list`,
+        //`http://localhost:4000/custom/${this.props.selectedOption.toLowerCase()}list`,
         {
           data: {
             userId: userInfo.id,
