@@ -12,7 +12,6 @@ class Contents extends React.Component {
       handleClickedContent,
       clickedContent,
       editBtn,
-      handleClickedContnet,
       newPost,
       userInfo,
     } = this.props;
@@ -25,8 +24,8 @@ class Contents extends React.Component {
           id="newPostBtn"
           onClick={() => {
             console.log("클릭되나");
-            handleClickedContnet();
-            // this.props.clickNewMessage();
+
+            this.props.clickNewMessage();
           }}
         >
           새글 쓰기
