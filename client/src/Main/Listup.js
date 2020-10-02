@@ -8,7 +8,15 @@ import ContentDetail from "../Main/Content/ContentDetail/ContentDetail";
 import Mypage from "../Mypage";
 import Custom from "../Main/Custom/Custom";
 import axios from "axios";
+import styled from "styled-components";
+
 axios.defaults.withCredentials = "include";
+
+const Outer = styled.div`
+  body {
+    margin: 0px;
+  }
+`;
 class Listup extends React.Component {
   constructor(props) {
     super();
@@ -135,9 +143,9 @@ class Listup extends React.Component {
       handleMypage,
     } = this;
     return (
-      <div id="outer">
+      <Outer id="outer">
         {!isLogin ? <Redirect to="/login" /> : ""}
-        {isMypage ? <Redirect to="/main/mypage" /> : <Redirect to="/main" /> }
+        {isMypage ? <Redirect to="/main/mypage" /> : <Redirect to="/main" />}
         <Nav
           isLogin={isLogin}
           token={token}
@@ -216,7 +224,7 @@ class Listup extends React.Component {
           <Custom userInfo={userInfo} token={token} />
           {console.log("-----")}
         </div>
-      </div>
+      </Outer>
     );
   }
 }

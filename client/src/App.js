@@ -3,9 +3,21 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import Listup from "../src/Main/Listup";
 import Login from "../src/Login";
 import Signup from "../src/Signup";
-import "./App.css";
 import axios from "axios";
+import { createGlobalStyle } from "styled-components";
 axios.defaults.withCredentials = "include";
+
+const GlobalStyle = createGlobalStyle`
+body {
+    margin: 0;
+    font-family: "Roboto"
+  }
+  a {
+      text-decoration: none;
+      color: rgb(255, 255, 255);
+    }
+`;
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -49,43 +61,46 @@ class App extends React.Component {
   render() {
     const { isLogin, token, userInfo } = this.state;
     return (
-      <Switch>
-        {isLogin ? (
+      <>
+        <GlobalStyle />
+        <Switch>
+          {isLogin ? (
+            <Route
+              path="/main"
+              render={() => (
+                <Listup
+                  isLogin={isLogin}
+                  userInfo={userInfo}
+                  token={token}
+                  getUserData={this.getUserData}
+                  handleLoginClick={this.handleLoginClick}
+                />
+              )}
+            />
+          ) : (
+            ""
+          )}
           <Route
-            path="/main"
+            path="/login"
             render={() => (
-              <Listup
+              <Login
                 isLogin={isLogin}
-                userInfo={userInfo}
                 token={token}
+                userInfo={userInfo}
                 getUserData={this.getUserData}
                 handleLoginClick={this.handleLoginClick}
               />
             )}
           />
-        ) : (
-          ""
-        )}
-        <Route
-          path="/login"
-          render={() => (
-            <Login
-              isLogin={isLogin}
-              token={token}
-              userInfo={userInfo}
-              getUserData={this.getUserData}
-              handleLoginClick={this.handleLoginClick}
-            />
-          )}
-        />
-        <Route path="/signup" render={() => <Signup />} />
-        <Route
-          path="/"
-          render={() => {
-            if (!isLogin) return <Redirect to="/login" />;
-          }}
-        />
-      </Switch>
+          <Route path="/signup" render={() => <Signup />} />
+          <Route
+            path="/"
+            render={() => {
+              if (!isLogin) return <Redirect to="/login" />;
+            }}
+          />
+        </Switch>
+      </>
     );
   }
 }
