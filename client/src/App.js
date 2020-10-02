@@ -93,6 +93,7 @@ class App extends React.Component {
   //마이페이지 바꾸기
   handleMypage = () => {
     this.setState({ isMypage: !this.state.isMypage });
+    console.log('마이페이지')
   };
 
   render() {
@@ -142,7 +143,7 @@ class App extends React.Component {
           exact
           path="/mypage"
           render={() => (
-            <Mypage isLogin={isLogin} userInfo={userInfo} token={token} />
+            <Mypage isLogin={isLogin} isMypage={isMypage} userInfo={userInfo} token={token} handleMypage={this.handleMypage}/>
           )}
         />
         <Route

@@ -32,13 +32,13 @@ class ContentDetail extends React.Component {
       .get(
         `http://localhost:4000/comments/list/${this.props.clickedContent.id}`
       )
+      //.get(`http://devyeon.com/comments/list/${this.props.clickedContent.id}`)
       .then((res) => {
         this.setState({ comments: res.data });
       });
   };
   deleteMessage = () => {
     axios
-
       .post("http://localhost:4000/posts/delete", {
         id: this.props.clickedContent.id,
       })
@@ -73,10 +73,10 @@ class ContentDetail extends React.Component {
       <div className="contentdetail">
         <div className="contentdetail_content">
           <div className="contentdetail_username">
-            {this.props.clickedContent.username}
+            작성자{this.props.clickedContent.username}
           </div>
           <div className="contentdetail_title">
-            {this.props.clickedContent.title}
+            제목{this.props.clickedContent.title}
           </div>
         </div>
         <div
@@ -104,10 +104,10 @@ class ContentDetail extends React.Component {
           </button>
         </div>
         <Comment
+          userInfo={userInfo}
+          comments={comments}
           clickedContent={clickedContent}
           commentCount={commentCount}
-          comments={comments}
-          userInfo={userInfo}
           getComments={getComments}
         />
         <button
