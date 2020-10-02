@@ -9,7 +9,7 @@ class Comment extends React.Component {
     this.state = {
       commentValue: "",
     };
-    console.log("코멘트", this.props);
+    console.log("댓글", this.props.userInfo);
   }
   handleInputValue = (key) => (e) => {
     this.setState({ [key]: e.target.value });
@@ -19,9 +19,10 @@ class Comment extends React.Component {
     axios
 
       .post("http://localhost:4000/comments/create", {
+        userId: this.props.userInfo.id,
         postId: this.props.clickedContent.id,
-        userId: this.props.userInfo.userId,
         message: this.state.commentValue,
+        email: this.props.userInfo.email,
       })
       //  .post("http://devyeon.com/comments/create", this.state.inputComment)
       .then((res) => {
