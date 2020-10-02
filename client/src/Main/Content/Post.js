@@ -60,7 +60,7 @@ class Post extends React.Component {
       // .put("http://localhost:4000/posts/update", {
       .put("https://devyeon.com/posts/update", {
         token: this.props.token,
-        data: this.state,
+        ...this.state,
       })
       .then((res) => {
         if (res.status === 200) {

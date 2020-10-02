@@ -34,7 +34,9 @@ class User extends React.Component {
               // .post("http://localhost:4000/users/logout", {
               //   token: token,
               // })
-              .post("https://devyeon.com/users/logout", { token: token })
+              .post("https://devyeon.com/users/logout", {
+                token: token,
+              })
               .then((result) => {
                 getUserData(result);
                 handleLoginClick(); //로그아웃 되었을 때 토큰 없애기

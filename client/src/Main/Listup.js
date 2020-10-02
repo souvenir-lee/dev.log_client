@@ -42,6 +42,7 @@ class Listup extends React.Component {
     this.handleGetDefault = this.handleGetDefault.bind(this);
     this.handleContentList = this.handleContentList.bind(this);
     this.handleClickedContent = this.handleClickedContent.bind(this);
+
     this.clickNewMessage = this.clickNewMessage.bind(this);
     this.clickEditBtn = this.clickEditBtn.bind(this);
     this.handleMypage = this.handleMypage.bind(this);
@@ -86,6 +87,7 @@ class Listup extends React.Component {
   clickEditBtn = () => {
     this.setState({ editBtn: true });
   };
+
   // editDetail = (data) => {
   //   this.setState({
   //     contentsList: {
@@ -95,11 +97,13 @@ class Listup extends React.Component {
   //     },
   //   });
   // };
+
   //마이페이지 바꾸기
   handleMypage = () => {
     this.setState({ isMypage: !this.state.isMypage });
     console.log("마이페이지");
   };
+
   //검색된 contentList 불러오는 함수
   handleSearchList = (value) => {
     // axios.get(`http://localhost:4000/search/title/${value}`).then((res) => {
@@ -108,10 +112,12 @@ class Listup extends React.Component {
       this.setState({ contentsList: res.data });
     });
   };
+
   //시작하자마자 전체 데이터 뿌려주는 함수 -> 주기함수 써야 함.
   componentDidMount() {
     this.handleGetDefault();
   }
+
   render() {
     const {
       getUserData,
@@ -131,6 +137,7 @@ class Listup extends React.Component {
       isMypage,
       newPost,
     } = this.state;
+
     const {
       handleInputCategory,
       handleGetDefault,
@@ -141,6 +148,7 @@ class Listup extends React.Component {
       handleMypage,
       handleSearchList,
     } = this;
+
     return (
       <div id="outer">
         {!isLogin ? <Redirect to="/login" /> : ""}

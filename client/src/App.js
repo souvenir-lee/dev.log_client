@@ -31,6 +31,7 @@ class App extends React.Component {
     this.handleLoginClick = this.handleLoginClick.bind(this);
     this.getUserData = this.getUserData.bind(this);
   }
+
   //로그인 시 userInfo를 끌어올리는 함수
   getUserData = (data) => {
     this.setState({
