@@ -16,16 +16,7 @@ class Listup extends React.Component {
     this.state = {
       categoryId: 0,
       category: "전체보기",
-      contentsList: [
-        {
-          id: "", //postId
-          categoryId: "",
-          username: "",
-          title: "",
-          message: "",
-          view_count: "",
-        },
-      ],
+      contentsList: [],
       clickedContent: {
         id: "",
         categoryId: "",
@@ -39,47 +30,45 @@ class Listup extends React.Component {
       //currentContent: {},
       // isMypage: false
     };
+    this.handleContentList(this.state.categoryId);
+
     this.handleInputCategory = this.handleInputCategory.bind(this);
-    this.handleGetDefault = this.handleGetDefault.bind(this);
     this.handleContentList = this.handleContentList.bind(this);
     this.handleClickedContent = this.handleClickedContent.bind(this);
 
     this.clickNewMessage = this.clickNewMessage.bind(this);
     this.clickEditBtn = this.clickEditBtn.bind(this);
-    // this.handleMypage = this.handleMypage.bind(this);
     this.handleSearchList = this.handleSearchList.bind(this);
   }
   //category state 끌어올리기
   handleInputCategory = (e) => {
     const list = ["전체보기", "Grapefruit", "Lime", "Coconut", "Mango"];
     this.setState({ category: e.target.innerHTML });
-    this.setState({
-      categoryId: list.indexOf(e.target.innerHTML),
-    });
-    this.handleContentList(this.state.categoryId);
-    // console.log("카테고리~!!!");
+    this.setState(
+      {
+        categoryId: list.indexOf(e.target.innerHTML),
+      },
+      () => this.handleContentList(this.state.categoryId)
+    );
   };
-
-  //기본 contestList 불러오는 함수, category
-  handleGetDefault = () => {
-    // axios.get(`http://localhost:4000/posts/list`).then((res) => {
-    axios.get(`https://devyeon.com/posts/list`).then((res) => {
-      // console.log(res.data);
-      this.setState({ contentsList: res.data });
-    });
-  };
-
   //필터링된 contentList 불러오는 함수
   handleContentList = (value) => {
-    // axios.get(`http://localhost:4000/posts/category/${value}`).then((res) => {
-    axios.get(`https://devyeon.com/posts/category/${value}`).then((res) => {
-      console.log(res.data);
-      this.setState({ contentsList: res.data });
-    });
+    console.log(value);
+    value !== 0
+      ? axios.get(`https://devyeon.com/posts/category/${value}`).then((res) => {
+          console.log(res.data);
+          this.setState({ contentsList: res.data });
+        })
+      : axios.get(`https://devyeon.com/posts/list`).then((res) => {
+          this.setState({ contentsList: res.data });
+          console.log(res.data);
+        });
   };
+
   handleClickedContent = (data) => {
     this.setState({ clickedContent: data });
   };
+
   //새글 쓰기 리다이렉트
   clickNewMessage = () => {
     this.setState({ newPost: !this.state.newPost });
@@ -89,30 +78,13 @@ class Listup extends React.Component {
     this.setState({ editBtn: true });
   };
 
-  // editDetail = (data) => {
-  //   this.setState({
-  //     contentsList: {
-  //       username: data.username,
-  //       title: data.title,
-  //       message: data.message,
-  //     },
-  //   });
-  // };
-
   //검색된 contentList 불러오는 함수
   handleSearchList = (value) => {
-    // axios.get(`http://localhost:4000/search/title/${value}`).then((res) => {
     axios.get(`https://devyeon.com/search/title/${value}`).then((res) => {
       console.log(res.data);
       this.setState({ contentsList: res.data });
     });
   };
-
-  //시작하자마자 전체 데이터 뿌려주는 함수 -> 주기함수 써야 함.
-  componentDidMount() {
-    console.log("COMPONENT DID MOUNT");
-    this.handleGetDefault();
-  }
 
   render() {
     const {
@@ -192,7 +164,7 @@ class Listup extends React.Component {
               path="/main"
               render={() => (
                 <Contents
-                  // category={category} post에 카테고리가 필요한가?
+                  category={category}
                   token={token}
                   userInfo={userInfo}
                   contentsList={contentsList}
@@ -218,19 +190,6 @@ class Listup extends React.Component {
                 />
               )}
             ></Route>
-            <Route
-              exact
-              path="/main/mypage"
-              render={() => (
-                <Mypage
-                  isLogin={isLogin}
-                  isMypage={isMypage}
-                  userInfo={userInfo}
-                  token={token}
-                  handleMypage={handleMypage}
-                />
-              )}
-            />
           </Switch>
           <Custom userInfo={userInfo} token={token} />
           {console.log("-----")}
