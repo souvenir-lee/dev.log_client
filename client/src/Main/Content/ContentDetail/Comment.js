@@ -17,14 +17,18 @@ class Comment extends React.Component {
 
   handleCommentClick = () => {
     axios
-
-      .post("http://localhost:4000/comments/create", {
+      // .post("http://localhost:4000/comments/create", {
+      //   userId: this.props.userInfo.id,
+      //   postId: this.props.clickedContent.id,
+      //   message: this.state.commentValue,
+      //   email: this.props.userInfo.email,
+      // })
+      .post("https://devyeon.com/comments/create", {
         userId: this.props.userInfo.id,
         postId: this.props.clickedContent.id,
         message: this.state.commentValue,
         email: this.props.userInfo.email,
       })
-      //  .post("http://devyeon.com/comments/create", this.state.inputComment)
       .then((res) => {
         if (res.status === 200) {
           this.setState({ comments: res });

@@ -4,9 +4,6 @@ import { withRouter } from "react-router-dom";
 class CategoryEntry extends React.Component {
   constructor(props) {
     super();
-    // this.state = {
-    //   category : "" //{category, contentsList, handleInputCategory, handleContentList}
-    // }
   }
 
   render() {

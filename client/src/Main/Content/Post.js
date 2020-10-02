@@ -38,7 +38,7 @@ class Post extends React.Component {
       .post("http://devyeon.com/posts/create", {
         token: this.props.token,
         categoryId: this.state.categoryId,
-        userId: this.props.userInfo.id,
+        authorId: this.props.userInfo.id,
         message: this.state.message,
         title: this.state.title,
       })
@@ -54,12 +54,14 @@ class Post extends React.Component {
   handleEdit = async () => {
     await this.handleInputValue("message");
     await axios
-
-      .put("http://localhost:4000/posts/update", {
+      // .put("http://localhost:4000/posts/update", {
+      //   token: this.props.token,
+      //   data: this.state,
+      // })
+      .put("https://devyeon.com/posts/update", {
         token: this.props.token,
-        data: this.state,
+        ...this.state,
       })
-      // .put("http://devyeon.com/posts/update", this.state)
       .then((res) => {
         if (res.status === 200) {
           this.props.handleGetDefault();
