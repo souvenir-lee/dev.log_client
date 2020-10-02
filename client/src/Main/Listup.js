@@ -73,13 +73,11 @@ class Listup extends React.Component {
       editBtn,
       newPost,
       handleClickedContent,
-      clickNewMessage,
       clickEditBtn,
     } = this.state;
-    console.log(categoryId);
 
     if (categoryId === "전체보기") {
-      this.props.handleGetDefault();
+      handleGetDefault();
     } else if (categoryId === "Grapefruit") {
       handleContentList("1");
     } else if (categoryId === "Lime") {
@@ -127,16 +125,15 @@ class Listup extends React.Component {
               path="/main"
               render={() => (
                 <Contents
-                  // cateory={category} post에 카테고리가 필요한가?
+                  // category={category} post에 카테고리가 필요한가?
                   token={token}
                   userInfo={userInfo}
                   contentsList={contentsList}
                   clickedContent={clickedContent}
                   newPost={newPost}
                   editBtn={editBtn}
-                  handleClickedContent={handleClickedContent}
-                  handleClickedContent={handleClickedContent}
-                  clickNewMessage={clickNewMessage}
+                  handleClickedContent={this.handleClickedContent}
+                  clickNewMessage={this.clickNewMessage}
                 />
               )}
             ></Route>
@@ -145,13 +142,12 @@ class Listup extends React.Component {
               path="/main/detail"
               render={() => (
                 <ContentDetail
-                  categoryId={categoryId}
                   token={token}
-                  handleClickedContent={handleClickedContent}
-                  contentsList={contentsList}
-                  clickEditBtn={clickEditBtn}
-                  clickedContent={clickedContent}
                   userInfo={userInfo}
+                  categoryId={categoryId}
+                  clickedContent={clickedContent}
+                  handleClickedContent={handleClickedContent}
+                  clickEditBtn={clickEditBtn}
                 />
               )}
             ></Route>

@@ -1,27 +1,24 @@
-import React from 'react';
+import React from "react";
 import { withRouter } from "react-router-dom";
 
 class CotegoryEntry extends React.Component {
-  constructor(props){
-    super(props)
+  constructor(props) {
+    super(props);
     this.state = {
-      categoryId : "" //{cateory, contentsList, handleInputCategory, handleContentList}
-    }
+      categoryId: "", //{category, contentsList, handleInputCategory, handleContentList}
+    };
   }
 
-  render(){
-    const {el, handleInputCategory} = this.props
+  render() {
+    const { el, handleInputCategory } = this.props;
     return (
       <>
-        <div 
-          className="categoryBox" 
-          onClick={handleInputCategory}
-          >
+        <div className="categoryBox" onClick={handleInputCategory}>
           {el}
         </div>
       </>
-    )
+    );
   }
 }
 
-export default withRouter(CotegoryEntry)
+export default withRouter(CotegoryEntry);
