@@ -35,8 +35,8 @@ class Post extends React.Component {
   handlePost = () => {
     console.log(this.state);
     axios
-      .post("http://localhost:4000/posts/create", {
-        // .post("http://devyeon.com/posts/create", {
+      .post("http://devyeon.com/posts/create", {
+        token: this.props.token,
         categoryId: this.state.categoryId,
         userId: this.props.userInfo.id,
         message: this.state.message,
@@ -56,10 +56,8 @@ class Post extends React.Component {
     await axios
 
       .put("http://localhost:4000/posts/update", {
-        id: "",
-        categoryId: "",
-        message: "",
-        title: "",
+        token: this.props.token,
+        data: this.state,
       })
       // .put("http://devyeon.com/posts/update", this.state)
       .then((res) => {
