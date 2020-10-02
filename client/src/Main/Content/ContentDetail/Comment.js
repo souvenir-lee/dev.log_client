@@ -1,20 +1,15 @@
 import React from "react";
 import CommentEntry from "./CommentEntry";
 import axios from "axios";
-axios.defaults.withCredentials = true;
+axios.defaults.withCredentials = "include";
 
 class Comment extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      comments: [
-        { id: "", username: "수진", message: "hello" },
-        { id: "", username: "한슬", message: "good" },
-        { id: "", username: "윤연", message: "word" },
-      ],
-      commentCount: 3,
-      // inputComment: this.state.comments.length,
+      commentValue: "",
     };
+    console.log("댓글", this.props.userInfo);
   }
   handleInputValue = (key) => (e) => {
     this.setState({ [key]: e.target.value });
@@ -23,8 +18,13 @@ class Comment extends React.Component {
   handleCommentClick = () => {
     axios
 
-      //.post("http://localhost:4000/comments/create", this.state.inputComment)
-       .post("http://devyeon.com/comments/create", this.state.inputComment)
+      .post("http://localhost:4000/comments/create", {
+        userId: this.props.userInfo.id,
+        postId: this.props.clickedContent.id,
+        message: this.state.commentValue,
+        email: this.props.userInfo.email,
+      })
+      //  .post("http://devyeon.com/comments/create", this.state.inputComment)
       .then((res) => {
         if (res.status === 200) {
           this.setState({ comments: res });
@@ -34,15 +34,16 @@ class Comment extends React.Component {
   };
 
   render() {
+    const { comments } = this.props;
     return (
       <div className="comment">
         <div className="comment_count">댓글 :0</div>
         <div>
           <input
             className="comment_input"
-            type="inputComment"
+            type="commentValue"
             placeholder="댓글을 입력해주세요"
-            onChange={this.handleInputValue("inputComment")}
+            onChange={this.handleInputValue("commentValue")}
           ></input>
           <button
             className="comment_post"
@@ -53,8 +54,8 @@ class Comment extends React.Component {
             올리기
           </button>
         </div>
-        {this.state.comments.map((comment) => (
-          <CommentEntry comment={comment} />
+        {this.props.comments.map((comment) => (
+          <CommentEntry comments={comments} />
         ))}
       </div>
     );

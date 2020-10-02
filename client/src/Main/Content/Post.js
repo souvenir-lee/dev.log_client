@@ -2,11 +2,12 @@ import React from "react";
 import axios from "axios";
 import { Link, Route, Redirect, withRouter } from "react-router-dom";
 import CKEditor from "ckeditor4-react";
+axios.defaults.withCredentials = "include";
 
 class Post extends React.Component {
   constructor(props) {
     super(props);
-    console.log("콘솔", this.props);
+    console.log("포스트", this.props);
     this.state = {
       categoryId: "",
       title: "",
@@ -37,7 +38,7 @@ class Post extends React.Component {
       .post("http://devyeon.com/posts/create", {
         token: this.props.token,
         categoryId: this.state.categoryId,
-        userId: this.props.userInfo.userId,
+        userId: this.props.userInfo.id,
         message: this.state.message,
         title: this.state.title,
       })

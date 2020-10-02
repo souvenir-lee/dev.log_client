@@ -5,14 +5,13 @@ import Category from "../Main/Category/Category";
 import Contents from "../Main/Content/ContentList/Contents";
 import Post from "../Main/Content/Post";
 import ContentDetail from "../Main/Content/ContentDetail/ContentDetail";
-import Mypage from "../Mypage";
 import axios from "axios";
 import Custom from "../Main/Custom/Custom";
 axios.defaults.withCredentials = "include";
 
 class Listup extends React.Component {
   constructor(props) {
-    super(props); //isLogin, userInfo, handleIsLoginChange
+    super(props);
     this.state = {
       categoryId: 0,
       category: "전체보기",
@@ -26,21 +25,18 @@ class Listup extends React.Component {
           view_count: "",
         },
       ],
-      // clickedContent: {
-      //   id: null,
-      //   // categoryId: null,
-      //   // username: "디테일 username",
-      //   // title: "디테일 title",
-      //   // message: "디테일 message",
-      // },
+      clickedContent: {
+        id: "",
+        categoryId: "",
+        username: "",
+        title: "",
+        message: "",
+      },
       newPost: false,
       editBtn: false,
       //currentContent: {},
       customListOp: "scrap",
     };
-    this.handleInputCategory = this.handleInputCategory.bind(this);
-    this.handleContentList = this.handleContentList.bind(this);
-    this.handleGetDefault = this.handleGetDefault.bind(this);
     this.handleClickedContent = this.handleClickedContent.bind(this);
     this.clickNewMessage = this.clickNewMessage.bind(this);
     this.clickEditBtn = this.clickEditBtn.bind(this);
@@ -52,6 +48,11 @@ class Listup extends React.Component {
 
   handleClickedContent = (data) => {
     this.setState({ clickedContent: data });
+  };
+
+  //새글 쓰기 리다이렉트
+  clickNewMessage = () => {
+    this.setState({ newPost: !this.state.newPost });
   };
 
   // editDetail = (data) => {
@@ -67,19 +68,6 @@ class Listup extends React.Component {
   //시작하자마자 전체 데이터 뿌려주는 함수 -> 주기함수 써야 함.
   componentDidMount() {
     this.handleGetDefault();
-
-    // fetch("https://devyeon.com/posts/list", {
-    //   method: "get",
-    //   origin: true,
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   credentials: "include",
-    // })
-    //   .then((res) => {
-    //     return res;
-    //   })
-    //   .then((res) => console.log(res));
   }
 
   //새글 쓰기 리다이렉트
@@ -118,21 +106,29 @@ class Listup extends React.Component {
   render() {
     const {
       isLogin,
+      isMypage,
       token,
       userInfo,
-      handleLoginClick,
+      categoryId,
+      contentsList,
+      handleGetDefault,
+      handleInputCategory,
+      handleContentList,
       getUserData,
-      clickEditBtn,
+      handleMypage,
+      handleLoginClick,
     } = this.props;
     console.log("listup props", this.props);
     const {
       categoryId,
       category,
       contentsList,
+      clickedContent,
       handleClickedContent,
       handleGetDefault,
+      clickEditBtn,
+      newPost,
       editBtn,
-      clickedContent,
     } = this.state;
 
     return (
@@ -140,7 +136,9 @@ class Listup extends React.Component {
         <Nav
           isLogin={isLogin}
           token={token}
+          isMypage={isMypage}
           userInfo={userInfo}
+          handleMypage={handleMypage}
           handleLoginClick={handleLoginClick}
           getUserData={getUserData}
         />
@@ -172,14 +170,15 @@ class Listup extends React.Component {
               path="/main"
               render={() => (
                 <Contents
-                  // cateory={category} post에 카테고리가 필요한가?
+                  // category={category} post에 카테고리가 필요한가?
                   token={token}
-                  contentsList={contentsList}
-                  handleClickedContent={this.handleClickedContent}
-                  clickedContent={clickedContent}
-                  handleGetDefault={handleGetDefault}
-                  editBtn={editBtn}
                   userInfo={userInfo}
+                  contentsList={contentsList}
+                  clickedContent={clickedContent}
+                  newPost={newPost}
+                  editBtn={editBtn}
+                  handleClickedContent={this.handleClickedContent}
+                  clickNewMessage={this.clickNewMessage}
                 />
               )}
             ></Route>
@@ -189,10 +188,11 @@ class Listup extends React.Component {
               render={() => (
                 <ContentDetail
                   token={token}
-                  cateory={category}
-                  contentsList={contentsList}
-                  clickEditBtn={clickEditBtn}
+                  userInfo={userInfo}
+                  categoryId={categoryId}
                   clickedContent={clickedContent}
+                  handleClickedContent={handleClickedContent}
+                  clickEditBtn={clickEditBtn}
                 />
               )}
             ></Route>

@@ -14,9 +14,12 @@ class ContentsEntry extends React.Component {
 
   getContentDetail = () => {
     axios
-      // .get(`http://localhost:4000/posts/info/${this.props.content.id}`)
-      .get(`https://devyeon.com/posts/info/${this.props.content.id}`)
-      .then((res) => this.props.handleClickedContent(res.data));
+      .get(`http://localhost:4000/posts/info/${this.props.content.id}`)
+      // .get(`https://devyeon.com/posts/info/${this.props.content.id}`) //이건되는데 왜 위에는 안될까
+      .then((res) => {
+        this.props.handleClickedContent(res.data);
+      });
+    console.log("클릭컨텐츠", this.props);
   };
 
   render() {
@@ -24,7 +27,7 @@ class ContentsEntry extends React.Component {
       <div
         className="contentBox"
         onClick={() => {
-          console.log("클릭되나");
+          // console.log("클릭되나");
           this.getContentDetail();
           this.setState({ isDetail: !this.state.isDetail });
         }}

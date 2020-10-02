@@ -15,7 +15,9 @@ class User extends React.Component {
     const {
       isLogin,
       token,
+      isMypage,
       userInfo,
+      handleMypage,
       getUserData,
       handleLoginClick,
     } = this.props;
@@ -23,7 +25,7 @@ class User extends React.Component {
     return (
       <div className="userArea">
         {!isLogin ? <Redirect to="/login" /> : ""}
-        {this.state.isMypage ? <Redirect to="/mypage" /> : ""}
+        {isMypage ? <Redirect to="/mypage" /> : ""}
 
         <button
           id="logoutBtn"
