@@ -1,5 +1,5 @@
 import React from "react";
-import { Redirect, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import axios from "axios";
 axios.defaults.withCredentials = "include";
 
@@ -15,15 +15,13 @@ class CustomList extends React.Component {
   getCustomList() {
     const { userInfo, token } = this.props;
     axios
-      .post(
-        `https://devyeon.com/custom/${this.props.selectedOption.toLowerCase()}list`,
-        //`http://localhost:4000/custom/${this.props.selectedOption.toLowerCase()}list`,
-        {
-          data: {
-            userId: userInfo.id,
-            token: token,
-          },
-        }
+      .get(
+        // `http://localhost:4000/custom/${this.props.selectedOption.toLowerCase()}/${
+        //   userInfo.id
+        // }`,
+        `https://devyeon.com/custom/${this.props.selectedOption.toLowerCase()}/${
+          userInfo.id
+        }`
       )
       .then((result) => {
         if (Object.values(result).length !== 0) {
@@ -38,13 +36,14 @@ class CustomList extends React.Component {
 
   componentDidMount() {
     this.getCustomList();
+    // console.log("Custom List, component did mount");
   }
 
   render() {
     const { selectedOption } = this.props;
     const { contentList } = this.state;
     // console.log(selectedOption);
-    console.log(contentList);
+    // console.log(contentList);
 
     return (
       <>

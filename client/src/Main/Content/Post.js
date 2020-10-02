@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import { Link, Route, Redirect, withRouter } from "react-router-dom";
+import { Redirect, withRouter } from "react-router-dom";
 axios.defaults.withCredentials = "include";
 
 class Post extends React.Component {
@@ -60,11 +60,11 @@ class Post extends React.Component {
       // .put("http://localhost:4000/posts/update", {
       .put("https://devyeon.com/posts/update", {
         token: this.props.token,
-        data: this.state,
+        ...this.state,
       })
       .then((res) => {
         if (res.status === 200) {
-          this.props.handleGetDefault();
+          // this.props.handleGetDefault();
           alert("수정이 완료되었습니다");
           this.props.history.push("/main");
         }
@@ -118,6 +118,7 @@ class Post extends React.Component {
             type="submit"
             onClick={() => {
               //클릭했을때 /main으로 이동
+              this.props.clickNewMessage();
               this.props.history.push("/main");
             }}
           >
