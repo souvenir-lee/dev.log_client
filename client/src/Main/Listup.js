@@ -17,13 +17,7 @@ class Listup extends React.Component {
       categoryId: 0,
       category: "전체보기",
       contentsList: [],
-      clickedContent: {
-        id: "",
-        categoryId: "",
-        username: "",
-        title: "",
-        message: "",
-      },
+      clickedContent: {},
       newPost: false,
       editBtn: false,
       customListOp: "scrap",
@@ -66,6 +60,7 @@ class Listup extends React.Component {
   };
 
   handleClickedContent = (data) => {
+    console.log(data);
     this.setState({ clickedContent: data });
   };
 
@@ -138,8 +133,10 @@ class Listup extends React.Component {
           getUserData={getUserData}
           handleSearchList={handleSearchList}
         />
+
         <div className="container" id="main">
           {newPost ? <Redirect to="/main/post" /> : ""}
+
           <Category
             token={token}
             categoryId={categoryId}
@@ -147,18 +144,6 @@ class Listup extends React.Component {
             handleInputCategory={handleInputCategory}
           />
           <Switch>
-            <Route
-              exact
-              path="/main/post"
-              render={() => (
-                <Post
-                  userInfo={userInfo}
-                  token={token}
-                  editBtn={editBtn}
-                  clickEditBtn={clickEditBtn}
-                />
-              )}
-            ></Route>
             <Route
               exact
               path="/main"
@@ -176,6 +161,7 @@ class Listup extends React.Component {
                 />
               )}
             ></Route>
+
             <Route
               exact
               path="/main/detail"
@@ -190,7 +176,20 @@ class Listup extends React.Component {
                 />
               )}
             ></Route>
+            <Route
+              exact
+              path="/main/post"
+              render={() => (
+                <Post
+                  userInfo={userInfo}
+                  token={token}
+                  editBtn={editBtn}
+                  clickEditBtn={clickEditBtn}
+                />
+              )}
+            ></Route>
           </Switch>
+
           <Custom userInfo={userInfo} token={token} />
           {console.log("-----")}
         </div>

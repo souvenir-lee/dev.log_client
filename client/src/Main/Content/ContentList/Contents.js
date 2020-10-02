@@ -21,13 +21,11 @@ class Contents extends React.Component {
         >
           새글 쓰기
         </button>
-        {contentsList.map((content) => (
-          <ContentsEntry
-            content={content}
-            clickedContent={clickedContent}
-            handleClickedContent={handleClickedContent}
-          />
-        ))}
+        <ContentsEntry
+          contentsList={contentsList}
+          clickedContent={clickedContent}
+          handleClickedContent={handleClickedContent}
+        />
       </div>
     );
   }
