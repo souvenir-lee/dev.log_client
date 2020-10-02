@@ -33,6 +33,7 @@ class App extends React.Component {
       },
     });
   };
+
   //클릭하면 isLogin 번경
   handleLoginClick = () => {
     setTimeout(() => {
