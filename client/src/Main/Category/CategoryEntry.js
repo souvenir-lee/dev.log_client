@@ -1,18 +1,12 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-
 class CategoryEntry extends React.Component {
   constructor(props) {
     super();
-    // this.state = {
-    //   category : "" //{category, contentsList, handleInputCategory, handleContentList}
-    // }
   }
-
   render() {
     const { handleInputCategory } = this.props;
     const list = ["전체보기", "Grapefruit", "Lime", "Coconut", "Mango"];
-
     return (
       <>
         {list.map((ele) => {
@@ -30,5 +24,4 @@ class CategoryEntry extends React.Component {
     );
   }
 }
-
 export default withRouter(CategoryEntry);
