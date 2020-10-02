@@ -9,6 +9,7 @@ import Mypage from "../Mypage";
 import Custom from "../Main/Custom/Custom";
 import axios from "axios";
 axios.defaults.withCredentials = "include";
+
 class Listup extends React.Component {
   constructor(props) {
     super();
@@ -34,9 +35,9 @@ class Listup extends React.Component {
       },
       newPost: false,
       editBtn: false,
-      isMypage: false,
       customListOp: "scrap",
       //currentContent: {},
+      // isMypage: false
     };
     this.handleInputCategory = this.handleInputCategory.bind(this);
     this.handleGetDefault = this.handleGetDefault.bind(this);
@@ -45,7 +46,7 @@ class Listup extends React.Component {
 
     this.clickNewMessage = this.clickNewMessage.bind(this);
     this.clickEditBtn = this.clickEditBtn.bind(this);
-    this.handleMypage = this.handleMypage.bind(this);
+    // this.handleMypage = this.handleMypage.bind(this);
     this.handleSearchList = this.handleSearchList.bind(this);
   }
   //category state 끌어올리기
@@ -98,12 +99,6 @@ class Listup extends React.Component {
   //   });
   // };
 
-  //마이페이지 바꾸기
-  handleMypage = () => {
-    this.setState({ isMypage: !this.state.isMypage });
-    console.log("마이페이지");
-  };
-
   //검색된 contentList 불러오는 함수
   handleSearchList = (value) => {
     // axios.get(`http://localhost:4000/search/title/${value}`).then((res) => {
@@ -115,6 +110,7 @@ class Listup extends React.Component {
 
   //시작하자마자 전체 데이터 뿌려주는 함수 -> 주기함수 써야 함.
   componentDidMount() {
+    console.log("COMPONENT DID MOUNT");
     this.handleGetDefault();
   }
 
@@ -125,8 +121,10 @@ class Listup extends React.Component {
       isLogin,
       token,
       userInfo,
+      isMypage,
+      handleMypage,
     } = this.props;
-    // console.log("listup props", this.props);
+
     const {
       category,
       categoryId,
@@ -134,7 +132,6 @@ class Listup extends React.Component {
       contentsList,
       customListOp,
       editBtn,
-      isMypage,
       newPost,
     } = this.state;
 
@@ -145,15 +142,20 @@ class Listup extends React.Component {
       handleClickedContent,
       clickNewMessage,
       clickEditBtn,
-      handleMypage,
       handleSearchList,
     } = this;
 
     return (
       <div id="outer">
-        {!isLogin ? <Redirect to="/login" /> : ""}
-        {/* {isMypage ? <Redirect to="/mypage" /> : ""} */}
-        {isMypage ? <Redirect to="/main/mypage" /> : <Redirect to="/main" />}
+        {console.log("rendered listup")}
+        {isMypage ? (
+          <Switch>
+            {console.log("route is mypage")}
+            <Redirect to="/mypage" render={() => <Mypage />} />
+          </Switch>
+        ) : (
+          <Redirect to="/main" />
+        )}
         <Nav
           isLogin={isLogin}
           token={token}
