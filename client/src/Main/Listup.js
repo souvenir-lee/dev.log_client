@@ -7,15 +7,15 @@ import Post from "../Main/Content/Post";
 import ContentDetail from "../Main/Content/ContentDetail/ContentDetail";
 import Mypage from "../Mypage";
 import axios from "axios";
-import Scrap from "../Main/Scrap";
+import Custom from "../Main/Custom/Custom";
 axios.defaults.withCredentials = "include";
-
 
 class Listup extends React.Component {
   constructor(props) {
     super(props); //isLogin, userInfo, handleIsLoginChange
     this.state = {
-      categoryId: null,
+      categoryId: 0,
+      category: "전체보기",
       contentsList: [
         {
           id: "", //postId
@@ -26,22 +26,23 @@ class Listup extends React.Component {
           view_count: "",
         },
       ],
-      clickedContent: {
-        id: null,
-        // categoryId: null,
-        // username: "디테일 username",
-        // title: "디테일 title",
-        // message: "디테일 message",
-      },
+      // clickedContent: {
+      //   id: null,
+      //   // categoryId: null,
+      //   // username: "디테일 username",
+      //   // title: "디테일 title",
+      //   // message: "디테일 message",
+      // },
       newPost: false,
       editBtn: false,
       //currentContent: {},
+      customListOp: "scrap",
     };
     this.handleInputCategory = this.handleInputCategory.bind(this);
     this.handleContentList = this.handleContentList.bind(this);
     this.handleGetDefault = this.handleGetDefault.bind(this);
     this.handleClickedContent = this.handleClickedContent.bind(this);
-    this.clickNewMessage = this.clickNewMessage.bind(this)
+    this.clickNewMessage = this.clickNewMessage.bind(this);
     this.clickEditBtn = this.clickEditBtn.bind(this);
   }
 
@@ -66,17 +67,30 @@ class Listup extends React.Component {
   //시작하자마자 전체 데이터 뿌려주는 함수 -> 주기함수 써야 함.
   componentDidMount() {
     this.handleGetDefault();
+
+    // fetch("https://devyeon.com/posts/list", {
+    //   method: "get",
+    //   origin: true,
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   credentials: "include",
+    // })
+    //   .then((res) => {
+    //     return res;
+    //   })
+    //   .then((res) => console.log(res));
   }
 
   //새글 쓰기 리다이렉트
   clickNewMessage = () => {
-    this.setState({newPost : !this.state.newPost})
-  }
+    this.setState({ newPost: !this.state.newPost });
+  };
 
   //기본 contestList 불러오는 함수, category
   handleGetDefault = () => {
-    //axios.get(`http://localhost:4000/posts/list`).then((res) => {
-       axios.get(`https://devyeon.com/posts/list`).then((res) => {
+    axios.get(`http://localhost:4000/posts/list`).then((res) => {
+      // axios.get(`https://devyeon.com/posts/list`).then((res) => {
       console.log(res.data);
       this.setState({ contentsList: res.data });
     });
@@ -84,8 +98,8 @@ class Listup extends React.Component {
 
   //필터링된 contestList 불러오는 함수
   handleContentList = (value) => {
-    //axios.get(`http://localhost:4000/posts/category/${value}`).then((res) => {
-       axios.get(`https://devyeon.com/posts/category/${value}`).then((res) => {
+    axios.get(`http://localhost:4000/posts/category/${value}`).then((res) => {
+      // axios.get(`https://devyeon.com/posts/category/${value}`).then((res) => {
       console.log(res.data);
       this.setState({ contentsList: res.data });
     });
@@ -93,8 +107,12 @@ class Listup extends React.Component {
 
   //category state 끌어올리기
   handleInputCategory = (e) => {
+    const list = ["전체보기", "Grapefruit", "Lime", "Coconut", "Mango"];
     this.setState({ category: e.target.innerHTML });
-    console.log("카테고리~!!!");
+    this.setState({
+      categoryId: list.indexOf(e.target.innerHTML),
+    });
+    // console.log("카테고리~!!!");
   };
 
   render() {
@@ -108,6 +126,7 @@ class Listup extends React.Component {
     } = this.props;
     console.log("listup props", this.props);
     const {
+      categoryId,
       category,
       contentsList,
       handleClickedContent,
@@ -115,23 +134,6 @@ class Listup extends React.Component {
       editBtn,
       clickedContent,
     } = this.state;
-
-    if (category === "전체보기") {
-      this.handleGetDefault();
-      this.setState({ category: null });
-    } else if (category === "Grapefruit") {
-      this.handleContentList("1");
-      this.setState({ category: null });
-    } else if (category === "Lime") {
-      this.handleContentList("2");
-      this.setState({ category: null });
-    } else if (category === "Coconut") {
-      this.handleContentList("3");
-      this.setState({ category: null });
-    } else if (category === "Mango") {
-      this.handleContentList("4");
-      this.setState({ category: null });
-    }
 
     return (
       <div id="outer">
@@ -144,10 +146,10 @@ class Listup extends React.Component {
         />
 
         <div className="container" id="main">
-
-        {(this.state.newPost) ? <Redirect to="/main/post" /> : ""}  
+          {this.state.newPost ? <Redirect to="/main/post" /> : ""}
           <Category
             token={token}
+            categoryId={categoryId}
             category={category}
             handleInputCategory={this.handleInputCategory}
           />
@@ -198,16 +200,11 @@ class Listup extends React.Component {
               exact
               path="/mypage"
               render={() => (
-                <Mypage
-                  isLogin={isLogin}
-                  token={token}
-                  userInfo={userInfo}
-                />
+                <Mypage isLogin={isLogin} token={token} userInfo={userInfo} />
               )}
             />
           </Switch>
-          {/*
-          <Scrap />*/}
+          <Custom userInfo={userInfo} token={token} />
         </div>
       </div>
     );

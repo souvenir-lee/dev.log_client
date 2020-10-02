@@ -34,16 +34,33 @@ class App extends React.Component {
   //클릭하면 isLogin 번경
   handleLoginClick = () => {
     setTimeout(() => {
-      this.setState({ isLogin: !this.state.isLogin }); 
-    }, 1000)
+      this.setState({ isLogin: !this.state.isLogin });
+    }, 1000);
   };
 
   render() {
     const { isLogin, token, userInfo } = this.state;
+
     return (
       <Switch>
+        {isLogin ? (
+          <Route
+            path="/main"
+            render={() => (
+              <Listup
+                isLogin={isLogin}
+                userInfo={userInfo}
+                token={token}
+                getUserData={this.getUserData}
+                handleLoginClick={this.handleLoginClick}
+              />
+            )}
+          />
+        ) : (
+          ""
+        )}
         <Route
-          path="/login" 
+          path="/login"
           render={() => (
             <Login
               isLogin={isLogin}
@@ -55,25 +72,11 @@ class App extends React.Component {
           )}
         />
         <Route path="/signup" render={() => <Signup />} />
-        <Route
-          path="/main"
-          render={() => (
-            <Listup
-              isLogin={isLogin}
-              userInfo={userInfo}
-              token={token}
-              getUserData={this.getUserData}
-              handleLoginClick={this.handleLoginClick}
-            />
-          )}
-        />
+
         <Route
           path="/"
           render={() => {
-            if (isLogin) {
-              return <Redirect to="/main" />;
-            }
-            return <Redirect to="/login" />;
+            if (!isLogin) return <Redirect to="/login" />;
           }}
         />
       </Switch>
