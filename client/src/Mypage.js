@@ -4,8 +4,8 @@ function Mypage({isLogin, token, userInfo, handleMypage}) {
     <div className="container" id="mypage">
       <center>
         <h1>Mypage</h1>
-        <div id="mypageUsername">이름 : {userInfo.username}</div>
-        <div id="mypageEmail">Email : {userInfo.email}</div>
+        <div id="mypageUsername">이름 {userInfo.username}</div>
+        <div id="mypageEmail">Email {userInfo.email}</div>
         <button 
           onClick={handleMypage}>
           메인으로
