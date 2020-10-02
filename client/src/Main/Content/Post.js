@@ -34,13 +34,17 @@ class Post extends React.Component {
   handlePost = () => {
     console.log(this.state);
     axios
-      .post("https://devyeon.com/posts/create", {
-        token: this.props.token,
-        categoryId: this.state.categoryId,
-        authorId: String(this.props.userInfo.id),
-        message: this.state.message,
-        title: this.state.title,
-      })
+      .post(
+        "https://devyeon.com/posts/create",
+        {
+          token: this.props.token,
+          categoryId: this.state.categoryId,
+          authorId: String(this.props.userInfo.id),
+          message: this.state.message,
+          title: this.state.title,
+        },
+        { headers: { "Access-Control-Allow-Origin": true } }
+      )
       .then((res) => {
         if (res.status === 201) {
           //새글 쓰고 main으로 이동
@@ -54,11 +58,10 @@ class Post extends React.Component {
     await this.handleInputValue("message");
     await axios
       // .put("http://localhost:4000/posts/update", {
-      .put("http://devyeon.com/posts/update", {
+      .put("https://devyeon.com/posts/update", {
         token: this.props.token,
         data: this.state,
       })
-      // .put("http://devyeon.com/posts/update", this.state)
       .then((res) => {
         if (res.status === 200) {
           this.props.handleGetDefault();

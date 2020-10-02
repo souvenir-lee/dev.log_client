@@ -32,14 +32,14 @@ class ContentDetail extends React.Component {
       // .get(
       //   `http://localhost:4000/comments/list/${this.props.clickedContent.id}`
       // )
-      .get(`http://devyeon.com/comments/list/${this.props.clickedContent.id}`)
+      .get(`https://devyeon.com/comments/list/${this.props.clickedContent.id}`)
       .then((res) => {
         this.setState({ comments: res.data });
       });
   };
   deleteMessage = () => {
     axios
-      .post("http://devyeon.com/posts/delete", {
+      .post("https://devyeon.com/posts/delete", {
         id: this.props.clickedContent.id,
       })
       // .post("http://localhost:4000/posts/delete", {
@@ -57,7 +57,7 @@ class ContentDetail extends React.Component {
   editMessage = () => {
     this.props.history.push("/main/post");
     axios
-      .get(`http://devyeon.com/posts/info/${this.props.clickedContent.id}`)
+      .get(`https://devyeon.com/posts/info/${this.props.clickedContent.id}`)
       // .get(`http://localhost:4000/posts/info/${this.props.clickedContent.id}`)
       .then((res) => {
         // await axios.get(`http://localhost:4000/posts/info/${this.props.contentsList.id}`).then((res) => {

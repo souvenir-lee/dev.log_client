@@ -14,8 +14,13 @@ class ContentsEntry extends React.Component {
 
   getContentDetail = () => {
     axios
+<<<<<<< HEAD
       // .get(`http://localhost:4000/posts/info/${this.props.content.id}`)
       .get(`https://devyeon.com/posts/info/${this.props.content.id}`) //이건되는데 왜 위에는 안될까
+=======
+      //.get(`http://localhost:4000/posts/info/${this.props.content.id}`)
+       .get(`https://devyeon.com/posts/info/${this.props.content.id}`) //이건되는데 왜 위에는 안될까
+>>>>>>> 68ec3ce105c3b2fc14d9c1e2652c0692894144bd
       .then((res) => {
         this.props.handleClickedContent(res.data);
       });

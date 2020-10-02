@@ -46,6 +46,7 @@ class Listup extends React.Component {
     this.clickEditBtn = this.clickEditBtn.bind(this);
     this.handleMypage = this.handleMypage.bind(this);
   }
+
   //category state 끌어올리기
   handleInputCategory = (e) => {
     const list = ["전체보기", "Grapefruit", "Lime", "Coconut", "Mango"];
@@ -56,6 +57,7 @@ class Listup extends React.Component {
     this.handleContentList(this.state.categoryId);
     // console.log("카테고리~!!!");
   };
+
   //기본 contestList 불러오는 함수, category
   handleGetDefault = () => {
     // axios.get(`http://localhost:4000/posts/list`).then((res) => {
@@ -64,6 +66,7 @@ class Listup extends React.Component {
       this.setState({ contentsList: res.data });
     });
   };
+
   //필터링된 contentList 불러오는 함수
   handleContentList = (value) => {
     // axios.get(`http://localhost:4000/posts/category/${value}`).then((res) => {
@@ -72,13 +75,16 @@ class Listup extends React.Component {
       this.setState({ contentsList: res.data });
     });
   };
+
   handleClickedContent = (data) => {
     this.setState({ clickedContent: data });
   };
+
   //새글 쓰기 리다이렉트
   clickNewMessage = () => {
     this.setState({ newPost: !this.state.newPost });
   };
+
   clickEditBtn = () => {
     this.setState({ editBtn: true });
   };
@@ -131,7 +137,7 @@ class Listup extends React.Component {
     return (
       <div id="outer">
         {!isLogin ? <Redirect to="/login" /> : ""}
-        {isMypage ? <Redirect to="/mypage" /> : ""}
+        {isMypage ? <Redirect to="/main/mypage" /> : <Redirect to="/main" /> }
         <Nav
           isLogin={isLogin}
           token={token}
@@ -195,7 +201,7 @@ class Listup extends React.Component {
             ></Route>
             <Route
               exact
-              path="/mypage"
+              path="/main/mypage"
               render={() => (
                 <Mypage
                   isLogin={isLogin}
