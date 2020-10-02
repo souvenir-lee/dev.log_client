@@ -1,17 +1,28 @@
-import React from 'react';
-import Logo from './Logo'
-import User from './User'
+import React from "react";
+import Logo from "./Logo";
+import User from "./User";
+import Search from "./Search";
 
-const Nav = ({isLogin, token, isMypage, userInfo, handleMypage, handleLoginClick, getUserData}) => (
+const Nav = ({
+  isLogin,
+  token,
+  isMypage,
+  userInfo,
+  handleMypage,
+  handleLoginClick,
+  getUserData,
+  handleSearchList,
+}) => (
   <div id="nav">
     <Logo></Logo>
-    <User 
-      isLogin={isLogin} 
-      token={token} 
+    <Search handleSearchList={handleSearchList}></Search>
+    <User
+      isLogin={isLogin}
+      token={token}
       isMypage={isMypage}
-      userInfo={userInfo} 
+      userInfo={userInfo}
       handleMypage={handleMypage}
-      handleLoginClick={handleLoginClick} 
+      handleLoginClick={handleLoginClick}
       getUserData={getUserData}
     ></User>
   </div>

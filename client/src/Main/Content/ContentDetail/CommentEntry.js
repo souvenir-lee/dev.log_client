@@ -11,9 +11,10 @@ class CommentEntry extends React.Component {
 
   deleteComment = () => {
     axios
-
-      // .post("http://localhost:4000/comments/delete", this.props.comment.id)
-      .post("https://devyeon.com/comments/delete", this.props.comment.id)
+      .delete("https://devyeon.com/comments/delete", {
+        token: this.props.token,
+        id: this.props.id,
+      })
       .then((res) => {
         if (res.status === 200) {
           alert("삭제되었습니다.");
@@ -24,15 +25,15 @@ class CommentEntry extends React.Component {
 
   render() {
     return (
-      <div className="commentEntry">
-        <div className="comment_username">{this.props.comment.username}</div>
-        <div className="comment_message">{this.props.comment.message}</div>
-        <div className="comment_btn">
-          <button className="comment_btnEdit" onClick={() => {}}>
+      <div className="commentList">
+        <div className="commentUsername">{this.props.comment.username}</div>
+        <div className="commentMessage">{this.props.comment.message}</div>
+        <div className="commentBtns">
+          <button className="commentEditBtn" onClick={() => {}}>
             수정
           </button>
           <button
-            className="comment_btnDelete"
+            className="commentDeleteBtn"
             onClick={() => {
               this.deleteComment();
             }}
