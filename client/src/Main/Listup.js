@@ -35,6 +35,7 @@ class Listup extends React.Component {
     this.clickNewMessage = this.clickNewMessage.bind(this);
     this.clickEditBtn = this.clickEditBtn.bind(this);
     this.handleSearchList = this.handleSearchList.bind(this);
+    this.handleSortList = this.handleSortList.bind(this);
   }
 
   // category 관련 (1) 전체 글 (2) 카테고리 필터링
@@ -80,6 +81,7 @@ class Listup extends React.Component {
 
   handleResetClickedContent() {
     this.setState({ clickedContent: {} });
+    this.setState({ comments: [] });
   }
 
   //새글 쓰기 리다이렉트
@@ -98,6 +100,18 @@ class Listup extends React.Component {
       this.setState({ contentsList: res.data });
     });
   }
+
+  //선택된 정렬 기준으로 contentList 불러오는 함수
+  handleSortList = (e) => {
+    // axios.get(`http://localhost:4000/posts/sort/${e.target.value}`)
+    // .then((res) => {
+    axios
+      .get(`https://devyeon.com/posts/sort/${e.target.value}`)
+      .then((res) => {
+        console.log(res.data);
+        this.setState({ contentsList: res.data });
+      });
+  };
 
   render() {
     const { isLogin, isMypage, token, userInfo, handleMypage } = this.props;
@@ -121,11 +135,12 @@ class Listup extends React.Component {
       clickNewMessage,
       clickEditBtn,
       handleSearchList,
+      handleSortList,
     } = this;
 
     return (
       <div id="outer">
-        {console.log(this.state.clickedContent)}
+        {console.log(this.state.clickedContent, this.state.comments)}
         {isMypage ? (
           <Switch>
             {console.log("route is mypage")}
@@ -173,6 +188,7 @@ class Listup extends React.Component {
                   handleResetClickedContent={handleResetClickedContent}
                   clickNewMessage={clickNewMessage}
                   clickEditBtn={clickEditBtn}
+                  handleSortList={handleSortList}
                   handleSearchList={handleSearchList}
                 />
               )}
