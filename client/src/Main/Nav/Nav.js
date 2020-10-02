@@ -1,6 +1,7 @@
 import React from "react";
 import Logo from "./Logo";
 import User from "./User";
+import Search from "./Search";
 import styled from "styled-components";
 
 const Navbar = styled.nav`
@@ -18,9 +19,11 @@ const Nav = ({
   handleMypage,
   handleLoginClick,
   getUserData,
+  handleSearchList,
 }) => (
   <Navbar id="nav">
     <Logo></Logo>
+    <Search handleSearchList={handleSearchList}></Search>
     <User
       isLogin={isLogin}
       token={token}

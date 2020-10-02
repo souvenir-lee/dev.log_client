@@ -1,5 +1,5 @@
 import React from "react";
-import { Redirect, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
 axios.defaults.withCredentials = "include";
@@ -24,9 +24,7 @@ class User extends React.Component {
 
   render() {
     const {
-      isLogin,
       token,
-      isMypage,
       userInfo,
       handleMypage,
       getUserData,
@@ -42,10 +40,9 @@ class User extends React.Component {
           onClick={() => {
             console.log("클랙 props", this.props.userInfo);
             axios
-              // .post("http://localhost:4000/users/logout", {
-              //   token: token,
-              // })
-              .post("https://devyeon.com/users/logout", { token: token })
+              .post("https://devyeon.com/users/logout", {
+                token: token,
+              })
               .then((result) => {
                 getUserData(result);
                 handleLoginClick(); //로그아웃 되었을 때 토큰 없애기
