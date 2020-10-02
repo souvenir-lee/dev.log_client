@@ -12,8 +12,8 @@ class CommentEntry extends React.Component {
   deleteComment = () => {
     axios
 
-      .post("http://localhost:4000/comments/delete", this.props.comment.id)
-      //  .delete("http://devyeon.com/comments/delete", this.props.id)
+      // .post("http://localhost:4000/comments/delete", this.props.comment.id)
+      .delete("http://devyeon.com/comments/delete", this.props.comment.id)
       .then((res) => {
         if (res.status === 200) {
           alert("삭제되었습니다.");

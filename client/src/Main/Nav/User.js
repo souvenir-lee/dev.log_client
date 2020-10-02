@@ -32,10 +32,10 @@ class User extends React.Component {
           onClick={() => {
             console.log("클랙 props", this.props.userInfo);
             axios
-              .post("http://localhost:4000/users/logout", {
+              .post("http://devyeon.com/users/logout", {
+                // .post("http://localhost:4000/users/logout", {
                 token: token,
               })
-              // .post("https://devyeon.com/users/logout", userInfo.token)
               .then((result) => {
                 getUserData(result);
                 handleLoginClick(); //로그아웃 되었을 때 토큰 없애기
@@ -51,12 +51,10 @@ class User extends React.Component {
           onClick={() => {
             console.log("user에서 userInfo", userInfo);
             axios
-              .post("http://localhost:4000/users/info", {
+              .post("http://devyeon/users/info", {
+                // .post("http://localhost:4000/users/info", {
                 token: token,
-              }) //마이페이지로 리다이렉트
-              // .post("https://devyeon.com/users/info", {
-              // data: userInfo.token,
-              // }) //마이페이지로 리다이렉트
+              })
               .then((res) => {
                 getUserData(res);
                 this.setState({ isMypage: !this.state.isMypage });

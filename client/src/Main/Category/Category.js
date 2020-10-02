@@ -1,6 +1,5 @@
 import React from "react";
 import CatgeoryEntry from "./CategoryEntry";
-
 const Catgeory = ({ category, categoryId, handleInputCategory }) => (
   <div className="container" id="category">
     <CatgeoryEntry
@@ -10,5 +9,4 @@ const Catgeory = ({ category, categoryId, handleInputCategory }) => (
     />
   </div>
 );
-
 export default Catgeory;

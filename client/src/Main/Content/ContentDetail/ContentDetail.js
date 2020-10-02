@@ -29,21 +29,23 @@ class ContentDetail extends React.Component {
   // };
   getComments = () => {
     axios
-      .get(
-        `http://localhost:4000/comments/list/${this.props.clickedContent.id}`
-      )
-      //.get(`http://devyeon.com/comments/list/${this.props.clickedContent.id}`)
+      // .get(
+      //   `http://localhost:4000/comments/list/${this.props.clickedContent.id}`
+      // )
+      .get(`http://devyeon.com/comments/list/${this.props.clickedContent.id}`)
       .then((res) => {
         this.setState({ comments: res.data });
       });
   };
   deleteMessage = () => {
     axios
-      .post("http://localhost:4000/posts/delete", {
+      .post("http://devyeon.com/posts/delete", {
         id: this.props.clickedContent.id,
       })
-      //  .delete("http://devyeon.com/posts/delete", {
-      // id: this.props.clickedContent.id})
+      // .post("http://localhost:4000/posts/delete", {
+      //   id: this.props.clickedContent.id,
+      // })
+
       .then((res) => {
         if (res.status === 200) {
           alert("삭제되었습니다.");
@@ -55,8 +57,8 @@ class ContentDetail extends React.Component {
   editMessage = () => {
     this.props.history.push("/main/post");
     axios
-      // .get(`http://devyeon.com/posts/info/${this.props.contentsList.id}`)
-      .get(`http://localhost:4000/posts/info/${this.props.clickedContent.id}`)
+      .get(`http://devyeon.com/posts/info/${this.props.clickedContent.id}`)
+      // .get(`http://localhost:4000/posts/info/${this.props.clickedContent.id}`)
       .then((res) => {
         // await axios.get(`http://localhost:4000/posts/info/${this.props.contentsList.id}`).then((res) => {
         //main/post의 state가 바뀌어야함
