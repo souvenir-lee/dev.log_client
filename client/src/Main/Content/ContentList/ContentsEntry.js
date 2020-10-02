@@ -6,7 +6,7 @@ axios.defaults.withCredentials = "include";
 /// 실제 글 확인 페이지
 class ContentsEntry extends React.Component {
   constructor(props) {
-    super(props);
+    super();
     this.state = {
       isDetail: false,
     };
@@ -19,7 +19,6 @@ class ContentsEntry extends React.Component {
       .then((res) => {
         this.props.handleClickedContent(res.data);
       });
-    console.log("클릭컨텐츠", this.props);
   };
 
   render() {
@@ -32,9 +31,9 @@ class ContentsEntry extends React.Component {
             this.getContentDetail(content);
             this.setState({ isDetail: !this.state.isDetail });
           }}
+          key={`content${contentsList.indexOf(content)}`}
         >
           {this.state.isDetail ? <Redirect to="/main/detail" /> : ""}
-
           <div className="detailName">{content.username}</div>
           <div className="detailTitle">{content.title}</div>
           <div>
@@ -44,12 +43,11 @@ class ContentsEntry extends React.Component {
         </div>
       );
     });
-
-    {
-      /* {this.props.content.name.map((name) => {
+    /* {
+      {this.props.content.name.map((name) => {
           return <div className="name">{name}</div>;
-        })} */
-    }
+        })}
+    } */
   }
 }
 

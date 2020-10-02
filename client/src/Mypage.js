@@ -1,5 +1,4 @@
 import React from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
 
 function Mypage({ isLogin, token, userInfo, handleMypage }) {
   return (

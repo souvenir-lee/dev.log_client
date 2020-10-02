@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import { Link, Route, Redirect, withRouter } from "react-router-dom";
+import { Redirect, withRouter } from "react-router-dom";
 axios.defaults.withCredentials = "include";
 
 class Post extends React.Component {
