@@ -45,8 +45,8 @@ class Listup extends React.Component {
     this.clickNewMessage = this.clickNewMessage.bind(this);
     this.clickEditBtn = this.clickEditBtn.bind(this);
     this.handleMypage = this.handleMypage.bind(this);
+    this.handleSearchList = this.handleSearchList.bind(this);
   }
-
   //category state 끌어올리기
   handleInputCategory = (e) => {
     const list = ["전체보기", "Grapefruit", "Lime", "Coconut", "Mango"];
@@ -75,11 +75,9 @@ class Listup extends React.Component {
       this.setState({ contentsList: res.data });
     });
   };
-
   handleClickedContent = (data) => {
     this.setState({ clickedContent: data });
   };
-
   //새글 쓰기 리다이렉트
   clickNewMessage = () => {
     this.setState({ newPost: !this.state.newPost });
@@ -101,6 +99,14 @@ class Listup extends React.Component {
   handleMypage = () => {
     this.setState({ isMypage: !this.state.isMypage });
     console.log("마이페이지");
+  };
+  //검색된 contentList 불러오는 함수
+  handleSearchList = (value) => {
+    // axios.get(`http://localhost:4000/search/title/${value}`).then((res) => {
+    axios.get(`https://devyeon.com/search/title/${value}`).then((res) => {
+      console.log(res.data);
+      this.setState({ contentsList: res.data });
+    });
   };
   //시작하자마자 전체 데이터 뿌려주는 함수 -> 주기함수 써야 함.
   componentDidMount() {
@@ -133,11 +139,13 @@ class Listup extends React.Component {
       clickNewMessage,
       clickEditBtn,
       handleMypage,
+      handleSearchList,
     } = this;
     return (
       <div id="outer">
         {!isLogin ? <Redirect to="/login" /> : ""}
-        {isMypage ? <Redirect to="/main/mypage" /> : <Redirect to="/main" /> }
+        {/* {isMypage ? <Redirect to="/mypage" /> : ""} */}
+        {isMypage ? <Redirect to="/main/mypage" /> : <Redirect to="/main" />}
         <Nav
           isLogin={isLogin}
           token={token}
@@ -146,6 +154,7 @@ class Listup extends React.Component {
           handleMypage={handleMypage}
           handleLoginClick={handleLoginClick}
           getUserData={getUserData}
+          handleSearchList={handleSearchList}
         />
         <div className="container" id="main">
           {newPost ? <Redirect to="/main/post" /> : ""}
