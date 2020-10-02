@@ -24,21 +24,21 @@ class ContentDetail extends React.Component {
   commentCount = () => {
     this.setState({ commentCount: +1 });
   };
-  createComment = (data) => {
-    this.setState({ comments: data });
-  };
+  // createComment = (data) => {
+  //   this.setState({ comments: data });
+  // };
   getComments = () => {
     axios
       .get(
         `http://localhost:4000/comments/list/${this.props.clickedContent.id}`
       )
+      //.get(`http://devyeon.com/comments/list/${this.props.clickedContent.id}`)
       .then((res) => {
         this.setState({ comments: res.data });
       });
   };
   deleteMessage = () => {
     axios
-
       .post("http://localhost:4000/posts/delete", {
         id: this.props.clickedContent.id,
       })
@@ -67,16 +67,16 @@ class ContentDetail extends React.Component {
   };
 
   render() {
-    const { clickedContent, userInfo, getComments } = this.props;
-    const { commentCount, comments } = this.state;
+    const { clickedContent, userInfo } = this.props;
+    const { commentCount, comments, createComment, getComments } = this.state;
     return (
       <div className="contentdetail">
         <div className="contentdetail_content">
           <div className="contentdetail_username">
-            {this.props.clickedContent.username}
+            작성자{this.props.clickedContent.username}
           </div>
           <div className="contentdetail_title">
-            {this.props.clickedContent.title}
+            제목{this.props.clickedContent.title}
           </div>
         </div>
         <div
@@ -104,10 +104,13 @@ class ContentDetail extends React.Component {
           </button>
         </div>
         <Comment
+          userInfo={userInfo}
+          comments={comments}
           clickedContent={clickedContent}
           commentCount={commentCount}
-          comments={comments}
-          userInfo={userInfo}
+          getComments={getComments}
+          createComment={createComment}
+          commentCount={commentCount}
           getComments={getComments}
         />
         <button

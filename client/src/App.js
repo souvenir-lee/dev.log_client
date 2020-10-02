@@ -37,7 +37,7 @@ class App extends React.Component {
     this.handleLoginClick = this.handleLoginClick.bind(this);
     this.getUserData = this.getUserData.bind(this);
     this.handleLoginClick = this.handleLoginClick.bind(this);
-    this.handleMypage = this.handleMypage.bind(this);
+    // this.handleMypage = this.handleMypage.bind(this);
   }
 
   componentDidMount() {
@@ -87,25 +87,30 @@ class App extends React.Component {
   handleLoginClick = () => {
     setTimeout(() => {
       this.setState({ isLogin: !this.state.isLogin });
-    }, 500);
-  };
-
-  //마이페이지 바꾸기
-  handleMypage = () => {
-    this.setState({ isMypage: !this.state.isMypage });
+    }, 1000);
   };
 
   render() {
-    const {
-      isLogin,
-      token,
-      userInfo,
-      categoryId,
-      isMypage,
-      contentsList,
-    } = this.state;
+    const { isLogin, token, userInfo, isMypage } = this.state;
+
     return (
       <Switch>
+        {isLogin ? (
+          <Route
+            path="/main"
+            render={() => (
+              <Listup
+                isLogin={isLogin}
+                userInfo={userInfo}
+                token={token}
+                getUserData={this.getUserData}
+                handleLoginClick={this.handleLoginClick}
+              />
+            )}
+          />
+        ) : (
+          ""
+        )}
         <Route
           path="/login"
           render={() => (
@@ -120,41 +125,22 @@ class App extends React.Component {
         />
         <Route path="/signup" render={() => <Signup />} />
         <Route
-          path="/main"
+          exact
+          path="/mypage"
           render={() => (
-            <Listup
+            <Mypage
               isLogin={isLogin}
               isMypage={isMypage}
-              token={token}
               userInfo={userInfo}
-              categoryId={categoryId}
-              contentsList={contentsList}
-              handleGetDefault={this.handleGetDefault}
-              handleInputCategory={this.handleInputCategory}
-              handleContentList={this.handleContentList}
-              getUserData={this.getUserData}
-              handleLoginClick={this.handleLoginClick}
+              token={token}
               handleMypage={this.handleMypage}
             />
           )}
         />
         <Route
-          exact
-          path="/mypage"
-          render={() => (
-            <Mypage isLogin={isLogin} userInfo={userInfo} token={token} />
-          )}
-        />
-        <Route
           path="/"
           render={() => {
-            if (isLogin) {
-              if (isMypage) {
-                return <Redirect to="/mypage" />;
-              }
-              return <Redirect to="/main" />;
-            }
-            return <Redirect to="/login" />;
+            if (!isLogin) return <Redirect to="/login" />;
           }}
         />
       </Switch>
