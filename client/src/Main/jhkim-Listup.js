@@ -11,12 +11,10 @@ import styled from "styled-components";
 import axios from "axios";
 import PostUpdate from "../Main/Content/PostUpdate";
 axios.defaults.withCredentials = "include";
-
 export const Outer = styled.div`
   display: grid;
   grid-template: 1fr auto 1fr / 1fr 1fr 1fr;
 `;
-
 class Listup extends React.Component {
   constructor(props) {
     super();
@@ -37,7 +35,6 @@ class Listup extends React.Component {
     this.handleResetClickedContent = this.handleResetClickedContent.bind(this);
     this.getContentDetail = this.getContentDetail.bind(this);
     this.handleIsDetail = this.handleIsDetail.bind(this);
-
     this.clickNewMessage = this.clickNewMessage.bind(this);
     this.clickEditBtn = this.clickEditBtn.bind(this);
     this.handleSearchList = this.handleSearchList.bind(this);
@@ -49,10 +46,9 @@ class Listup extends React.Component {
     this.handleContentList(this.state.categoryId);
     console.log(this.state.clickedContent);
   }
-
   handleCategoryEntry() {
     axios
-      .get(`https://devyeon.com/category`)
+      .get(`http://localhost:4000/category`)
       .then((res) => res.data.map((ele) => ele.title))
       .then((list) => {
         this.setState({ categoryList: ["전체보기", ...list] });
@@ -70,11 +66,13 @@ class Listup extends React.Component {
   handleContentList(value) {
     console.log(value);
     value !== 0
-      ? axios.get(`https://devyeon.com/posts/category/${value}`).then((res) => {
-          console.log(res.data);
-          this.setState({ contentsList: res.data });
-        })
-      : axios.get(`https://devyeon.com/posts/list`).then((res) => {
+      ? axios
+          .get(`http://localhost:4000/posts/category/${value}`)
+          .then((res) => {
+            console.log(res.data);
+            this.setState({ contentsList: res.data });
+          })
+      : axios.get(`http://localhost:4000/posts/list`).then((res) => {
           this.setState({ contentsList: res.data });
           console.log(res.data);
         });
@@ -84,10 +82,11 @@ class Listup extends React.Component {
     this.setState({ clickedContent: data }, () => {
       axios
         .get(
-          `https://devyeon.com/comments/list/${this.state.clickedContent.id}`
+          `http://localhost:4000/comments/list/${this.state.clickedContent.id}`
         )
         .then((res) => {
-          this.setState({ comments: [...res.data] });
+          this.setState({ comments: res.data });
+          console.log(res.data);
         });
     });
   }
@@ -98,14 +97,13 @@ class Listup extends React.Component {
   }
   //content detail 호출
   getContentDetail = (content, target) => {
-    axios.get(`https://devyeon.com/posts/info/${target}`).then((res) => {
+    axios.get(`http://localhost:4000/posts/info/${target}`).then((res) => {
       this.handleClickedContent(res.data);
     });
   };
   handleIsDetail() {
     this.setState({ isDetail: !this.state.isDetail });
   }
-
   //새글 쓰기 리다이렉트
   clickNewMessage() {
     this.setState({ newPost: !this.state.newPost });
@@ -115,7 +113,7 @@ class Listup extends React.Component {
   }
   //검색된 contentList 불러오는 함수
   handleSearchList(value) {
-    axios.get(`https://devyeon.com/search/title/${value}`).then((res) => {
+    axios.get(`http://localhost:4000/search/title/${value}`).then((res) => {
       console.log(res.data);
       this.setState({ contentsList: res.data });
     });
@@ -123,13 +121,12 @@ class Listup extends React.Component {
   //선택된 정렬 기준으로 contentList 불러오는 함수
   handleSortList = (e) => {
     axios
-      .get(`https://devyeon.com/posts/sort/${e.target.value}`)
+      .get(`http://localhost:4000/posts/sort/${e.target.value}`)
       .then((res) => {
         console.log(res.data);
         this.setState({ contentsList: res.data });
       });
   };
-
   render() {
     const {
       handleLoginClick,
@@ -139,7 +136,6 @@ class Listup extends React.Component {
       token,
       userInfo,
     } = this.props;
-
     const {
       categoryList,
       categoryId,
@@ -150,7 +146,6 @@ class Listup extends React.Component {
       newPost,
       editBtn,
     } = this.state;
-
     const {
       handleCategoryEntry,
       handleInputCategory,
@@ -164,7 +159,6 @@ class Listup extends React.Component {
       handleSearchList,
       handleSortList,
     } = this;
-
     return (
       <Outer id="outer">
         {isMypage ? (
@@ -183,9 +177,7 @@ class Listup extends React.Component {
           isMypage={isMypage}
           handleSearchList={handleSearchList}
         />
-
         {newPost ? <Redirect to="/main/post" /> : ""}
-
         <Category
           handleCategoryEntry={handleCategoryEntry}
           categoryList={categoryList}
@@ -218,7 +210,6 @@ class Listup extends React.Component {
               />
             )}
           ></Route>
-
           <Route
             exact
             path="/main/detail"
@@ -227,13 +218,9 @@ class Listup extends React.Component {
                 isLogin={isLogin}
                 token={token}
                 userInfo={userInfo}
-                categoryList={categoryList}
                 contentsList={contentsList}
-                handleContentList={handleContentList}
                 clickedContent={clickedContent}
-                handleClickedContent={handleClickedContent}
                 handleResetClickedContent={handleResetClickedContent}
-                getContentDetail={getContentDetail}
                 handleIsDetail={handleIsDetail}
                 comments={comments}
                 newPost={newPost}
@@ -241,6 +228,9 @@ class Listup extends React.Component {
                 editBtn={editBtn}
                 clickEditBtn={clickEditBtn}
                 handleSearchList={handleSearchList}
+                handleContentList={handleContentList}
+                handleClickedContent={handleClickedContent}
+                getContentDetail={getContentDetail}
               />
             )}
           ></Route>
@@ -253,8 +243,8 @@ class Listup extends React.Component {
                 token={token}
                 userInfo={userInfo}
                 categoryList={categoryList}
-                handleContentList={handleContentList}
                 clickNewMessage={clickNewMessage}
+                handleContentList={handleContentList}
               />
             )}
           ></Route>
@@ -267,14 +257,13 @@ class Listup extends React.Component {
                 token={token}
                 userInfo={userInfo}
                 categoryList={categoryList}
+                clickNewMessage={clickNewMessage}
                 handleContentList={handleContentList}
                 clickedContent={clickedContent}
-                clickNewMessage={clickNewMessage}
               />
             )}
           ></Route>
         </Switch>
-
         <Custom
           token={token}
           userInfo={userInfo}

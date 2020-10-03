@@ -85,7 +85,7 @@ class Custom extends React.Component {
     return (
       <div className="container" id="custom">
         <form>
-          <div>Custom List</div>
+          <h3>{selectedOption} List</h3>
           {list.map((ele) => {
             return (
               <label key={`label${list.indexOf(ele)}`}>

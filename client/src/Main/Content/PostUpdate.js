@@ -3,29 +3,25 @@ import axios from "axios";
 import { Redirect, withRouter } from "react-router-dom";
 import styled from "styled-components";
 axios.defaults.withCredentials = "include";
-
 export const Poststyle = styled.div`
   grid-column: 2 / 3;
 `;
-
-class Post extends React.Component {
+class PostUpdate extends React.Component {
   constructor(props) {
     super();
     this.state = {
       names: [],
       tags: [],
       isPost: false,
+      isUpdate: false,
     };
     this.handleInputValue = this.handleInputValue.bind(this);
-    this.handlePost = this.handlePost.bind(this);
   }
-
   handleInputValue = (key) => (e) => {
     this.setState({ [key]: e.target.value });
   };
-
-  handlePost() {
-    console.log(this.state);
+  handleEdit() {
+    // this.handleInputValue("message");
     this.setState({
       names: this.state.names.push(
         this.state.member1 ? this.state.member1 : false,
@@ -41,34 +37,33 @@ class Post extends React.Component {
       ),
     });
     axios
-      .post("https://devyeon.com/posts/create", {
+      .post("https://devyeon.com/posts/update", {
         token: this.props.token,
         categoryId: this.state.categoryId,
-        authorId: String(this.props.userInfo.id),
         title: this.state.title,
         message: this.state.message,
         names: this.state.names,
         tags: this.state.tags,
+        id: this.props.clickedContent.id,
       })
       .then((res) => {
-        if (res.status === 201) {
+        if (res.status === 200) {
+          //
+          alert("수정이 완료되었습니다");
           this.props.handleContentList(0);
           //새글 쓰고 main으로 이동
-          this.setState({ isPost: !this.state.isPost });
-          //this.props.history.push("/main");
+          this.setState({ isUpdate: !this.state.isPost });
         }
       });
   }
-
   render() {
     //만약 새글쓰기를 클릭해서 들어왔을때는 취소,게시
     //수정하기 버튼을 클릭해서 들어왔을때는 취소,수정
-    const { categoryList } = this.props;
+    const { categoryList, clickedContent } = this.props;
     const list = categoryList.slice(1);
     return (
       <Poststyle className="container" id="post">
         {this.state.isPost ? <Redirect to="/main" /> : ""}
-
         <div
           className="inputArea"
           style={{
@@ -77,7 +72,6 @@ class Post extends React.Component {
           }}
         >
           {/* 인라인 style 부분은 실 CSS 작업 때 지우시면 됩니다 */}
-
           <select
             className="postCategorySelect"
             value={this.state.categoryId}
@@ -93,22 +87,21 @@ class Post extends React.Component {
               </option>
             ))}
           </select>
-
           <input
             className="postTitle"
             type="title"
             placeholder="title"
+            defaultValue={clickedContent.title}
             onChange={this.handleInputValue("title")}
-          ></input>
-
+          />
           <textarea
             className="postMessage"
             type="message"
             placeholder="message"
+            defaultValue={clickedContent.message}
             onChange={this.handleInputValue("message")}
           ></textarea>
         </div>
-
         <div className="postTagArea">
           <input
             type="tag"
@@ -129,7 +122,6 @@ class Post extends React.Component {
             onChange={this.handleInputValue("tag3")}
           ></input>
         </div>
-
         <div className="memberTagArea">
           <input
             type="member"
@@ -150,7 +142,6 @@ class Post extends React.Component {
             onChange={this.handleInputValue("member3")}
           ></input>
         </div>
-
         <div className="btnArea">
           <button
             className="postCancelBtn"
@@ -164,19 +155,19 @@ class Post extends React.Component {
             취소
           </button>
           <button
-            className="postSubmitBtn"
+            className="postUpdateBtn"
             type="submit"
             onClick={() => {
               //클릭했을때 post요청 후 main으로 이동
-              this.handlePost();
+              this.handleEdit();
+              console.log(this.props);
             }}
           >
-            게시
+            수정
           </button>
         </div>
       </Poststyle>
     );
   }
 }
-
-export default withRouter(Post);
+export default withRouter(PostUpdate);

@@ -1,8 +1,8 @@
 import React from "react";
 import CommentEntry from "./CommentEntry";
 import axios from "axios";
+import { withRouter } from "react-router-dom";
 axios.defaults.withCredentials = "include";
-
 class Comment extends React.Component {
   constructor(props) {
     super();
@@ -13,10 +13,9 @@ class Comment extends React.Component {
   handleInputValue = (key) => (e) => {
     this.setState({ [key]: e.target.value });
   };
-
   handleCommentPost = () => {
     axios
-      .post("https://devyeon.com/comments/create", {
+      .post("http://localhost:4000/comments/create", {
         userId: this.props.userInfo.id,
         postId: this.props.clickedContent.id,
         message: this.state.commentValue,
@@ -29,7 +28,6 @@ class Comment extends React.Component {
         }
       });
   };
-
   render() {
     const {
       clickedContent,
@@ -72,4 +70,4 @@ class Comment extends React.Component {
     );
   }
 }
-export default Comment;
+export default withRouter(Comment);

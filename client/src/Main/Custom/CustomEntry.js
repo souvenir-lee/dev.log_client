@@ -18,19 +18,45 @@ class CustomEntry extends React.Component {
     } = this.props;
     return (
       <>
-        <h3>{selectedOption} List</h3>
         {Object.values(listCustom).length !== 0
           ? Object.values(listCustom).map((content) => (
               <div
                 key={`listCustom${Object.values(listCustom).indexOf(content)}`}
                 onClick={() => {
-                  getContentDetail(content, content.postId);
+                  {
+                    selectedOption === "MyPost"
+                      ? getContentDetail(content, content.id)
+                      : getContentDetail(content, content.postId);
+                  }
                   handleIsDetail();
                 }}
               >
                 {isDetail ? <Redirect to="/main/detail" /> : ""}
-                <div>{content["post.title"]}</div>
-                <div>{content["user.username"]}</div>
+
+                {selectedOption === "Scrap" ? (
+                  <>
+                    <div>{content["post.title"]}</div>
+                    <div>{content["user.username"]}</div>
+                  </>
+                ) : (
+                  ""
+                )}
+                {selectedOption === "MyPost" ? (
+                  <>
+                    <div>{content["title"]}</div>
+                    <div>{content["authorId"]}</div>
+                  </>
+                ) : (
+                  ""
+                )}
+                {selectedOption === "Tagged" ? (
+                  <>
+                    <div>{content["post.title"]}</div>
+                    <div>{content["member.username"]}</div>
+                  </>
+                ) : (
+                  ""
+                )}
               </div>
             ))
           : ""}

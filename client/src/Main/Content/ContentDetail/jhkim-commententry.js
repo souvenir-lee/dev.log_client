@@ -1,8 +1,11 @@
 import React from "react";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
-
+axios.defaults.withCredentials = "include";
 class CommentEntry extends React.Component {
+  constructor(props) {
+    super();
+  }
   deleteComment = (commentId) => {
     axios
       .post("http://localhost:4000/comments/delete", {
@@ -18,7 +21,6 @@ class CommentEntry extends React.Component {
       })
       .catch(() => alert("삭제 실패"));
   };
-
   render() {
     const { comments } = this.props;
     return comments.map((ele) => (
@@ -42,5 +44,4 @@ class CommentEntry extends React.Component {
     ));
   }
 }
-
 export default withRouter(CommentEntry);

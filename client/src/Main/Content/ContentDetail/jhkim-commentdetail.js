@@ -4,21 +4,18 @@ import axios from "axios";
 import { withRouter } from "react-router-dom";
 import styled from "styled-components";
 axios.defaults.withCredentials = "include";
-
 export const ContentDetailstyle = styled.div`
   grid-column: 2 / 3;
 `;
-
 class ContentDetail extends React.Component {
   constructor(props) {
     super();
     this.deleteMessage = this.deleteMessage.bind(this);
     // this.editMessage = this.editMessage.bind(this);
   }
-
   deleteMessage() {
     axios
-      .post("https://devyeon.com/posts/delete", {
+      .post("http://localhost:4000/posts/delete", {
         id: this.props.clickedContent.id,
         token: this.props.token,
       })
@@ -32,7 +29,17 @@ class ContentDetail extends React.Component {
         }
       });
   }
-
+  // editMessage() {
+  //   this.props.history.push("/main/post");
+  //   axios
+  //     .get(`http://localhost:4000/posts/info/${this.props.clickedContent.id}`)
+  //     .then(async (res) => {
+  //       // main/post의 state가 바뀌어야함
+  //       this.props.clickEditBtn();
+  //       this.props.handleClickedContent();
+  //       console.log(this.props.clickedContent);
+  //     });
+  // }
   render() {
     const {
       userInfo,
@@ -72,6 +79,7 @@ class ContentDetail extends React.Component {
             <button
               className="contentEditBtn"
               onClick={() => {
+                // this.editMessage();
                 this.props.history.push("/main/postUpdate");
               }}
             >
