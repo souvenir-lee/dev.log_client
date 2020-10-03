@@ -4,12 +4,10 @@ import { withRouter } from "react-router-dom";
 
 class Search extends React.Component {
   constructor(props) {
-    super(props);
-
+    super();
     this.state = {
       searchValue: "",
     };
-
     this.handleInputValue = this.handleInputValue.bind(this);
     this.inputEnter = this.inputEnter.bind(this);
   }

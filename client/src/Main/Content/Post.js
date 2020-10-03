@@ -64,7 +64,7 @@ class Post extends React.Component {
       })
       .then((res) => {
         if (res.status === 200) {
-          // this.props.handleGetDefault();
+          //
           alert("수정이 완료되었습니다");
           this.props.history.push("/main");
         }

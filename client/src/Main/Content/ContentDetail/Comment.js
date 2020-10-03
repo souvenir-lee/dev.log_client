@@ -30,12 +30,12 @@ class Comment extends React.Component {
   };
 
   render() {
-    const { comments } = this.props;
+    const { clickedContent, comments } = this.props;
     return (
       <div className="commentArea">
         <div className="commentTop">
           <div className="commentCount">
-            댓글: {this.props.clickedContent.commentCount}개
+            댓글: {clickedContent.commentCount}개
           </div>
           <input
             className="commentInput"

@@ -8,13 +8,14 @@ class Contents extends React.Component {
   }
   render() {
     const {
-      isDetail,
       contentsList,
-      handleClickedContent,
       clickedContent,
-      handleSortList,
+      handleClickedContent,
+      isDetail,
       getContentDetail,
       handleIsDetail,
+      clickNewMessage,
+      handleSortList,
     } = this.props;
 
     return (
@@ -23,7 +24,7 @@ class Contents extends React.Component {
           <button
             id="newPostBtn"
             onClick={() => {
-              this.props.clickNewMessage();
+              clickNewMessage();
             }}
           >
             새글 쓰기
@@ -36,12 +37,12 @@ class Contents extends React.Component {
           </select>
         </div>
         <ContentsEntry
-          isDetail={isDetail}
-          getContentDetail={getContentDetail}
           contentsList={contentsList}
-          handleIsDetail={handleIsDetail}
           clickedContent={clickedContent}
           handleClickedContent={handleClickedContent}
+          isDetail={isDetail}
+          getContentDetail={getContentDetail}
+          handleIsDetail={handleIsDetail}
         />
       </div>
     );

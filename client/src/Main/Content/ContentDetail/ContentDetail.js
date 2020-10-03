@@ -38,27 +38,25 @@ class ContentDetail extends React.Component {
 
   render() {
     const {
-      clickedContent,
       userInfo,
-      comments,
+      clickedContent,
       handleResetClickedContent,
       handleIsDetail,
+      comments,
     } = this.props;
     return (
       <div className="container" id="content">
         <div className="contentArea">
           <div className="contentHeader">
             <div className="contentUsername">
-              작성자{this.props.clickedContent.username}
+              작성자{clickedContent.username}
             </div>
-            <div className="contentTitle">
-              제목{this.props.clickedContent.title}
-            </div>
+            <div className="contentTitle">제목{clickedContent.title}</div>
           </div>
           <div
             className="contentMessage"
             dangerouslySetInnerHTML={{
-              __html: this.props.clickedContent.message,
+              __html: clickedContent.message,
             }}
           ></div>
           <div className="contentBtns">
@@ -82,8 +80,8 @@ class ContentDetail extends React.Component {
         </div>
         <Comment
           userInfo={userInfo}
-          comments={comments}
           clickedContent={clickedContent}
+          comments={comments}
         />
         <button
           className="backToListBtn"

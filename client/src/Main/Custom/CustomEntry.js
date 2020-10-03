@@ -6,21 +6,7 @@ axios.defaults.withCredentials = "include";
 class CustomEntry extends React.Component {
   constructor(props) {
     super();
-    this.state = {
-      // isDetail: false,
-      target: "postId",
-    };
-    // this.getContentDetail = this.getContentDetail.bind(this);
   }
-
-  // getContentDetail = (content) => {
-  //   axios
-  //     .get(`https://devyeon.com/posts/info/${content.postId}`) //이건되는데 왜 위에는 안될까
-  //     .then((res) => {
-  //       this.props.handleClickedContent(res.data);
-  //       console.log("THIS IS ++CUSTOM++ AFTER GET DETAIL");
-  //     });
-  // };
 
   render() {
     const {
@@ -40,7 +26,6 @@ class CustomEntry extends React.Component {
                 onClick={() => {
                   getContentDetail(content, content.postId);
                   handleIsDetail();
-                  // this.setState({ isDetail: !isDetail });
                 }}
               >
                 {isDetail ? <Redirect to="/main/detail" /> : ""}

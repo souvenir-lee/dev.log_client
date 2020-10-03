@@ -4,26 +4,22 @@ import User from "./User";
 import Search from "./Search";
 
 const Nav = ({
+  handleLoginClick,
+  handleMypage,
   isLogin,
   token,
-  isMypage,
   userInfo,
-  handleMypage,
-  handleLoginClick,
-  getUserData,
+  isMypage,
   handleSearchList,
 }) => (
   <div id="nav">
     <Logo></Logo>
     <Search handleSearchList={handleSearchList}></Search>
     <User
-      isLogin={isLogin}
-      token={token}
-      isMypage={isMypage}
-      userInfo={userInfo}
-      handleMypage={handleMypage}
       handleLoginClick={handleLoginClick}
-      getUserData={getUserData}
+      handleMypage={handleMypage}
+      token={token}
+      userInfo={userInfo}
     ></User>
   </div>
 );

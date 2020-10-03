@@ -7,26 +7,12 @@ axios.defaults.withCredentials = "include";
 class ContentsEntry extends React.Component {
   constructor(props) {
     super();
-    this.state = {
-      // isDetail: false,
-      target: "id",
-    };
-    // this.getContentDetail = this.getContentDetail.bind(this);
   }
-
-  // getContentDetail = (content) => {
-  //   axios
-  //     .get(`https://devyeon.com/posts/info/${content.id}`) //이건되는데 왜 위에는 안될까
-  //     .then((res) => {
-  //       this.props.handleClickedContent(res.data);
-  //       console.log("THIS IS CONTENTS AFTER GET DETAIL");
-  //     });
-  // };
 
   render() {
     const {
-      isDetail,
       contentsList,
+      isDetail,
       getContentDetail,
       handleIsDetail,
     } = this.props;
@@ -37,7 +23,6 @@ class ContentsEntry extends React.Component {
           onClick={() => {
             getContentDetail(content, content.id);
             handleIsDetail();
-            // this.setState({ isDetail: !isDetail });
           }}
           key={`content${contentsList.indexOf(content)}`}
         >
@@ -51,11 +36,6 @@ class ContentsEntry extends React.Component {
         </div>
       );
     });
-    /* {
-      {this.props.content.name.map((name) => {
-          return <div className="name">{name}</div>;
-        })}
-    } */
   }
 }
 

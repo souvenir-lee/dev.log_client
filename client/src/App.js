@@ -33,9 +33,10 @@ class App extends React.Component {
 
   //클릭하면 isLogin 번경
   handleLoginClick = () => {
-    setTimeout(() => {
-      this.setState({ isLogin: !this.state.isLogin });
-    }, 300);
+    if (this.state.isLogin) {
+      this.setState({ token: this.state.token !== "" ? "" : false });
+    }
+    this.setState({ isLogin: !this.state.isLogin });
   };
 
   //마이페이지 바꾸기
