@@ -1,18 +1,46 @@
 import React from "react";
-import CustomList from "./CustomList";
+import CustomEntry from "./CustomEntry";
+import axios from "axios";
+axios.defaults.withCredentials = "include";
 
 class Custom extends React.Component {
   constructor(props) {
     super();
-    this.handleRadio = this.handleRadio.bind(this);
     this.state = {
       radioGroup: {
         Scrap: true,
-        Posts: false,
+        MyPost: false,
         Tagged: false,
       },
       selectedOption: "Scrap",
+      listCustom: [],
     };
+    this.getCustomList = this.getCustomList.bind(this);
+    this.handleRadio = this.handleRadio.bind(this);
+  }
+
+  getCustomList() {
+    const { userInfo } = this.props;
+    axios
+      .get(
+        `https://devyeon.com/custom/${this.state.selectedOption.toLowerCase()}/${
+          userInfo.id
+        }`
+      )
+      .then((result) => {
+        console.log(Object.values(result.data).length);
+        if (Object.values(result.data).length !== 0) {
+          console.log("----", result.data);
+          this.setState(
+            {
+              listCustom: [...result.data],
+            },
+            () => {
+              console.log(this.state.listCustom);
+            }
+          );
+        }
+      });
   }
 
   handleRadio(event) {
@@ -21,20 +49,38 @@ class Custom extends React.Component {
       return (obj[ele] = false);
     });
     obj[event.target.value] = true;
-    this.setState({
-      radioGroup: {
-        ...obj,
+    this.setState(
+      {
+        radioGroup: {
+          ...obj,
+        },
       },
-    });
+      this.setState(
+        {
+          selectedOption: event.target.value,
+        },
+        () => {
+          this.getCustomList();
+        }
+      )
+    );
+  }
 
-    this.setState({
-      selectedOption: event.target.value,
-    });
+  componentDidMount() {
+    this.getCustomList();
   }
 
   render() {
-    const { selectedOption } = this.state;
-    const { token, userInfo } = this.props;
+    const { selectedOption, listCustom } = this.state;
+    const {
+      token,
+      userInfo,
+      clickedContent,
+      handleClickedContent,
+      getContentDetail,
+      isDetail,
+      handleIsDetail,
+    } = this.props;
     const list = Object.keys(this.state.radioGroup);
     return (
       <div className="container" id="custom">
@@ -55,10 +101,16 @@ class Custom extends React.Component {
             );
           })}
         </form>
-        <CustomList
+        <CustomEntry
           selectedOption={selectedOption}
           token={token}
           userInfo={userInfo}
+          isDetail={isDetail}
+          handleIsDetail={handleIsDetail}
+          clickedContent={clickedContent}
+          listCustom={listCustom}
+          handleClickedContent={handleClickedContent}
+          getContentDetail={getContentDetail}
         />
       </div>
     );

@@ -42,6 +42,7 @@ class ContentDetail extends React.Component {
       userInfo,
       comments,
       handleResetClickedContent,
+      handleIsDetail,
     } = this.props;
     return (
       <div className="container" id="content">
@@ -88,6 +89,7 @@ class ContentDetail extends React.Component {
           className="backToListBtn"
           onClick={() => {
             handleResetClickedContent();
+            handleIsDetail();
             this.props.history.push("/main");
           }}
         >

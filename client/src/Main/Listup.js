@@ -23,7 +23,7 @@ class Listup extends React.Component {
 
       newPost: false,
       editBtn: false,
-      customListOp: "scrap",
+      isDetail: false,
       // 다시 목록으로 갔을 때 reset 설정
       // post 전송 후 리스트 리프래시
     };
@@ -37,6 +37,9 @@ class Listup extends React.Component {
     this.clickEditBtn = this.clickEditBtn.bind(this);
     this.handleSearchList = this.handleSearchList.bind(this);
     this.handleSortList = this.handleSortList.bind(this);
+
+    this.getContentDetail = this.getContentDetail.bind(this);
+    this.handleIsDetail = this.handleIsDetail.bind(this);
   }
 
   // category 관련 (1) 전체 글 (2) 카테고리 필터링
@@ -85,11 +88,14 @@ class Listup extends React.Component {
         )
         .then((res) => {
           this.setState({ comments: [...res.data] });
+          console.log("listup, comments set state ======");
+          console.log(res, this.state.comments);
         });
     });
   }
 
   handleResetClickedContent() {
+    console.log("reset +++++++");
     this.setState({ clickedContent: {} });
     this.setState({ comments: [] });
   }
@@ -121,6 +127,17 @@ class Listup extends React.Component {
       });
   };
 
+  getContentDetail = (content, target) => {
+    axios.get(`https://devyeon.com/posts/info/${target}`).then((res) => {
+      this.handleClickedContent(res.data);
+      console.log("THIS IS ++CUSTOM++ AFTER GET DETAIL");
+    });
+  };
+
+  handleIsDetail() {
+    this.setState({ isDetail: !this.state.isDetail });
+  }
+
   render() {
     const {
       isLogin,
@@ -137,9 +154,9 @@ class Listup extends React.Component {
       clickedContent,
       comments,
       contentsList,
-      customListOp,
       editBtn,
       newPost,
+      isDetail,
     } = this.state;
 
     const {
@@ -152,11 +169,12 @@ class Listup extends React.Component {
       clickEditBtn,
       handleSearchList,
       handleSortList,
+      getContentDetail,
+      handleIsDetail,
     } = this;
 
     return (
       <div id="outer">
-        {console.log(this.state.clickedContent, this.state.comments)}
         {isMypage ? (
           <Switch>
             {console.log("route is mypage")}
@@ -201,6 +219,8 @@ class Listup extends React.Component {
                   contentsList={contentsList}
                   editBtn={editBtn}
                   newPost={newPost}
+                  isDetail={isDetail}
+                  handleIsDetail={handleIsDetail}
                   handleContentList={handleContentList}
                   handleClickedContent={handleClickedContent}
                   handleResetClickedContent={handleResetClickedContent}
@@ -208,6 +228,7 @@ class Listup extends React.Component {
                   clickEditBtn={clickEditBtn}
                   handleSortList={handleSortList}
                   handleSearchList={handleSearchList}
+                  getContentDetail={getContentDetail}
                 />
               )}
             ></Route>
@@ -225,6 +246,7 @@ class Listup extends React.Component {
                   contentsList={contentsList}
                   editBtn={editBtn}
                   newPost={newPost}
+                  handleIsDetail={handleIsDetail}
                   handleResetClickedContent={handleResetClickedContent}
                   clickNewMessage={clickNewMessage}
                   clickEditBtn={clickEditBtn}
@@ -250,7 +272,15 @@ class Listup extends React.Component {
           <Custom
             token={token}
             userInfo={userInfo}
-            customListOp={customListOp}
+            isDetail={isDetail}
+            handleIsDetail={handleIsDetail}
+            clickedContent={clickedContent}
+            comments={comments}
+            contentsList={contentsList}
+            clickedContent={clickedContent}
+            handleClickedContent={handleClickedContent}
+            handleResetClickedContent={handleResetClickedContent}
+            getContentDetail={getContentDetail}
           />
         </div>
       </div>

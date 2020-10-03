@@ -24,6 +24,7 @@ class CommentEntry extends React.Component {
   };
 
   render() {
+    // 수정 필요
     return (
       <div className="commentList">
         <div className="commentUsername">{this.props.comment.username}</div>

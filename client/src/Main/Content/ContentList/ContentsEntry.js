@@ -8,37 +8,45 @@ class ContentsEntry extends React.Component {
   constructor(props) {
     super();
     this.state = {
-      isDetail: false,
+      // isDetail: false,
+      target: "id",
     };
-    this.getContentDetail = this.getContentDetail.bind(this);
+    // this.getContentDetail = this.getContentDetail.bind(this);
   }
 
-  getContentDetail = (content) => {
-    axios
-      .get(`https://devyeon.com/posts/info/${content.id}`) //이건되는데 왜 위에는 안될까
-      .then((res) => {
-        this.props.handleClickedContent(res.data);
-      });
-  };
+  // getContentDetail = (content) => {
+  //   axios
+  //     .get(`https://devyeon.com/posts/info/${content.id}`) //이건되는데 왜 위에는 안될까
+  //     .then((res) => {
+  //       this.props.handleClickedContent(res.data);
+  //       console.log("THIS IS CONTENTS AFTER GET DETAIL");
+  //     });
+  // };
 
   render() {
-    const { contentsList } = this.props;
+    const {
+      isDetail,
+      contentsList,
+      getContentDetail,
+      handleIsDetail,
+    } = this.props;
     return contentsList.map((content) => {
       return (
         <div
           className="contentBox"
           onClick={() => {
-            this.getContentDetail(content);
-            this.setState({ isDetail: !this.state.isDetail });
+            getContentDetail(content, content.id);
+            handleIsDetail();
+            // this.setState({ isDetail: !isDetail });
           }}
           key={`content${contentsList.indexOf(content)}`}
         >
-          {this.state.isDetail ? <Redirect to="/main/detail" /> : ""}
+          {isDetail ? <Redirect to="/main/detail" /> : ""}
           <div className="detailName">{content.username}</div>
           <div className="detailTitle">{content.title}</div>
           <div>
-            <span className="detailComment">댓글{content.comment}</span>
-            <span className="detailViewCount">조회수{content.view_count}</span>
+            <span className="detailComment">댓글 {content.commentCount}개</span>
+            <span className="detailViewCount">조회 {content.viewCount}회</span>
           </div>
         </div>
       );

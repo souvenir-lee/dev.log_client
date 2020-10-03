@@ -8,10 +8,13 @@ class Contents extends React.Component {
   }
   render() {
     const {
+      isDetail,
       contentsList,
       handleClickedContent,
       clickedContent,
       handleSortList,
+      getContentDetail,
+      handleIsDetail,
     } = this.props;
 
     return (
@@ -33,7 +36,10 @@ class Contents extends React.Component {
           </select>
         </div>
         <ContentsEntry
+          isDetail={isDetail}
+          getContentDetail={getContentDetail}
           contentsList={contentsList}
+          handleIsDetail={handleIsDetail}
           clickedContent={clickedContent}
           handleClickedContent={handleClickedContent}
         />
