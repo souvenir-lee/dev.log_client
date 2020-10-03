@@ -1,20 +1,16 @@
-import React from 'react';
-import CatgeoryEntry from "./CategoryEntry"
-
-const Catgeory = ({cateory, handleInputCategory}) => (
+import React from "react";
+import CategoryEntry from "./CategoryEntry";
+const Category = ({
+  handleCategoryEntry,
+  categoryList,
+  handleInputCategory,
+}) => (
   <div className="container" id="category">
-  {["전체보기","Grapefruit", "Lime", "Coconut","Mango"].map( el => {
-    return (
-      <CatgeoryEntry 
-        el={el}
-        cateory={cateory} 
-        handleInputCategory={handleInputCategory}          
-        />
-    )
-  })}
+    <CategoryEntry
+      handleCategoryEntry={handleCategoryEntry}
+      categoryList={categoryList}
+      handleInputCategory={handleInputCategory}
+    />
   </div>
 );
-
-export default Catgeory;
-
-
+export default Category;

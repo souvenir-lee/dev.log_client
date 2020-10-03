@@ -1,42 +1,52 @@
 import React from "react";
-import { render } from "react-dom";
-import { withRouter, useHistory, Redirect } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import ContentsEntry from "./ContentsEntry";
 
 class Contents extends React.Component {
-  constructor(props){
-    super(props)
-    this.state = {
-      isPost : false
-    }
+  constructor(props) {
+    super();
   }
-  render(){
-    const {contentsList, handleClickedContent, clickedContent, handleGetDefault, editBtn, userInfo } = this.props
+  render() {
+    const {
+      contentsList,
+      clickedContent,
+      handleClickedContent,
+      isDetail,
+      getContentDetail,
+      handleIsDetail,
+      clickNewMessage,
+      handleSortList,
+    } = this.props;
 
     return (
       <div className="container" id="middle">
-      {(this.state.isPost) ? <Redirect to='/main/post' /> : ''}
+        <div className="containerHead">
+          <button
+            id="newPostBtn"
+            onClick={() => {
+              clickNewMessage();
+            }}
+          >
+            새글 쓰기
+          </button>
 
-        <button
-          id="newPostBtn"
-          onClick={() => {
-            console.log("클릭되나");
-            this.setState({ isPost : true})
-            // this.props.clickNewMessage();
-          }}
-        >
-          새글 쓰기
-        </button>
-        {contentsList.map((content) => (
-          <ContentsEntry
-            content={content}
-            clickedContent={clickedContent}
-            handleClickedContent={handleClickedContent}
-          />
-        ))}
+          <select name="cars" id="cars" onChange={handleSortList}>
+            <option value="id">최근 게시글</option>
+            <option value="viewCount">조회수</option>
+            <option value="commentCount">댓글수</option>
+          </select>
+        </div>
+        <ContentsEntry
+          contentsList={contentsList}
+          clickedContent={clickedContent}
+          handleClickedContent={handleClickedContent}
+          isDetail={isDetail}
+          getContentDetail={getContentDetail}
+          handleIsDetail={handleIsDetail}
+        />
       </div>
     );
   }
-};
+}
 
 export default withRouter(Contents);
