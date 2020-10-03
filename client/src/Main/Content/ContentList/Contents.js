@@ -1,6 +1,11 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import ContentsEntry from "./ContentsEntry";
+import styled from "styled-components";
+
+export const Contentstyle = styled.div`
+  grid-column: 2 / 3;
+`;
 
 class Contents extends React.Component {
   constructor(props) {
@@ -19,7 +24,7 @@ class Contents extends React.Component {
     } = this.props;
 
     return (
-      <div className="container" id="middle">
+      <Contentstyle className="container" id="middle">
         <div className="containerHead">
           <button
             id="newPostBtn"
@@ -44,7 +49,7 @@ class Contents extends React.Component {
           getContentDetail={getContentDetail}
           handleIsDetail={handleIsDetail}
         />
-      </div>
+      </Contentstyle>
     );
   }
 }

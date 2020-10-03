@@ -2,6 +2,16 @@ import React from "react";
 import Logo from "./Logo";
 import User from "./User";
 import Search from "./Search";
+import styled from "styled-components";
+
+export const Navbar = styled.nav`
+  grid-column: 1 / 4;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #02380e;
+  padding: 10px 12px;
+`;
 
 const Nav = ({
   handleLoginClick,
@@ -12,7 +22,7 @@ const Nav = ({
   isMypage,
   handleSearchList,
 }) => (
-  <div id="nav">
+  <Navbar id="nav">
     <Logo></Logo>
     <Search handleSearchList={handleSearchList}></Search>
     <User
@@ -21,7 +31,7 @@ const Nav = ({
       token={token}
       userInfo={userInfo}
     ></User>
-  </div>
+  </Navbar>
 );
 
 export default Nav;

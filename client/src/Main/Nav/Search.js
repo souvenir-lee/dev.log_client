@@ -1,6 +1,31 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
+import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 // axios.defaults.withCredentials = "include";
+
+const SearchStyle = styled.div`
+  display: flex;
+  justify-content: center; ;
+`;
+const SearchValue = styled.input`
+  width: 400px;
+  height: 30px;
+  letter-spacing: 1px;
+  margin-left: auto;
+  margin-right: auto;
+`;
+const SearchBtn = styled.button`
+  background: #02380e;
+  font-size: 24px;
+  color: white;
+  border: none;
+  width: 50px;
+  height: 30px;
+  border-radius: 2px;
+  padding-left: 0px;
+`;
 
 class Search extends React.Component {
   constructor(props) {
@@ -27,22 +52,25 @@ class Search extends React.Component {
     const { searchValue } = this.state;
     const { handleSearchList } = this.props;
     return (
-      <div className="navSearch">
-        <input
+      <SearchStyle className="navSearch">
+        <SearchValue
           type="text"
           className="searchValue"
           onChange={this.handleInputValue("searchValue")}
           onKeyPress={this.inputEnter(handleSearchList, searchValue)}
-        />
-        <input
+        >
+        </SearchValue>
+        <SearchBtn
           type="button"
           className="searchBtn"
           value="검색"
           onClick={() => {
             handleSearchList(searchValue);
           }}
-        />
-      </div>
+        >
+          <FontAwesomeIcon icon={faSearch} />
+        </SearchBtn>
+      </SearchStyle>
     );
   }
 }

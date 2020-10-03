@@ -1,16 +1,21 @@
 import React from "react";
 import CategoryEntry from "./CategoryEntry";
+import styled from "styled-components";
+
 const Category = ({
   handleCategoryEntry,
   categoryList,
   handleInputCategory,
 }) => (
-  <div className="container" id="category">
+  <CategoryStyle className="container" id="category">
     <CategoryEntry
       handleCategoryEntry={handleCategoryEntry}
       categoryList={categoryList}
       handleInputCategory={handleInputCategory}
     />
-  </div>
+  </CategoryStyle>
 );
 export default Category;
+export const CategoryStyle = styled.div`
+  grid-column: 1 / 2;
+`;

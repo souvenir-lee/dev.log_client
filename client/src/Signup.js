@@ -1,7 +1,68 @@
 import React from "react";
 import { Redirect, withRouter } from "react-router-dom";
+import styled from "styled-components";
 import axios from "axios";
 axios.defaults.withCredentials = "include";
+
+const InputContainer = styled.div`
+  width: 600px;
+  height: 700px;
+  mairgin: 0 auto;
+  margin-top: 10vh;
+  background: #ffffff;
+  box-shadow: 0px 20px 20px rgba(0, 0, 0, 0.25);
+`;
+const InputArea = styled.div`
+  //정렬 필요
+`;
+const Input = styled.input`
+  width: 200px;
+  height: 30px;
+  letter-spacing: 1px;
+  text-align: center;
+  margin: 0px 10px 10px;
+`;
+const CheckSignupBtn = styled.button`
+  color: white;
+  width: 107px;
+  height: 38px;
+  background: #02380e;
+  border-radius: 10px;
+  border: none;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  margin: 5px;
+`;
+const SubmitGithubBtn = styled.button`
+  color: #fff;
+  border: none;
+  width: 80px;
+  height: 35px;
+  background: #000000;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  border: none;
+  margin: 5px;
+`;
+const SubmitNaverBtn = styled.button`
+  width: 80px;
+  height: 35px;
+  font-size: 0.8em;
+  background: #15b439;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  border: none;
+  margin: 5px;
+`;
+const Button = styled.button`
+  width: 124px;
+  height: 35px;
+  background: #f1c40f;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  border: none;
+  margin: 50px 5px 10px;
+`;
+
 
 class Signup extends React.Component {
   constructor(props) {
@@ -94,35 +155,36 @@ class Signup extends React.Component {
       <div className="container" id="signup">
         {this.state.signup ? <Redirect to="/login" /> : ""}
         <center>
-          <div className="inputContainer">
+          <InputContainer>
+            <img src="dev-log.png" alt="dev-log 로고" style={{width:"250px", margin: "10px"}}/>
             <h1>Sign Up</h1>
 
-            <div className="inputArea">
+            <InputArea>
               Email
-              <input
+              <Input
                 id="inputEmail"
                 type="email"
                 placeholder="이메일을 입력 해주세요"
                 onChange={this.handleInputValue("email")}
-              ></input>
-              <button
+              ></Input>
+              <CheckSignupBtn
                 id="checkSignupBtn"
                 onClick={() => {
                   this.handleSignUp();
                 }}
               >
                 중복확인
-              </button>
-            </div>
+              </CheckSignupBtn>
+            </InputArea>
 
-            <div className="inputArea">
+            <InputArea>
               이름
-              <input
+              <Input
                 id="inputUsername"
                 type="username"
                 placeholder="이름을 입력 해주세요"
                 onChange={this.handleInputValue("username")}
-              ></input>
+              ></Input>
               {this.checkUsername(this.state.username) ? (
                 <span style={{ color: "green" }}>
                   <img src="tick.png" width="15em" alt="" />
@@ -131,16 +193,16 @@ class Signup extends React.Component {
               ) : (
                 <span style={{ color: "red" }}>유저 이름을 입력해주세요</span>
               )}
-            </div>
+            </InputArea>
 
-            <div className="inputArea">
+            <InputArea>
               비밀번호
-              <input
+              <Input
                 className="inputPassword"
                 type="password"
                 placeholder="비밀번호를 입력 해주세요"
                 onChange={this.handleInputValue("password")}
-              ></input>
+              ></Input>
               {this.checkPassword(this.state.password) ? (
                 <span style={{ color: "green" }}>
                   <img src="tick.png" width="15em" alt="" />
@@ -153,12 +215,12 @@ class Signup extends React.Component {
               )}
               <br />
               비밀번호 확인
-              <input
+              <Input
                 className="inputPassword"
                 type="password"
                 placeholder="비밀번호를 입력 해주세요"
                 onChange={this.handleInputValue("password2")}
-              ></input>
+              ></Input>
               {this.checkPassword2(
                 this.state.password,
                 this.state.password2
@@ -170,31 +232,29 @@ class Signup extends React.Component {
               ) : (
                 <span style={{ color: "red" }}>동일한 비밀번호가 아닙니다</span>
               )}
-            </div>
-          </div>
-          {/* inputArea 끝 */}
+            </InputArea>
 
           <div className="signupArea">
-            <button
+            <Button
               id="goToLoginBtn"
               onClick={() => {
                 this.props.history.push("/login");
               }}
             >
               메인으로
-            </button>
-            <button
+            </Button>
+            <Button
               id="submitSignupBtn"
               onClick={() => {
                 this.postSignup();
               }}
             >
               회원가입
-            </button>
+            </Button>
           </div>
 
           <div className="signupSocialArea">
-            <button
+            <SubmitGithubBtn
               id="submitGithuBtn"
               type="submit"
               onClick={() => {
@@ -203,8 +263,8 @@ class Signup extends React.Component {
               }}
             >
               Github
-            </button>
-            <button
+            </SubmitGithubBtn>
+            <SubmitNaverBtn
               id="submitNaverBtn"
               type="submit"
               onClick={() => {
@@ -213,8 +273,9 @@ class Signup extends React.Component {
               }}
             >
               Naver
-            </button>
-          </div>
+            </SubmitNaverBtn>
+            </div>
+          </InputContainer>
         </center>
       </div>
     );
