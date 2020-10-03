@@ -4,11 +4,6 @@ import { withRouter } from "react-router-dom";
 // import { withRouter, useHistory } from "react-router-dom";
 
 class CommentEntry extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
   deleteComment = () => {
     axios
       .delete("https://devyeon.com/comments/delete", {
@@ -24,11 +19,11 @@ class CommentEntry extends React.Component {
   };
 
   render() {
-    // 수정 필요
-    return (
-      <div className="commentList">
-        <div className="commentUsername">{this.props.comment.username}</div>
-        <div className="commentMessage">{this.props.comment.message}</div>
+    const { comments } = this.props;
+    return comments.map((ele) => (
+      <div className="commentList" key={`comment${comments.indexOf(ele)}`}>
+        <div className="commentUsername">{ele.username}</div>
+        <div className="commentMessage">{ele.message}</div>
         <div className="commentBtns">
           <button className="commentEditBtn" onClick={() => {}}>
             수정
@@ -43,7 +38,7 @@ class CommentEntry extends React.Component {
           </button>
         </div>
       </div>
-    );
+    ));
   }
 }
 

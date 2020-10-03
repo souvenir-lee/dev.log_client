@@ -53,12 +53,7 @@ class Comment extends React.Component {
           </button>
         </div>
         <div className="commentBottom">
-          {this.props.comments.map((comment) => (
-            <CommentEntry
-              comment={comment}
-              key={`comment${comments.indexOf(comment)}`}
-            />
-          ))}
+          <CommentEntry comments={comments} />
         </div>
       </div>
     );
