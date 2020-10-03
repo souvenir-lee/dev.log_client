@@ -5,58 +5,56 @@ axios.defaults.withCredentials = "include";
 
 class Comment extends React.Component {
   constructor(props) {
-    super(props);
+    super();
     this.state = {
       commentValue: "",
     };
-    console.log("댓글", this.props.userInfo);
   }
   handleInputValue = (key) => (e) => {
     this.setState({ [key]: e.target.value });
   };
 
-  handleCommentClick = () => {
+  handleCommentPost = () => {
     axios
-
-      .post("http://localhost:4000/comments/create", {
+      .post("https://devyeon.com/comments/create", {
         userId: this.props.userInfo.id,
         postId: this.props.clickedContent.id,
         message: this.state.commentValue,
         email: this.props.userInfo.email,
       })
-      //  .post("http://devyeon.com/comments/create", this.state.inputComment)
       .then((res) => {
         if (res.status === 200) {
-          this.setState({ comments: res });
+          //
         }
-        //   this.props.getUserData(res.data);
       });
   };
 
   render() {
-    const { comments } = this.props;
+    const { clickedContent, comments } = this.props;
     return (
-      <div className="comment">
-        <div className="comment_count">댓글 :0</div>
-        <div>
+      <div className="commentArea">
+        <div className="commentTop">
+          <div className="commentCount">
+            댓글: {clickedContent.commentCount}개
+          </div>
           <input
-            className="comment_input"
+            className="commentInput"
             type="commentValue"
             placeholder="댓글을 입력해주세요"
             onChange={this.handleInputValue("commentValue")}
           ></input>
           <button
-            className="comment_post"
+            className="commentPostBtn"
             onClick={() => {
-              this.handleCommentClick();
+              this.handleCommentPost();
             }}
           >
             올리기
           </button>
         </div>
-        {this.props.comments.map((comment) => (
+        <div className="commentBottom">
           <CommentEntry comments={comments} />
-        ))}
+        </div>
       </div>
     );
   }

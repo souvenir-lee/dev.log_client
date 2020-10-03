@@ -4,74 +4,30 @@ import Listup from "../src/Main/Listup";
 import Login from "../src/Login";
 import Signup from "../src/Signup";
 import Mypage from "./Mypage";
-import "./App.css";
+import { createGlobalStyle } from "styled-components";
 import axios from "axios";
 axios.defaults.withCredentials = "include";
 
+const GlobalStyle = createGlobalStyle`
+body {
+    margin: 0;
+    font-family: "Nanum Gothic Coding";
+  }
+`;
+
 class App extends React.Component {
   constructor(props) {
-    super(props);
+    super();
     this.state = {
       isLogin: false,
-      isMypage: false,
       token: "",
-      userInfo: {
-        userId: "",
-        username: "",
-      },
-      categoryId: null,
-      contentsList: [
-        {
-          id: "", //postId
-          categoryId: "",
-          username: "",
-          title: "",
-          message: "",
-          view_count: "",
-        },
-      ],
+      userInfo: {},
+      isMypage: false,
     };
-    this.handleGetDefault = this.handleGetDefault.bind(this);
-    this.handleContentList = this.handleContentList.bind(this);
-    this.handleInputCategory = this.handleInputCategory.bind(this);
     this.handleLoginClick = this.handleLoginClick.bind(this);
     this.getUserData = this.getUserData.bind(this);
-    this.handleLoginClick = this.handleLoginClick.bind(this);
     this.handleMypage = this.handleMypage.bind(this);
   }
-
-  componentDidMount() {
-    this.handleGetDefault();
-  }
-
-  //기본 contestList 불러오는 함수, category
-  handleGetDefault = () => {
-    axios
-      .get(`http://localhost:4000/posts/list`)
-      .then((res) => {
-        // axios.get('https://devyeon.com/posts/list').then((res) => {
-        console.log(res.data);
-        this.setState({ contentsList: res.data });
-        this.setState({ categoryId: null });
-      })
-      .catch((err) => console.log(err));
-  };
-
-  //필터링된 contestList 불러오는 함수
-  handleContentList = (value) => {
-    axios.get(`http://localhost:4000/posts/category/${value}`).then((res) => {
-      // axios.get(`https://devyeon.com/posts/category/${value}`).then((res) => {
-      console.log(res.data);
-      this.setState({ contentsList: res.data });
-      this.setState({ categoryId: null });
-    });
-  };
-
-  //category state 끌어올리기
-  handleInputCategory = (e) => {
-    this.setState({ categoryId: e.target.innerHTML });
-    console.log("카테고리~!!!");
-  };
 
   //로그인 시 userInfo를 끌어올리는 함수
   getUserData = (data) => {
@@ -85,82 +41,90 @@ class App extends React.Component {
 
   //클릭하면 isLogin 번경
   handleLoginClick = () => {
-    setTimeout(() => {
-      this.setState({ isLogin: !this.state.isLogin });
-    }, 500);
+    if (this.state.isLogin) {
+      this.setState({ token: this.state.token !== "" ? "" : false });
+    }
+    this.setState({ isLogin: !this.state.isLogin });
   };
 
   //마이페이지 바꾸기
   handleMypage = () => {
     this.setState({ isMypage: !this.state.isMypage });
-    console.log('마이페이지')
+    console.log("마이페이지");
   };
 
   render() {
-    const {
-      isLogin,
-      token,
-      userInfo,
-      categoryId,
-      isMypage,
-      contentsList,
-    } = this.state;
+    const { isLogin, token, userInfo, isMypage } = this.state;
+
     return (
-      <Switch>
-        <Route
-          path="/login"
-          render={() => (
-            <Login
-              isLogin={isLogin}
-              token={token}
-              userInfo={userInfo}
-              getUserData={this.getUserData}
-              handleLoginClick={this.handleLoginClick}
+      <>
+      <GlobalStyle />
+        <Switch>
+          {console.log("RENDERED app.js")}
+
+          {isLogin ? (
+            <Route
+              path="/main"
+              render={() => (
+                <Listup
+                  isLogin={isLogin}
+                  userInfo={userInfo}
+                  token={token}
+                  isMypage={isMypage}
+                  getUserData={this.getUserData}
+                  handleLoginClick={this.handleLoginClick}
+                  handleMypage={this.handleMypage}
+                />
+              )}
             />
+          ) : (
+            ""
           )}
-        />
-        <Route path="/signup" render={() => <Signup />} />
-        <Route
-          path="/main"
-          render={() => (
-            <Listup
-              isLogin={isLogin}
-              isMypage={isMypage}
-              token={token}
-              userInfo={userInfo}
-              categoryId={categoryId}
-              contentsList={contentsList}
-              handleGetDefault={this.handleGetDefault}
-              handleInputCategory={this.handleInputCategory}
-              handleContentList={this.handleContentList}
-              getUserData={this.getUserData}
-              handleLoginClick={this.handleLoginClick}
-              handleMypage={this.handleMypage}
-            />
-          )}
-        />
-        <Route
-          exact
-          path="/mypage"
-          render={() => (
-            <Mypage isLogin={isLogin} isMypage={isMypage} userInfo={userInfo} token={token} handleMypage={this.handleMypage}/>
-          )}
-        />
-        <Route
-          path="/"
-          render={() => {
-            if (isLogin) {
-              if (isMypage) {
-                return <Redirect to="/mypage" />;
-              }
-              return <Redirect to="/main" />;
-            }
-            return <Redirect to="/login" />;
-          }}
-        />
-      </Switch>
+          <Route
+            path="/mypage"
+            render={() => {
+              return isMypage ? (
+                <Mypage
+                  isLogin={isLogin}
+                  token={token}
+                  userInfo={userInfo}
+                  isMypage={isMypage}
+                  handleMypage={this.handleMypage}
+                />
+              ) : (
+                <Listup
+                  isLogin={isLogin}
+                  token={token}
+                  userInfo={userInfo}
+                  getUserData={this.getUserData}
+                  handleLoginClick={this.handleLoginClick}
+                />
+              );
+            }}
+          />
+          <Route
+            path="/login"
+            render={() => (
+              <Login
+                isLogin={isLogin}
+                token={token}
+                userInfo={userInfo}
+                getUserData={this.getUserData}
+                handleLoginClick={this.handleLoginClick}
+              />
+            )}
+          />
+          <Route path="/signup" render={() => <Signup />} />
+
+          <Route
+            path="/"
+            render={() => {
+              if (!isLogin) return <Redirect to="/login" />;
+            }}
+          />
+        </Switch>
+      </>
     );
   }
 }
-
 export default App;

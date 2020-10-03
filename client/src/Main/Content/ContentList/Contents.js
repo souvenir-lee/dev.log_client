@@ -1,34 +1,55 @@
 import React from "react";
-import { withRouter, Redirect } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import ContentsEntry from "./ContentsEntry";
+import styled from "styled-components";
+
+export const Contentstyle = styled.div`
+  grid-column: 2 / 3;
+`;
 
 class Contents extends React.Component {
   constructor(props) {
-    super(props);
+    super();
   }
   render() {
-    const { contentsList, handleClickedContent, clickedContent } = this.props;
+    const {
+      contentsList,
+      clickedContent,
+      handleClickedContent,
+      isDetail,
+      getContentDetail,
+      handleIsDetail,
+      clickNewMessage,
+      handleSortList,
+    } = this.props;
 
     return (
-      <div className="container" id="middle">
-        <button
-          id="newPostBtn"
-          onClick={() => {
-            console.log("클릭되나");
-            this.props.clickNewMessage();
-            // this.props.clickNewMessage();
-          }}
-        >
-          새글 쓰기
-        </button>
-        {contentsList.map((content) => (
-          <ContentsEntry
-            content={content}
-            clickedContent={clickedContent}
-            handleClickedContent={handleClickedContent}
-          />
-        ))}
-      </div>
+      <Contentstyle className="container" id="middle">
+        <div className="containerHead">
+          <button
+            id="newPostBtn"
+            onClick={() => {
+              clickNewMessage();
+            }}
+          >
+            새글 쓰기
+          </button>
+
+          <select name="cars" id="cars" onChange={handleSortList}>
+            <option value="id">최근 게시글</option>
+            <option value="viewCount">조회수</option>
+            <option value="commentCount">댓글수</option>
+          </select>
+        </div>
+        <ContentsEntry
+          contentsList={contentsList}
+          clickedContent={clickedContent}
+          handleClickedContent={handleClickedContent}
+          isDetail={isDetail}
+          getContentDetail={getContentDetail}
+          handleIsDetail={handleIsDetail}
+        />
+      </Contentstyle>
     );
   }
 }
