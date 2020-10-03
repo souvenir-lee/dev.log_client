@@ -7,8 +7,14 @@ import Post from "../Main/Content/Post";
 import ContentDetail from "../Main/Content/ContentDetail/ContentDetail";
 import Mypage from "../Mypage";
 import Custom from "../Main/Custom/Custom";
+import styled from "styled-components";
 import axios from "axios";
 axios.defaults.withCredentials = "include";
+
+export const Outer = styled.div`
+  display: grid;
+  grid-template: 1fr auto 1fr / 1fr 1fr 1fr;
+`;
 
 class Listup extends React.Component {
   constructor(props) {
@@ -159,7 +165,7 @@ class Listup extends React.Component {
     } = this;
 
     return (
-      <div id="outer">
+      <Outer id="outer">
         {isMypage ? (
           <Switch>
             {console.log("route is mypage")}
@@ -177,7 +183,6 @@ class Listup extends React.Component {
           handleSearchList={handleSearchList}
         />
 
-        <div className="container" id="main">
           {newPost ? <Redirect to="/main/post" /> : ""}
 
           <Category
@@ -261,8 +266,7 @@ class Listup extends React.Component {
             handleIsDetail={handleIsDetail}
             comments={comments}
           />
-        </div>
-      </div>
+      </Outer>
     );
   }
 }
