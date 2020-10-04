@@ -179,6 +179,7 @@ class ContentDetail extends React.Component {
           </div>
           <br />
           <Button
+            style={{ display: clickedContent.display }}
             className="contentDeleteBtn"
             onClick={() => {
               this.deleteMessage();
@@ -187,6 +188,7 @@ class ContentDetail extends React.Component {
             삭제하기
           </Button>
           <Button
+            style={{ display: clickedContent.display }}
             className="contentEditBtn"
             onClick={() => {
               clickEditPost(); // 수정하기로 리다이렉트

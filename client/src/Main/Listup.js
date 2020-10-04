@@ -78,14 +78,10 @@ class Listup extends React.Component {
     );
   }
   handleContentList(value) {
-    console.log(value);
     value !== 0
-      ? axios
-          .get(`https://devyeon.com/posts/category/${value}`)
-          .then((res) => {
-            console.log(res.data);
-            this.setState({ contentsList: res.data });
-          })
+      ? axios.get(`https://devyeon.com/posts/category/${value}`).then((res) => {
+          this.setState({ contentsList: res.data });
+        })
       : axios.get(`https://devyeon.com/posts/list`).then((res) => {
           this.setState({ contentsList: res.data });
           console.log(res.data);
@@ -94,6 +90,9 @@ class Listup extends React.Component {
   }
   // 선택한 content 정보 -> 메인에 뿌릴 정보 모두
   handleClickedContent(data) {
+    data.authorId === this.props.userInfo["id"]
+      ? (data["display"] = true)
+      : (data["display"] = "none");
     this.setState({ clickedContent: data }, () => {
       axios
         .get(
@@ -127,9 +126,7 @@ class Listup extends React.Component {
       };
       callback();
       axios
-        .get(
-          `https://devyeon.com/posts/update/${this.state.clickedContent.id}`
-        )
+        .get(`https://devyeon.com/posts/update/${this.state.clickedContent.id}`)
         .then((res) => {
           this.setState({ tagList: [...res.data[0]] });
           this.setState({ memberList: [...res.data[1]] });
