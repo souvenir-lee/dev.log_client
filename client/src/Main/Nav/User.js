@@ -29,7 +29,7 @@ class User extends React.Component {
           id="logoutBtn"
           onClick={() => {
             axios
-              .post("http://localhost:4000/users/logout", {
+              .post("https://devyeon.com/users/logout", {
                 token: token,
               })
               .then((result) => {
@@ -46,7 +46,7 @@ class User extends React.Component {
           onClick={() => {
             console.log("user에서 userInfo", userInfo);
             axios
-              .post("http://localhost:4000/users/info", {
+              .post("https://devyeon.com/users/info", {
                 token: token,
               })
               .then((res) => {
