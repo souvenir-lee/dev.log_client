@@ -1,62 +1,61 @@
 import React from "react";
-import { Redirect, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import axios from "axios";
-axios.defaults.withCredentials = true;
+import styled from "styled-components";
+axios.defaults.withCredentials = "include";
+
+const UserBtn = styled.button`
+  background: #02380e;
+  color: #fff;
+  border: none;
+  width: 100px;
+  height: 10px;
+  font-size: 1em;
+  margin-right: 5px;
+  font-family: "Nanum Gothic Coding";
+`;
 
 class User extends React.Component {
   constructor(props) {
-    super(props);
-    this.state={
-      isMypage : false
-    }
+    super();
   }
 
   render() {
-    const {
-      isLogin,
-      userInfo,
-      getUserData,
-      handleLoginClick,
-    } = this.props;
+    const { handleLoginClick, handleMypage, token, userInfo } = this.props;
 
     return (
-      <div>
-      {(!isLogin) ? <Redirect to="/login" /> : ''}
-      {(this.state.isMypage) ? <Redirect to="/mypage" /> : ''}
-
-        <button
+      <div className="userArea">
+        <UserBtn
           id="logoutBtn"
           onClick={() => {
-            console.log("클랙 props", this.props.userInfo);
-            //axios
-              //.post("http://localhost:4000/users/logout")
-              axios.post('https://devyeon.com/users/logout', userInfo.token)
-              .then(() => {
+            axios
+              .post("https://devyeon.com/users/logout", {
+                token: token,
+              })
+              .then((result) => {
                 handleLoginClick();
-                //this.props.history.push("/login"); //변경된 API
               })
               .catch((error) => console.log(error));
           }}
         >
           로그아웃
-        </button>
+        </UserBtn>
 
-        <button
+        <UserBtn
           id="mypageBtn"
           onClick={() => {
             console.log("user에서 userInfo", userInfo);
             axios
-              //.get("http://localhost:4000/users/info", serverinfo.token) //마이페이지로 리다이렉트
-              .get("https://devyeon.com/users/info",) //마이페이지로 리다이렉트
-              .then((res) => {
-                getUserData(res);
-                this.setState({isMypage : !this.state.isMypage})
+              .post("https://devyeon.com/users/info", {
+                token: token,
               })
+              .then((res) => {
+                handleMypage();
+              });
           }}
         >
           마이페이지
-          {/* <Link to='/mypage'> */}
-        </button>
+        </UserBtn>
       </div>
     );
   }

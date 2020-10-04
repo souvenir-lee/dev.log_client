@@ -1,20 +1,21 @@
-import React from 'react';
-import CatgeoryEntry from "./CategoryEntry"
+import React from "react";
+import CategoryEntry from "./CategoryEntry";
+import styled from "styled-components";
 
-const Catgeory = ({cateory, handleInputCategory}) => (
-  <div className="container" id="category">
-  {["전체보기","Grapefruit", "Lime", "Coconut","Mango"].map( el => {
-    return (
-      <CatgeoryEntry 
-        el={el}
-        cateory={cateory} 
-        handleInputCategory={handleInputCategory}          
-        />
-    )
-  })}
-  </div>
+const Category = ({
+  handleCategoryEntry,
+  categoryList,
+  handleInputCategory,
+}) => (
+  <CategoryStyle className="container" id="category">
+    <CategoryEntry
+      handleCategoryEntry={handleCategoryEntry}
+      categoryList={categoryList}
+      handleInputCategory={handleInputCategory}
+    />
+  </CategoryStyle>
 );
-
-export default Catgeory;
-
-
+export default Category;
+export const CategoryStyle = styled.div`
+  grid-column: 1 / 2;
+`;

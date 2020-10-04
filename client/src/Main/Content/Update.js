@@ -1,29 +1,34 @@
 import React from "react";
 import axios from "axios";
-import { Redirect, withRouter } from "react-router-dom";
+import { Redirect, Route, withRouter } from "react-router-dom";
 import styled from "styled-components";
 axios.defaults.withCredentials = "include";
 export const Poststyle = styled.div`
   grid-column: 2 / 3;
 `;
 
-class Post extends React.Component {
+class Update extends React.Component {
   constructor(props) {
     super();
     this.state = {
       names: [],
       tags: [],
-      blank: [1, 2, 3], // blank.length에 따라 태그, 멤버 입력칸 결정
+      blank: [1, 2, 3],
     };
     this.handleInputValue = this.handleInputValue.bind(this);
-    this.handlePost = this.handlePost.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
+  }
+
+  componentDidMount() {
+    this.setState({ names: [...this.props.memberList] });
+    this.setState({ tags: [...this.props.tagList] });
   }
 
   handleInputValue = (key) => (e) => {
     this.setState({ [key]: e.target.value });
   };
 
-  handlePost() {
+  handleEdit() {
     this.setState({
       names: this.state.blank.map((ele) => {
         const index = this.state.blank.indexOf(ele);
@@ -42,34 +47,34 @@ class Post extends React.Component {
     });
     setTimeout(() => {
       axios
-        .post("https://devyeon.com/posts/create", {
+        .post("https://devyeon.com/posts/update", {
           token: this.props.token,
           categoryId: this.state.categoryId,
-          authorId: String(this.props.userInfo.id),
           title: this.state.title,
           message: this.state.message,
           names: this.state.names,
           tags: this.state.tags,
+          id: this.props.clickedContent.id,
         })
         .then((res) => {
-          if (res.status === 201) {
-            //새글 쓰고 main으로 이동
+          if (res.status === 200) {
             this.props.handleContentList(0);
-            alert("등록되었습니다.");
+            alert("수정이 완료되었습니다.");
             this.props.handleResetClickedContent();
-            this.props.clickNewPost();
+            this.props.clickEditPost();
           }
         });
-    });
+    }, 0);
   }
 
   render() {
-    const { categoryList, handleResetClickedContent } = this.props;
-    const { blank } = this.state;
+    const { categoryList, clickedContent } = this.props;
     const list = categoryList.slice(1);
+    const { blank } = this.state;
 
     return (
       <Poststyle className="container" id="post">
+        {this.state.isPost ? <Redirect to="/main" /> : ""}
         <div className="inputArea">
           <select
             className="postCategorySelect"
@@ -86,28 +91,29 @@ class Post extends React.Component {
               </option>
             ))}
           </select>
-
           <input
             className="postTitle"
             type="title"
             placeholder="title"
+            defaultValue={clickedContent.title}
             onChange={this.handleInputValue("title")}
-          ></input>
-
+          />
           <textarea
             className="postMessage"
             type="message"
             placeholder="message"
+            defaultValue={clickedContent.message}
             onChange={this.handleInputValue("message")}
           ></textarea>
         </div>
-
         <div className="postTagArea">
           {blank.map((n) => {
+            const index = blank.indexOf(n);
             return (
               <input
                 type="tag"
                 placeholder={"태그" + n}
+                defaultValue={this.state.tags[index]}
                 key={"tag" + n}
                 onChange={this.handleInputValue("tag" + n)}
               ></input>
@@ -117,47 +123,41 @@ class Post extends React.Component {
 
         <div className="memberTagArea">
           {blank.map((n) => {
+            const index = blank.indexOf(n);
             return (
               <input
                 type="member"
                 placeholder={"멤버" + n}
+                defaultValue={this.state.names[index]}
                 key={"멤버" + n}
                 onChange={this.handleInputValue("member" + n)}
               ></input>
             );
           })}
         </div>
-
         <div className="btnArea">
           <button
             className="postCancelBtn"
             type="submit"
             onClick={() => {
-              if (window.confirm("정말 취소하시겠어요?")) {
-                alert("취소되었습니다.");
-                this.props.handleResetClickedContent();
-                this.props.clickNewPost();
-                // this.props.history.push("/main");
-              } else {
-                return;
-              }
+              this.props.clickEditPost();
+              // this.props.history.push("/main");
             }}
           >
             취소
           </button>
           <button
-            className="postSubmitBtn"
+            className="postUpdateBtn"
             type="submit"
             onClick={() => {
-              this.handlePost();
+              this.handleEdit();
             }}
           >
-            게시
+            수정
           </button>
         </div>
       </Poststyle>
     );
   }
 }
-
-export default withRouter(Post);
+export default withRouter(Update);

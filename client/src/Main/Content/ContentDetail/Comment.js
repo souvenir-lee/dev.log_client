@@ -1,61 +1,75 @@
 import React from "react";
 import CommentEntry from "./CommentEntry";
 import axios from "axios";
-axios.defaults.withCredentials = true;
+axios.defaults.withCredentials = "include";
 
 class Comment extends React.Component {
   constructor(props) {
-    super(props);
+    super();
     this.state = {
-      comments: [
-        { id: "", username: "수진", message: "hello" },
-        { id: "", username: "한슬", message: "good" },
-        { id: "", username: "윤연", message: "word" },
-      ],
-      commentCount: 3,
-      // inputComment: this.state.comments.length,
+      commentValue: "",
     };
   }
   handleInputValue = (key) => (e) => {
     this.setState({ [key]: e.target.value });
   };
 
-  handleCommentClick = () => {
+  handleCommentPost = () => {
     axios
-
-      //.post("http://localhost:4000/comments/create", this.state.inputComment)
-       .post("http://devyeon.com/comments/create", this.state.inputComment)
+      .post("https://devyeon.com/comments/create", {
+        userId: this.props.userInfo.id,
+        postId: this.props.clickedContent.id,
+        message: this.state.commentValue,
+        email: this.props.userInfo.email,
+      })
       .then((res) => {
-        if (res.status === 200) {
-          this.setState({ comments: res });
+        if (res.status === 201) {
+          this.props.getContentDetail(null, this.props.clickedContent.id);
         }
-        //   this.props.getUserData(res.data);
       });
   };
 
   render() {
+    const {
+      clickedContent,
+      comments,
+      token,
+      handleClickedContent,
+      getContentDetail,
+    } = this.props;
     return (
-      <div className="comment">
-        <div className="comment_count">댓글 :0</div>
-        <div>
+      <div className="commentArea">
+        <div className="commentTop">
+          <div className="commentCount">
+            댓글: {clickedContent.commentCount}개
+          </div>
           <input
-            className="comment_input"
-            type="inputComment"
+            className="commentInput"
+            type="commentValue"
+            value={this.state.commentValue}
             placeholder="댓글을 입력해주세요"
-            onChange={this.handleInputValue("inputComment")}
+            onChange={this.handleInputValue("commentValue")}
           ></input>
           <button
-            className="comment_post"
+            className="commentPostBtn"
             onClick={() => {
-              this.handleCommentClick();
+              this.handleCommentPost();
+              alert("등록되었습니다.");
+              this.setState({ commentValue: "" });
             }}
           >
             올리기
           </button>
         </div>
-        {this.state.comments.map((comment) => (
-          <CommentEntry comment={comment} />
-        ))}
+        <div className="commentBottom">
+          <CommentEntry
+            comments={comments}
+            token={token}
+            handleClickedContent={handleClickedContent}
+            clickedContent={clickedContent}
+            getContentDetail={getContentDetail}
+          />
+        </div>
       </div>
     );
   }
