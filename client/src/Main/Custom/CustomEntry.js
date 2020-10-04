@@ -1,7 +1,33 @@
 import React from "react";
 import { withRouter, Redirect } from "react-router-dom";
 import axios from "axios";
+import styled from "styled-components";
 axios.defaults.withCredentials = "include";
+
+const ListSet = styled.div`
+  border-bottom: 1px solid black;
+  padding: 5px 0px;
+`;
+
+const Title = styled.div`
+  margin: 7px 0px;
+`;
+const Search = styled.div`
+  margin: 7px 0px;
+`;
+const Date = styled.div`
+  margin: 7px 0px;
+`;
+const Category = styled.div`
+  margin: 7px 0px;
+`;
+
+const Detail = styled.div`
+  margin: 5px;
+`;
+// const DetailName = styled(Detail)`
+//   font-weight: bold;
+// `;
 
 class CustomEntry extends React.Component {
   constructor(props) {
@@ -17,10 +43,10 @@ class CustomEntry extends React.Component {
     } = this.props;
 
     return (
-      <>
+      <div>
         {Object.values(listCustom).length !== 0 ? (
           Object.values(listCustom).map((content) => (
-            <div
+            <ListSet
               key={`listCustom${Object.values(listCustom).indexOf(content)}`}
               onClick={() => {
                 getContentDetail(
@@ -30,20 +56,20 @@ class CustomEntry extends React.Component {
                 return !isDetail ? handleIsDetail() : "";
               }}
             >
-              <div>
+              <Title>
                 제목:{" "}
                 {content["post.title"] ||
                   content["title"] ||
                   content["post.title"]}
-              </div>
-              <div>
+              </Title>
+              <Search>
                 조회:{" "}
                 {content["post.viewCount"] ||
                   content["viewCount"] ||
                   content["post.viewCount"]}
                 회
-              </div>
-              <div>
+              </Search>
+              <Date>
                 작성일:{" "}
                 {content["post.createdAt"]
                   ? content["post.createdAt"]
@@ -61,19 +87,19 @@ class CustomEntry extends React.Component {
                       .replace("-", ".")
                       .replace("-", ".")
                   : ""}
-              </div>
-              <div>
+              </Date>
+              <Category>
                 카테고리:{" "}
                 {content["post.category.title"] ||
                   content["category"] ||
                   content["post.category.title"]}
-              </div>
-            </div>
+              </Category>
+            </ListSet>
           ))
         ) : (
           <div>{selectedOption}에 해당하는 글이 없습니다.</div>
         )}
-      </>
+      </div>
     );
   }
 }

@@ -6,15 +6,22 @@ import Contents from "../Main/Content/ContentList/Contents";
 import Post from "../Main/Content/Post";
 import ContentDetail from "../Main/Content/ContentDetail/ContentDetail";
 import Mypage from "../Mypage";
+import Footer from "./Footer";
 import Custom from "../Main/Custom/Custom";
 import styled from "styled-components";
 import axios from "axios";
 import Update from "../Main/Content/Update";
 axios.defaults.withCredentials = "include";
-
+//
 export const Outer = styled.div`
   display: grid;
-  grid-template: 1fr auto 1fr / 1fr 1fr 1fr;
+  grid-template-columns: 0.8fr 1.2fr 0.9fr 1.1fr;
+  grid-template-rows: 0.2fr 2.7fr 0.2fr;
+  gap: 0px 0px;
+  grid-template-areas:
+    "nav nav nav nav"
+    "category main main custom"
+    "category footer footer custom";
 `;
 
 class Listup extends React.Component {
@@ -336,6 +343,7 @@ contents detail에서는 -> 수정하기 버튼, 돌아가기 버튼(back to con
         )}
         {editPost ? <Redirect to="/main/update" /> : <Redirect to="/main" />}
         {isDetail ? <Redirect to="/main/detail" /> : <Redirect to="/main" />}
+        <Footer />
       </Outer>
     );
   }
