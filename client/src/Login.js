@@ -90,7 +90,7 @@ class Login extends React.Component {
   handleLogin() {
     axios
       //.post("http://localhost:4000/users/login", this.state)
-      .post("https://devyeon.com/users/login", this.state)
+      .post("http://localhost:4000/users/login", this.state)
       .then((res) => {
         console.log(this.state);
         if (res.status === 200) {
@@ -105,14 +105,14 @@ class Login extends React.Component {
 
   handleGithubLogin() {
     // axios
-    // .get(`https://devyeon.com/socials/ghsignup`, {
+    // .get(`http://localhost:4000/socials/ghsignup`, {
     //   headers: {
     //     "Content-Type": "application/json",
     //     "Access-Control-Allow-Credentials": true,
     //   },
     // })
     axios
-      .post(`https://devyeon.com/users/login`, {
+      .post(`http://localhost:4000/users/login`, {
         email: "github@social.com",
         password: "1111",
       })
@@ -130,7 +130,7 @@ class Login extends React.Component {
 
   handleNaverLogin() {
     axios
-      .post(`https://devyeon.com/users/login`, {
+      .post(`http://localhost:4000/users/login`, {
         email: "naver@social.com",
         password: "1111",
       })
@@ -152,10 +152,11 @@ class Login extends React.Component {
         {this.props.isLogin ? <Redirect to="/main" /> : ""}
         <center>
           <InputContainer>
-          <img 
-            src="dev-log.png" 
-            alt="dev-log 로고" 
-            style={{width:"300px", "margin-top": "10px"}}/>
+            <img
+              src="dev-log.png"
+              alt="dev-log 로고"
+              style={{ width: "300px", "margin-top": "10px" }}
+            />
             <h1>Log In</h1>
             <div>
               <InputLogin
@@ -215,7 +216,6 @@ class Login extends React.Component {
             </div>
           </InputContainer>
         </center>
-        
       </div>
     );
   }

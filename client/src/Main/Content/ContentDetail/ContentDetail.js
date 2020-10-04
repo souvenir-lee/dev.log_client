@@ -20,7 +20,7 @@ class ContentDetail extends React.Component {
 
   deleteMessage() {
     axios
-      .post("https://devyeon.com/posts/delete", {
+      .post("http://localhost:4000/posts/delete", {
         id: this.props.clickedContent.id,
         token: this.props.token,
       })

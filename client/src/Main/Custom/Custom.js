@@ -23,7 +23,7 @@ class Custom extends React.Component {
     const { userInfo } = this.props;
     axios
       .get(
-        `https://devyeon.com/custom/${this.state.selectedOption.toLowerCase()}/${
+        `http://localhost:4000/custom/${this.state.selectedOption.toLowerCase()}/${
           userInfo.id
         }`
       )

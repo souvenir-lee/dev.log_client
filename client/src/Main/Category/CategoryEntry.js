@@ -11,7 +11,7 @@ class CategoryEntry extends React.Component {
   handleAddCategory() {
     const inputCategory = prompt("카테고리를 입력해주세요.");
     axios
-      .post(`https://devyeon.com/category`, { title: inputCategory })
+      .post(`http://localhost:4000/category`, { title: inputCategory })
       .then(() => {
         this.props.handleCategoryEntry();
         alert(`${inputCategory}가 추가되었습니다.`);

@@ -16,7 +16,7 @@ class Comment extends React.Component {
 
   handleCommentPost = () => {
     axios
-      .post("https://devyeon.com/comments/create", {
+      .post("http://localhost:4000/comments/create", {
         userId: this.props.userInfo.id,
         postId: this.props.clickedContent.id,
         message: this.state.commentValue,
