@@ -4,6 +4,20 @@ import styled from "styled-components";
 import axios from "axios";
 axios.defaults.withCredentials = "include";
 
+const GithubPng = styled.img`
+  border-radius: 10px;
+  width: 35px;
+  height: 30px;
+`;
+const NaverPng = styled.img`
+  border-radius: 10px;
+  width: 35px;
+  height: 30px;
+`;
+const SignUp = styled.h1`
+  margin-bottom: 0px;
+`;
+
 const InputContainer = styled.div`
   width: 600px;
   height: 700px;
@@ -17,15 +31,15 @@ const InputArea = styled.div`
 `;
 const Input = styled.input`
   width: 200px;
-  height: 30px;
+  height: 25px;
   letter-spacing: 1px;
   text-align: center;
   margin: 0px 10px 10px;
 `;
 const CheckSignupBtn = styled.button`
-  color: white;
-  width: 107px;
-  height: 38px;
+  color: black;
+  width: 90px;
+  height: 30px;
   background: #02380e;
   border-radius: 10px;
   border: none;
@@ -41,26 +55,31 @@ const SubmitGithubBtn = styled.button`
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
   border: none;
-  margin: 5px;
+  margin: 7px;
 `;
 const SubmitNaverBtn = styled.button`
   width: 80px;
   height: 35px;
   font-size: 0.8em;
-  background: #15b439;
+  background: #0ece3a;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
   border: none;
-  margin: 5px;
+  margin: 7px;
 `;
 const Button = styled.button`
   width: 124px;
   height: 35px;
   background: #f1c40f;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 10px;
+  color: black;
   border: none;
-  margin: 50px 5px 10px;
+  font-size: 1em;
+  margin-left: 7px;
+  margin-right: 7px;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.25);
 `;
 
 class Signup extends React.Component {
@@ -160,7 +179,7 @@ class Signup extends React.Component {
               alt="dev-log 로고"
               style={{ width: "250px", margin: "10px" }}
             />
-            <h1>Sign Up</h1>
+            <Signup>Sign Up</Signup>
 
             <InputArea>
               Email
@@ -265,7 +284,7 @@ class Signup extends React.Component {
                   // this.signupWithGithub();
                 }}
               >
-                Github
+                <GithubPng src="github2.png" alt="" />
               </SubmitGithubBtn>
               <SubmitNaverBtn
                 id="submitNaverBtn"
@@ -275,7 +294,7 @@ class Signup extends React.Component {
                   // this.signupWithGithub();
                 }}
               >
-                Naver
+                <NaverPng src="naver.png" alt="" />
               </SubmitNaverBtn>
             </div>
           </InputContainer>
