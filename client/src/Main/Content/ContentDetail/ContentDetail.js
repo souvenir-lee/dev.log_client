@@ -183,6 +183,7 @@ class ContentDetail extends React.Component {
             className="contentDeleteBtn"
             onClick={() => {
               this.deleteMessage();
+              handleContentList(0);
             }}
           >
             삭제하기
