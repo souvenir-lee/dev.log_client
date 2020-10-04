@@ -14,12 +14,12 @@ class ContentDetail extends React.Component {
     super();
     this.state = {
       scrap: false,
+      scrapList: [],
     };
     this.deleteMessage = this.deleteMessage.bind(this);
+    this.getCurrentScrap = this.getCurrentScrap.bind(this);
     this.handleScrap = this.handleScrap.bind(this);
   }
-
-  componentDidMount() {}
 
   deleteMessage() {
     axios
@@ -32,9 +32,30 @@ class ContentDetail extends React.Component {
           this.props.handleContentList(0);
           alert("삭제되었습니다.");
           this.props.handleResetClickedContent();
-          this.props.handleIsDetail();
+          return this.props.isDetail ? this.props.handleIsDetail() : "";
+        } else {
+          //
         }
       });
+  }
+
+  getCurrentScrap() {
+    axios
+      .get(`https://devyeon.com/custom/scrap/${this.props.userInfo.id}`)
+      .then((result) => {
+        this.setState({
+          scrapList: [...result.data],
+        });
+        console.log(this.state.scrapList);
+      });
+  }
+
+  checkIsScrap() {
+    this.state.scrapList.map((ele) => {
+      if (this.props.clickedContent.id === ele.postId) {
+        this.setState({ scrap: true });
+      }
+    });
   }
 
   handleScrap() {
@@ -86,19 +107,25 @@ class ContentDetail extends React.Component {
             <br />
             <div className="contentTags">
               태그:{" "}
-              {tagList.map((tag) => {
-                return <span key={`tag${tagList.indexOf(tag)}`}>{tag} </span>;
-              })}
+              {tagList.length !== 0
+                ? tagList.map((tag) => {
+                    return (
+                      <span key={`tag${tagList.indexOf(tag)}`}>{tag} </span>
+                    );
+                  })
+                : "없음"}
             </div>
             <div className="contentMembers">
               관련된 사람:{" "}
-              {memberList.map((member) => {
-                return (
-                  <span key={`member${memberList.indexOf(member)}`}>
-                    {member}{" "}
-                  </span>
-                );
-              })}
+              {memberList.length !== 0
+                ? memberList.map((member) => {
+                    return (
+                      <span key={`member${memberList.indexOf(member)}`}>
+                        {member}{" "}
+                      </span>
+                    );
+                  })
+                : "없음"}
             </div>
           </div>
           <br />
