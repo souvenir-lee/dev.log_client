@@ -91,6 +91,12 @@ class Listup extends React.Component {
           `https://devyeon.com/comments/list/${this.state.clickedContent.id}`
         )
         .then((res) => {
+          const rawComment = res.data;
+          rawComment.map((comment) => {
+            return comment.userId === this.props.userInfo["id"]
+              ? (comment["display"] = true)
+              : (comment["display"] = "none");
+          });
           this.setState({ comments: [...res.data] });
         });
     });

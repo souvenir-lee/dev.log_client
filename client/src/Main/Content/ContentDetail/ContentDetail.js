@@ -87,13 +87,17 @@ class ContentDetail extends React.Component {
             <div className="contentTags">
               태그:{" "}
               {tagList.map((tag) => {
-                return <span>{tag} </span>;
+                return <span key={`tag${tagList.indexOf(tag)}`}>{tag} </span>;
               })}
             </div>
             <div className="contentMembers">
               관련된 사람:{" "}
               {memberList.map((member) => {
-                return <span>{member} </span>;
+                return (
+                  <span key={`member${memberList.indexOf(member)}`}>
+                    {member}{" "}
+                  </span>
+                );
               })}
             </div>
           </div>
