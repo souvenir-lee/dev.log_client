@@ -82,7 +82,7 @@ class Post extends React.Component {
     });
     setTimeout(() => {
       axios
-        .post("http://localhost:4000/posts/create", {
+        .post("https://devyeon.com/posts/create", {
           token: this.props.token,
           categoryId: this.state.categoryId,
           authorId: String(this.props.userInfo.id),

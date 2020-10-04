@@ -42,7 +42,7 @@ const Button = styled.button`
 `;
 
 const ContentArea = styled.div`
-  height: 32vh;
+  height: 320px;
   border: 1px solid black;
   margin-bottom: 10px;
 `;
@@ -63,7 +63,7 @@ class ContentDetail extends React.Component {
 
   deleteMessage() {
     axios
-      .post("http://localhost:4000/posts/delete", {
+      .post("https://devyeon.com/posts/delete", {
         id: this.props.clickedContent.id,
         token: this.props.token,
       })

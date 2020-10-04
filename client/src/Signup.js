@@ -14,9 +14,6 @@ const NaverPng = styled.img`
   width: 35px;
   height: 30px;
 `;
-const SignUp = styled.h1`
-  margin-bottom: 0px;
-`;
 
 const InputContainer = styled.div`
   width: 600px;
@@ -31,7 +28,7 @@ const InputArea = styled.div`
 `;
 const Input = styled.input`
   width: 200px;
-  height: 25px;
+  height: 30px;
   letter-spacing: 1px;
   text-align: center;
   margin: 0px 10px 10px;
@@ -55,7 +52,7 @@ const SubmitGithubBtn = styled.button`
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
   border: none;
-  margin: 7px;
+  margin: 5px;
 `;
 const SubmitNaverBtn = styled.button`
   width: 80px;
@@ -65,21 +62,16 @@ const SubmitNaverBtn = styled.button`
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
   border: none;
-  margin: 7px;
+  margin: 5px;
 `;
 const Button = styled.button`
   width: 124px;
   height: 35px;
   background: #f1c40f;
-  color: black;
-  border: none;
-  font-size: 1em;
-  margin-left: 7px;
-  margin-right: 7px;
-  margin-top: 15px;
-  margin-bottom: 10px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
-  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.25);
+  border: none;
+  margin: 10px 5px 10px;
 `;
 
 class Signup extends React.Component {

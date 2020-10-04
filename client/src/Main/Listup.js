@@ -62,7 +62,7 @@ class Listup extends React.Component {
 
   handleCategoryEntry() {
     axios
-      .get(`http://localhost:4000/category`)
+      .get(`https://devyeon.com/category`)
       .then((res) => res.data.map((ele) => ele.title))
       .then((list) => {
         this.setState({ categoryList: ["전체보기", ...list] });
@@ -81,12 +81,12 @@ class Listup extends React.Component {
     console.log(value);
     value !== 0
       ? axios
-          .get(`http://localhost:4000/posts/category/${value}`)
+          .get(`https://devyeon.com/posts/category/${value}`)
           .then((res) => {
             console.log(res.data);
             this.setState({ contentsList: res.data });
           })
-      : axios.get(`http://localhost:4000/posts/list`).then((res) => {
+      : axios.get(`https://devyeon.com/posts/list`).then((res) => {
           this.setState({ contentsList: res.data });
           console.log(res.data);
         });
@@ -97,7 +97,7 @@ class Listup extends React.Component {
     this.setState({ clickedContent: data }, () => {
       axios
         .get(
-          `http://localhost:4000/comments/list/${this.state.clickedContent.id}`
+          `https://devyeon.com/comments/list/${this.state.clickedContent.id}`
         )
         .then((res) => {
           this.setState({ comments: [...res.data] });
@@ -115,14 +115,14 @@ class Listup extends React.Component {
   }
   //content detail 호출
   getContentDetail = (content, target) => {
-    axios.get(`http://localhost:4000/posts/info/${target}`).then((res) => {
+    axios.get(`https://devyeon.com/posts/info/${target}`).then((res) => {
       const callback = () => {
         this.handleClickedContent(res.data);
       };
       callback();
       axios
         .get(
-          `http://localhost:4000/posts/update/${this.state.clickedContent.id}`
+          `https://devyeon.com/posts/update/${this.state.clickedContent.id}`
         )
         .then((res) => {
           this.setState({ tagList: [...res.data[0]] });
@@ -143,7 +143,7 @@ class Listup extends React.Component {
   }
   //검색된 contentList 불러오는 함수
   handleSearchList(value) {
-    axios.get(`http://localhost:4000/search/title/${value}`).then((res) => {
+    axios.get(`https://devyeon.com/search/title/${value}`).then((res) => {
       console.log(res.data);
       this.setState({ contentsList: res.data });
     });
@@ -151,7 +151,7 @@ class Listup extends React.Component {
   //선택된 정렬 기준으로 contentList 불러오는 함수
   handleSortList = (e) => {
     axios
-      .get(`http://localhost:4000/posts/sort/${e.target.value}`)
+      .get(`https://devyeon.com/posts/sort/${e.target.value}`)
       .then((res) => {
         console.log(res.data);
         this.setState({ contentsList: res.data });
