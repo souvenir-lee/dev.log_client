@@ -87,7 +87,7 @@ class Update extends React.Component {
     });
     setTimeout(() => {
       axios
-        .post("http://localhost:4000/posts/update", {
+        .post("https://devyeon.com/posts/update", {
           token: this.props.token,
           categoryId: this.state.categoryId,
           title: this.state.title,

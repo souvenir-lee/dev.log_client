@@ -4,20 +4,6 @@ import styled from "styled-components";
 import axios from "axios";
 axios.defaults.withCredentials = "include";
 
-const GithubPng = styled.img`
-  border-radius: 10px;
-  width: 35px;
-  height: 30px;
-`;
-const NaverPng = styled.img`
-  border-radius: 10px;
-  width: 35px;
-  height: 30px;
-`;
-const SignUp = styled.h1`
-  margin-bottom: 0px;
-`;
-
 const InputContainer = styled.div`
   width: 600px;
   height: 700px;
@@ -31,15 +17,15 @@ const InputArea = styled.div`
 `;
 const Input = styled.input`
   width: 200px;
-  height: 25px;
+  height: 30px;
   letter-spacing: 1px;
   text-align: center;
   margin: 0px 10px 10px;
 `;
 const CheckSignupBtn = styled.button`
-  color: black;
-  width: 90px;
-  height: 30px;
+  color: white;
+  width: 107px;
+  height: 38px;
   background: #02380e;
   border-radius: 10px;
   border: none;
@@ -55,32 +41,28 @@ const SubmitGithubBtn = styled.button`
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
   border: none;
-  margin: 7px;
+  margin: 5px;
 `;
 const SubmitNaverBtn = styled.button`
   width: 80px;
   height: 35px;
   font-size: 0.8em;
-  background: #0ece3a;
+  background: #15b439;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
   border: none;
-  margin: 7px;
+  margin: 5px;
 `;
 const Button = styled.button`
   width: 124px;
   height: 35px;
   background: #f1c40f;
-  color: black;
-  border: none;
-  font-size: 1em;
-  margin-left: 7px;
-  margin-right: 7px;
-  margin-top: 15px;
-  margin-bottom: 10px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
-  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.25);
+  border: none;
+  margin: 50px 5px 10px;
 `;
+
 
 class Signup extends React.Component {
   constructor(props) {
@@ -126,7 +108,7 @@ class Signup extends React.Component {
   handleSignUp = () => {
     console.log(this.state.email);
     axios
-      .post("http://localhost:4000/users/emailconfirm", {
+      .post("https://devyeon.com/users/emailconfirm", {
         email: this.state.email,
       })
       .then((res) => {
@@ -148,7 +130,7 @@ class Signup extends React.Component {
     ) {
       //axios.post("http://localhost:4000/users/signup", this.state).then((res) => {
       axios
-        .post("http://localhost:4000/users/signup", {
+        .post("https://devyeon.com/users/signup", {
           email: this.state.email,
           username: this.state.username,
           password: this.state.password,
@@ -174,12 +156,8 @@ class Signup extends React.Component {
         {this.state.signup ? <Redirect to="/login" /> : ""}
         <center>
           <InputContainer>
-            <img
-              src="dev-log.png"
-              alt="dev-log 로고"
-              style={{ width: "250px", margin: "10px" }}
-            />
-            <Signup>Sign Up</Signup>
+            <img src="dev-log.png" alt="dev-log 로고" style={{width:"250px", margin: "10px"}}/>
+            <h1>Sign Up</h1>
 
             <InputArea>
               Email
@@ -256,46 +234,46 @@ class Signup extends React.Component {
               )}
             </InputArea>
 
-            <div className="signupArea">
-              <Button
-                id="goToLoginBtn"
-                onClick={() => {
-                  this.props.history.push("/login");
-                }}
-              >
-                메인으로
-              </Button>
-              <Button
-                id="submitSignupBtn"
-                onClick={() => {
-                  this.postSignup();
-                }}
-              >
-                회원가입
-              </Button>
-            </div>
+          <div className="signupArea">
+            <Button
+              id="goToLoginBtn"
+              onClick={() => {
+                this.props.history.push("/login");
+              }}
+            >
+              메인으로
+            </Button>
+            <Button
+              id="submitSignupBtn"
+              onClick={() => {
+                this.postSignup();
+              }}
+            >
+              회원가입
+            </Button>
+          </div>
 
-            <div className="signupSocialArea">
-              <SubmitGithubBtn
-                id="submitGithuBtn"
-                type="submit"
-                onClick={() => {
-                  this.props.history.push("/login");
-                  // this.signupWithGithub();
-                }}
-              >
-                <GithubPng src="github2.png" alt="" />
-              </SubmitGithubBtn>
-              <SubmitNaverBtn
-                id="submitNaverBtn"
-                type="submit"
-                onClick={() => {
-                  this.props.history.push("/login");
-                  // this.signupWithGithub();
-                }}
-              >
-                <NaverPng src="naver.png" alt="" />
-              </SubmitNaverBtn>
+          <div className="signupSocialArea">
+            <SubmitGithubBtn
+              id="submitGithuBtn"
+              type="submit"
+              onClick={() => {
+                this.props.history.push("/login");
+                // this.signupWithGithub();
+              }}
+            >
+              Github
+            </SubmitGithubBtn>
+            <SubmitNaverBtn
+              id="submitNaverBtn"
+              type="submit"
+              onClick={() => {
+                this.props.history.push("/login");
+                // this.signupWithGithub();
+              }}
+            >
+              Naver
+            </SubmitNaverBtn>
             </div>
           </InputContainer>
         </center>
