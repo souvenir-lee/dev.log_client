@@ -9,8 +9,6 @@
 
 ## Feature
 
----
-
 ### Basic
 
 1. 로그인, 로그아웃, 마이페이지, 회원가입
@@ -44,43 +42,50 @@ NPM : 6.14.6
 
 ### 폴더 구조
 
----
-
 client
 
-├── package-lock.json
-├── package.json
-├── public : 로고 이미지 및 index
-└── src
+├── package-lock.json   
+├── package.json  
+├── public : 로고 이미지 및 index   
 
-├── index.js : root 파일
-├── App.js : Login, Signup, Listup이 Login 여부에 따라 라우팅
-├── Login.js
+└── src  
+├── index.js : root 파일  
+├── App.js : Login, Signup, Listup이 Login 여부에 따라 라우팅  
+├── Login.js   
 
-├── Mypage.js
-├── Signup.js
-├── Main
-│ ├── Category : 화면 왼쪽의 category를 렌더링 하는 컴포넌트 폴더
-│ │ ├── Category.js
-│ │ └── CategoryEntry.js
-│ ├── Content : Content의 내용을 렌더링하는 컴포넌트 폴더
-│ │ ├── ContentDetail
-│ │ │ ├── Comment.js
-│ │ │ ├── CommentEntry.js
-│ │ │ └── ContentDetail.js
-│ │ ├── ContentList
-│ │ │ ├── Contents.js
-│ │ │ └── ContentsEntry.js
-│ │ └── Post.js : 글 작성 및 수정 컴포넌트
-│ ├── Custom : 화면 오른쪽의 사용자의 편의에 맞게 모아둔 글을 렌더링 하는 폴더
-│ │ ├── Custom.js
-│ │ └── CustomEntry.js
-│ ├── Listup.js : 로그인 후 보이는 화면 전체를 라우팅 하는 컴포넌트
-│ ├── Footer.js : 화면 최하단의 컴포넌트
-│ └── Nav : 화면 상단의 로고, 검색, 로그아웃 등을 렌더링 하는 폴더
-│ ├── Logo.js
-│ ├── Nav.js
-│ ├── Search.js
-│ └── User.js
-├── serviceWorker.js
-└── setupTests.js
+├── Mypage.js  
+├── Signup.js  
+├── Main 
+
+│ ├── Category : 화면 왼쪽의 category를 렌더링 하는 컴포넌트 폴더   
+│ │ ├── Category.js  
+│ │ └── CategoryEntry.js   
+
+│ ├── Content : Content의 내용을 렌더링하는 컴포넌트 폴더   
+│ │ ├── ContentDetail   
+│ │ │ ├── Comment.js 
+│ │ │ ├── CommentEntry.js  
+│ │ │ └── ContentDetail.js 
+
+│ │ ├── ContentList  
+│ │ │ ├── Contents.js   
+│ │ │ └── ContentsEntry.js 
+
+│ │ └── Post.js : 글 작성 및 수정 컴포넌트 
+
+│ ├── Custom : 화면 오른쪽의 사용자의 편의에 맞게 모아둔 글을 렌더링 하는 폴더   
+│ │ ├── Custom.js 
+│ │ └── CustomEntry.js  
+
+│ ├── Listup.js : 로그인 후 보이는 화면 전체를 라우팅 하는 컴포넌트  
+│ ├── Footer.js : 화면 최하단의 컴포넌트   
+
+│ └── Nav : 화면 상단의 로고, 검색, 로그아웃 등을 렌더링 하는 폴더 
+│ ├── Logo.js  
+│ ├── Nav.js   
+│ ├── Search.js   
+│ └── User.js  
+
+├── serviceWorker.js 
+
+└── setupTests.js 
