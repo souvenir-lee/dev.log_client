@@ -31,12 +31,12 @@ const InputLogin = styled.input`
 `;
 const LoginBtn = styled.button`
 background:#F1C40F;
-color:#fff;
+color:black;
 border:none;
 width: 200px;
 height:30px;
 font-size:1em;
-margin-bottom:10px;
+margin-bottom:15px;
 border-radius: 10px;
 box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.25);
 }
@@ -70,7 +70,6 @@ const SignupBtn = styled.button`
   font-size: 1em;
   text-shadow: 2px 2px #c8c8c8;
 `;
-
 class Login extends React.Component {
   constructor(props) {
     super();

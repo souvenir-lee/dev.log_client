@@ -7,18 +7,25 @@ const NavLogo = styled.div`
   color: #fff;
   font-size: 1em;
   font-family: "Nanum Gothic Coding";
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 20px;
 `;
 const LogoImg = styled.img`
   width: 150px;
   height: 80px;
-  padding-left: 20px;
+  padding-right: 20px;
 `;
 
 const Logo = (props) => (
-  <NavLogo 
-    className="navLogo" 
-    onClick={() => <Redirect to="/main" />}>
-    <LogoImg src="dev-log.png" style={{width: "100px"}} alt="우리 웹 사이트 마크"/>
+  <NavLogo className="navLogo" onClick={() => <Redirect to="/main" />}>
+    <LogoImg
+      src="dev-log.png"
+      style={{ width: "100px" }}
+      alt="우리 웹 사이트 마크"
+    />
   </NavLogo>
 );
 
