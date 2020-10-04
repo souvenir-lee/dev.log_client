@@ -29,24 +29,17 @@ class Custom extends React.Component {
       )
       .then((result) => {
         console.log(Object.values(result.data).length);
-        if (Object.values(result.data).length !== 0) {
-          console.log("----", result.data);
-          this.setState(
-            {
-              listCustom: [...result.data],
-            },
-            () => {
-              console.log(this.state.listCustom);
-            }
-          );
-        }
+        // console.log("----", result.data);
+        this.setState({
+          listCustom: [...result.data],
+        });
       });
   }
 
   handleRadio(event) {
     let obj = {};
     Object.keys(this.state.radioGroup).map((ele) => {
-      return (obj[ele] = false);
+      return (obj[ele] = false); // 셋 다 false
     });
     obj[event.target.value] = true;
     this.setState(

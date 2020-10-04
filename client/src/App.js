@@ -58,7 +58,7 @@ class App extends React.Component {
 
     return (
       <>
-      <GlobalStyle />
+        <GlobalStyle />
         <Switch>
           {console.log("RENDERED app.js")}
 

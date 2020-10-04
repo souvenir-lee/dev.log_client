@@ -13,7 +13,6 @@ class ContentDetail extends React.Component {
   constructor(props) {
     super();
     this.deleteMessage = this.deleteMessage.bind(this);
-    // this.editMessage = this.editMessage.bind(this);
   }
 
   deleteMessage() {
@@ -28,38 +27,59 @@ class ContentDetail extends React.Component {
           alert("삭제되었습니다.");
           this.props.handleResetClickedContent();
           this.props.handleIsDetail();
-          this.props.history.push("/main");
         }
       });
   }
 
   render() {
     const {
+      token,
       userInfo,
       clickedContent,
       handleResetClickedContent,
       handleIsDetail,
       comments,
-      token,
+      tagList,
+      memberList,
       handleClickedContent,
       getContentDetail,
       handleContentList,
+      clickEditPost,
     } = this.props;
+
     return (
       <ContentDetailstyle className="container" id="content">
         <div className="contentArea">
           <div className="contentHeader">
+            <h3>상세 보기</h3>
+            <div className="contentTitle">제목: {clickedContent.title}</div>
             <div className="contentUsername">
-              작성자{clickedContent.username}
+              작성자: {clickedContent.username}
             </div>
-            <div className="contentTitle">제목{clickedContent.title}</div>
           </div>
-          <div
-            className="contentMessage"
-            dangerouslySetInnerHTML={{
-              __html: clickedContent.message,
-            }}
-          ></div>
+          <br />
+          <div className="contentBody">
+            <div
+              className="contentMessage"
+              dangerouslySetInnerHTML={{
+                __html: clickedContent.message,
+              }}
+            ></div>
+            <br />
+            <div className="contentTags">
+              태그:{" "}
+              {tagList.map((tag) => {
+                return <span>{tag} </span>;
+              })}
+            </div>
+            <div className="contentMembers">
+              관련된 사람:{" "}
+              {memberList.map((member) => {
+                return <span>{member} </span>;
+              })}
+            </div>
+          </div>
+          <br />
           <div className="contentBtns">
             <button
               className="contentDeleteBtn"
@@ -72,7 +92,7 @@ class ContentDetail extends React.Component {
             <button
               className="contentEditBtn"
               onClick={() => {
-                this.props.history.push("/main/postUpdate");
+                clickEditPost(); // 수정하기로 리다이렉트
               }}
             >
               수정하기
@@ -93,7 +113,6 @@ class ContentDetail extends React.Component {
             handleContentList(0);
             handleResetClickedContent();
             handleIsDetail();
-            this.props.history.push("/main");
           }}
         >
           목록으로

@@ -19,7 +19,7 @@ class Contents extends React.Component {
       isDetail,
       getContentDetail,
       handleIsDetail,
-      clickNewMessage,
+      clickNewPost,
       handleSortList,
     } = this.props;
 
@@ -29,7 +29,7 @@ class Contents extends React.Component {
           <button
             id="newPostBtn"
             onClick={() => {
-              clickNewMessage();
+              clickNewPost(); // 새글 쓰기로 리다이렉트
             }}
           >
             새글 쓰기

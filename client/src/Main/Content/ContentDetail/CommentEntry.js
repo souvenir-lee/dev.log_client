@@ -16,7 +16,7 @@ class CommentEntry extends React.Component {
           this.props.history.push("/main/detail");
         }
       })
-      .catch(() => alert("삭제 실패"));
+      .catch(() => alert("삭제할 수 없습니다."));
   };
 
   render() {

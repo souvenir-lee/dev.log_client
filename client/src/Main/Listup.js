@@ -9,7 +9,7 @@ import Mypage from "../Mypage";
 import Custom from "../Main/Custom/Custom";
 import styled from "styled-components";
 import axios from "axios";
-import PostUpdate from "../Main/Content/PostUpdate";
+import Update from "../Main/Content/Update";
 axios.defaults.withCredentials = "include";
 
 export const Outer = styled.div`
@@ -26,9 +26,12 @@ class Listup extends React.Component {
       contentsList: [],
       clickedContent: {},
       comments: [],
-      newPost: false,
-      editBtn: false,
-      isDetail: false,
+      tagList: [],
+      memberList: [],
+
+      isDetail: false, // 상세 내용 볼지 말지?
+      newPost: false, // 새글쓰기 갈지 말지?
+      editPost: false, // 수정 페이지 갈지 말지?
     };
     this.handleCategoryEntry = this.handleCategoryEntry.bind(this);
     this.handleInputCategory = this.handleInputCategory.bind(this);
@@ -38,8 +41,8 @@ class Listup extends React.Component {
     this.getContentDetail = this.getContentDetail.bind(this);
     this.handleIsDetail = this.handleIsDetail.bind(this);
 
-    this.clickNewMessage = this.clickNewMessage.bind(this);
-    this.clickEditBtn = this.clickEditBtn.bind(this);
+    this.clickNewPost = this.clickNewPost.bind(this);
+    this.clickEditPost = this.clickEditPost.bind(this);
     this.handleSearchList = this.handleSearchList.bind(this);
     this.handleSortList = this.handleSortList.bind(this);
   }
@@ -78,6 +81,7 @@ class Listup extends React.Component {
           this.setState({ contentsList: res.data });
           console.log(res.data);
         });
+    this.setState({ isDetail: false });
   }
   // 선택한 content 정보 -> 메인에 뿌릴 정보 모두
   handleClickedContent(data) {
@@ -93,25 +97,38 @@ class Listup extends React.Component {
   }
   // 리스트로 돌아갈 때 clickedContent, comments reset
   handleResetClickedContent() {
-    this.setState({ clickedContent: {} });
-    this.setState({ comments: [] });
+    this.setState({
+      clickedContent: {},
+      comments: [],
+      tagList: [],
+      memberList: [],
+    });
   }
   //content detail 호출
   getContentDetail = (content, target) => {
     axios.get(`https://devyeon.com/posts/info/${target}`).then((res) => {
-      this.handleClickedContent(res.data);
+      const callback = () => {
+        this.handleClickedContent(res.data);
+      };
+      callback();
+      axios
+        .get(`https://devyeon.com/posts/update/${this.state.clickedContent.id}`)
+        .then((res) => {
+          this.setState({ tagList: [...res.data[0]] });
+          this.setState({ memberList: [...res.data[1]] });
+        });
     });
   };
   handleIsDetail() {
     this.setState({ isDetail: !this.state.isDetail });
   }
-
-  //새글 쓰기 리다이렉트
-  clickNewMessage() {
+  clickNewPost() {
+    //새글 쓰기 리다이렉트 // clickNewMessage
     this.setState({ newPost: !this.state.newPost });
   }
-  clickEditBtn() {
-    this.setState({ editBtn: !this.state.editBtn });
+  clickEditPost() {
+    // clickEditBtn 취소하면 메인으로 나감
+    this.setState({ editPost: !this.state.editPost });
   }
   //검색된 contentList 불러오는 함수
   handleSearchList(value) {
@@ -147,8 +164,11 @@ class Listup extends React.Component {
       clickedContent,
       isDetail,
       comments,
+      tagList,
+      memberList,
       newPost,
-      editBtn,
+      editPost,
+      inputData,
     } = this.state;
 
     const {
@@ -159,8 +179,8 @@ class Listup extends React.Component {
       handleResetClickedContent,
       getContentDetail,
       handleIsDetail,
-      clickNewMessage,
-      clickEditBtn,
+      clickNewPost,
+      clickEditPost,
       handleSearchList,
       handleSortList,
     } = this;
@@ -169,7 +189,6 @@ class Listup extends React.Component {
       <Outer id="outer">
         {isMypage ? (
           <Switch>
-            {console.log("route is mypage")}
             <Redirect to="/mypage" render={() => <Mypage />} />
           </Switch>
         ) : (
@@ -183,8 +202,6 @@ class Listup extends React.Component {
           isMypage={isMypage}
           handleSearchList={handleSearchList}
         />
-
-        {newPost ? <Redirect to="/main/post" /> : ""}
 
         <Category
           handleCategoryEntry={handleCategoryEntry}
@@ -210,14 +227,18 @@ class Listup extends React.Component {
                 handleIsDetail={handleIsDetail}
                 comments={comments}
                 newPost={newPost}
-                clickNewMessage={clickNewMessage}
-                editBtn={editBtn}
-                clickEditBtn={clickEditBtn}
+                clickNewPost={clickNewPost}
+                editPost={editPost}
                 handleSortList={handleSortList}
                 handleSearchList={handleSearchList}
               />
             )}
           ></Route>
+
+          {/* contents 화면에서 해야하는 것 -> 새글쓰기 버튼 작동 가능하도록(거기에 위치해있으니까), contents entry에 내려주는 것 + 각각 누르면 entry로
+contents detail에서는 -> 수정하기 버튼, 돌아가기 버튼(back to contents)
+
+1. props를 각각(3곳) 내려주기 2. !true 관리하기 */}
 
           <Route
             exact
@@ -234,16 +255,19 @@ class Listup extends React.Component {
                 handleClickedContent={handleClickedContent}
                 handleResetClickedContent={handleResetClickedContent}
                 getContentDetail={getContentDetail}
+                isDetail={isDetail}
                 handleIsDetail={handleIsDetail}
                 comments={comments}
+                tagList={tagList}
+                memberList={memberList}
                 newPost={newPost}
-                clickNewMessage={clickNewMessage}
-                editBtn={editBtn}
-                clickEditBtn={clickEditBtn}
+                editPost={editPost}
+                clickEditPost={clickEditPost}
                 handleSearchList={handleSearchList}
               />
             )}
           ></Route>
+
           <Route
             exact
             path="/main/post"
@@ -254,22 +278,34 @@ class Listup extends React.Component {
                 userInfo={userInfo}
                 categoryList={categoryList}
                 handleContentList={handleContentList}
-                clickNewMessage={clickNewMessage}
+                handleResetClickedContent={handleResetClickedContent}
+                isDetail={isDetail}
+                handleIsDetail={handleIsDetail}
+                newPost={newPost}
+                editPost={editPost}
+                clickNewPost={clickNewPost}
               />
             )}
           ></Route>
           <Route
             exact
-            path="/main/postUpdate"
+            path="/main/update"
             render={() => (
-              <PostUpdate
+              <Update
                 isLogin={isLogin}
                 token={token}
                 userInfo={userInfo}
                 categoryList={categoryList}
                 handleContentList={handleContentList}
+                handleResetClickedContent={handleResetClickedContent}
+                isDetail={isDetail}
+                handleIsDetail={handleIsDetail}
+                tagList={tagList}
+                memberList={memberList}
+                newPost={newPost}
+                editPost={editPost}
                 clickedContent={clickedContent}
-                clickNewMessage={clickNewMessage}
+                clickEditPost={clickEditPost}
               />
             )}
           ></Route>
@@ -287,6 +323,15 @@ class Listup extends React.Component {
           handleIsDetail={handleIsDetail}
           comments={comments}
         />
+        {newPost ? (
+          <Switch>
+            <Redirect to="/main/post" />
+          </Switch>
+        ) : (
+          <Redirect to="/main" />
+        )}
+        {editPost ? <Redirect to="/main/update" /> : <Redirect to="/main" />}
+        {isDetail ? <Redirect to="/main/detail" /> : <Redirect to="/main" />}
       </Outer>
     );
   }
