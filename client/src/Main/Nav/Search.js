@@ -58,8 +58,7 @@ class Search extends React.Component {
           className="searchValue"
           onChange={this.handleInputValue("searchValue")}
           onKeyPress={this.inputEnter(handleSearchList, searchValue)}
-        >
-        </SearchValue>
+        ></SearchValue>
         <SearchBtn
           type="button"
           className="searchBtn"

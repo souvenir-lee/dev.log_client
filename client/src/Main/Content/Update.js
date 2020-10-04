@@ -3,8 +3,48 @@ import axios from "axios";
 import { Redirect, Route, withRouter } from "react-router-dom";
 import styled from "styled-components";
 axios.defaults.withCredentials = "include";
+
+const Button = styled.button`
+  text-align: center;
+  width: 80px;
+  height: 30px;
+  background: #f1c40f;
+  color: black;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  border: none;
+  margin: 5px;
+  float: right;
+`;
+const MemberTag = styled.input`
+  margin-right: 5px;
+  margin-bottom: 5px;
+  width: 100px;
+`;
+const PostTag = styled.input`
+  margin-right: 5px;
+  margin-bottom: 5px;
+  width: 100px;
+`;
+const MemberTagArea = styled.div``;
+const PostTagArea = styled.div``;
+const PostMessage = styled.textarea`
+  height: 300px;
+  margin-bottom: 10px;
+`;
+const PostTitle = styled.input`
+  height: 30px;
+  margin-bottom: 10px;
+`;
+const PostCategorySelect = styled.select`
+  height: 30px;
+  margin-bottom: 10px;
+`;
+
 export const Poststyle = styled.div`
-  grid-column: 2 / 3;
+  grid-area: main;
+  margin-top: 20px;
+  margin-bottom: 10px;
 `;
 
 class Update extends React.Component {
@@ -75,8 +115,14 @@ class Update extends React.Component {
     return (
       <Poststyle className="container" id="post">
         {this.state.isPost ? <Redirect to="/main" /> : ""}
-        <div className="inputArea">
-          <select
+        <div
+          className="inputArea"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <PostCategorySelect
             className="postCategorySelect"
             value={this.state.categoryId}
             onChange={this.handleInputValue("categoryId")}
@@ -90,53 +136,53 @@ class Update extends React.Component {
                 {ele}
               </option>
             ))}
-          </select>
-          <input
+          </PostCategorySelect>
+          <PostTitle
             className="postTitle"
             type="title"
             placeholder="title"
             defaultValue={clickedContent.title}
             onChange={this.handleInputValue("title")}
           />
-          <textarea
+          <PostMessage
             className="postMessage"
             type="message"
             placeholder="message"
             defaultValue={clickedContent.message}
             onChange={this.handleInputValue("message")}
-          ></textarea>
+          ></PostMessage>
         </div>
-        <div className="postTagArea">
+        <PostTagArea className="postTagArea">
           {blank.map((n) => {
             const index = blank.indexOf(n);
             return (
-              <input
+              <PostTag
                 type="tag"
                 placeholder={"태그" + n}
                 defaultValue={this.state.tags[index]}
                 key={"tag" + n}
                 onChange={this.handleInputValue("tag" + n)}
-              ></input>
+              ></PostTag>
             );
           })}
-        </div>
+        </PostTagArea>
 
-        <div className="memberTagArea">
+        <MemberTagArea className="memberTagArea">
           {blank.map((n) => {
             const index = blank.indexOf(n);
             return (
-              <input
+              <MemberTag
                 type="member"
                 placeholder={"멤버" + n}
                 defaultValue={this.state.names[index]}
                 key={"멤버" + n}
                 onChange={this.handleInputValue("member" + n)}
-              ></input>
+              ></MemberTag>
             );
           })}
-        </div>
+        </MemberTagArea>
         <div className="btnArea">
-          <button
+          <Button
             className="postCancelBtn"
             type="submit"
             onClick={() => {
@@ -145,8 +191,8 @@ class Update extends React.Component {
             }}
           >
             취소
-          </button>
-          <button
+          </Button>
+          <Button
             className="postUpdateBtn"
             type="submit"
             onClick={() => {
@@ -154,7 +200,7 @@ class Update extends React.Component {
             }}
           >
             수정
-          </button>
+          </Button>
         </div>
       </Poststyle>
     );

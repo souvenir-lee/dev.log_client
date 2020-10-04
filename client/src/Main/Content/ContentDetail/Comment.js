@@ -1,7 +1,32 @@
 import React from "react";
 import CommentEntry from "./CommentEntry";
 import axios from "axios";
+import styled from "styled-components";
 axios.defaults.withCredentials = "include";
+
+const Button = styled.button`
+  text-align: center;
+  width: 60px;
+  height: 25px;
+  background: #f1c40f;
+  color: black;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  border: none;
+  margin: 5px;
+`;
+
+const CommentTop = styled.div`
+  margin: 10px 20px 10px 20px;
+`;
+const CommentInput = styled.input`
+  width: 250px;
+  height: 20px;
+`;
+
+const CommentArea = styled.div`
+  border: 1px solid black;
+`;
 
 class Comment extends React.Component {
   constructor(props) {
@@ -36,21 +61,24 @@ class Comment extends React.Component {
       token,
       handleClickedContent,
       getContentDetail,
+      handleContentList,
+      handleResetClickedContent,
+      handleIsDetail,
     } = this.props;
     return (
-      <div className="commentArea">
-        <div className="commentTop">
+      <CommentArea className="commentArea">
+        <CommentTop className="commentTop">
           <div className="commentCount">
             댓글: {clickedContent.commentCount}개
           </div>
-          <input
+          <CommentInput
             className="commentInput"
             type="commentValue"
             value={this.state.commentValue}
             placeholder="댓글을 입력해주세요"
             onChange={this.handleInputValue("commentValue")}
-          ></input>
-          <button
+          ></CommentInput>
+          <Button
             className="commentPostBtn"
             onClick={() => {
               this.handleCommentPost();
@@ -59,18 +87,12 @@ class Comment extends React.Component {
             }}
           >
             올리기
-          </button>
-        </div>
+          </Button>
+        </CommentTop>
         <div className="commentBottom">
-          <CommentEntry
-            comments={comments}
-            token={token}
-            handleClickedContent={handleClickedContent}
-            clickedContent={clickedContent}
-            getContentDetail={getContentDetail}
-          />
+          <CommentEntry comments={comments} token={token} />
         </div>
-      </div>
+      </CommentArea>
     );
   }
 }

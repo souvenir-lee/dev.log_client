@@ -1,7 +1,26 @@
 import React from "react";
 import CustomEntry from "./CustomEntry";
+import styled from "styled-components";
 import axios from "axios";
 axios.defaults.withCredentials = "include";
+
+const ListForm = styled.form`
+  height: 70px;
+  border-bottom: 1px solid black;
+`;
+
+const CustomStyled = styled.div`
+  grid-area: custom;
+  border-left: 1px solid;
+  margin: 20px;
+  padding: 0px 30px;
+`;
+const H3 = styled.h3`
+  //Custom List 라는 글자 감싸기
+  font-size: 1.13em;
+  font-weight: bold;
+  margin-bottom: 10px;
+`;
 
 class Custom extends React.Component {
   constructor(props) {
@@ -76,9 +95,9 @@ class Custom extends React.Component {
     } = this.props;
     const list = Object.keys(this.state.radioGroup);
     return (
-      <div className="container" id="custom">
-        <form>
-          <h3>{selectedOption} List</h3>
+      <CustomStyled className="container" id="custom">
+        <ListForm>
+          <H3>{selectedOption} List</H3>
           {list.map((ele) => {
             return (
               <label key={`label${list.indexOf(ele)}`}>
@@ -93,7 +112,7 @@ class Custom extends React.Component {
               </label>
             );
           })}
-        </form>
+        </ListForm>
         <CustomEntry
           selectedOption={selectedOption}
           token={token}
@@ -105,7 +124,7 @@ class Custom extends React.Component {
           handleClickedContent={handleClickedContent}
           getContentDetail={getContentDetail}
         />
-      </div>
+      </CustomStyled>
     );
   }
 }

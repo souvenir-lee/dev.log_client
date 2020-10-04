@@ -7,11 +7,16 @@ const NavLogo = styled.div`
   color: #fff;
   font-size: 1em;
   font-family: "Nanum Gothic Coding";
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 20px;
 `;
 const LogoImg = styled.img`
   width: 150px;
   height: 80px;
-  padding-left: 20px;
+  padding-right: 20px;
 `;
 
 const Logo = ({

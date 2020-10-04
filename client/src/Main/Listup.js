@@ -6,15 +6,22 @@ import Contents from "../Main/Content/ContentList/Contents";
 import Post from "../Main/Content/Post";
 import ContentDetail from "../Main/Content/ContentDetail/ContentDetail";
 import Mypage from "../Mypage";
+import Footer from "./Footer";
 import Custom from "../Main/Custom/Custom";
 import styled from "styled-components";
 import axios from "axios";
 import Update from "../Main/Content/Update";
 axios.defaults.withCredentials = "include";
-
+//
 export const Outer = styled.div`
   display: grid;
-  grid-template: 1fr auto 1fr / 1fr 1fr 1fr;
+  grid-template-columns: 0.8fr 1.2fr 0.9fr 1.1fr;
+  grid-template-rows: 0.2fr 2.7fr 0.2fr;
+  gap: 0px 0px;
+  grid-template-areas:
+    "nav nav nav nav"
+    "category main main custom"
+    "category footer footer custom";
 `;
 
 class Listup extends React.Component {
@@ -73,10 +80,12 @@ class Listup extends React.Component {
   handleContentList(value) {
     console.log(value);
     value !== 0
-      ? axios.get(`https://devyeon.com/posts/category/${value}`).then((res) => {
-          console.log(res.data);
-          this.setState({ contentsList: res.data });
-        })
+      ? axios
+          .get(`https://devyeon.com/posts/category/${value}`)
+          .then((res) => {
+            console.log(res.data);
+            this.setState({ contentsList: res.data });
+          })
       : axios.get(`https://devyeon.com/posts/list`).then((res) => {
           this.setState({ contentsList: res.data });
           console.log(res.data);
@@ -118,7 +127,9 @@ class Listup extends React.Component {
       };
       callback();
       axios
-        .get(`https://devyeon.com/posts/update/${this.state.clickedContent.id}`)
+        .get(
+          `https://devyeon.com/posts/update/${this.state.clickedContent.id}`
+        )
         .then((res) => {
           this.setState({ tagList: [...res.data[0]] });
           this.setState({ memberList: [...res.data[1]] });
@@ -340,6 +351,7 @@ class Listup extends React.Component {
         )}
         {editPost ? <Redirect to="/main/update" /> : <Redirect to="/main" />}
         {isDetail ? <Redirect to="/main/detail" /> : <Redirect to="/main" />}
+        <Footer />
       </Outer>
     );
   }
