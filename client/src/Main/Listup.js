@@ -200,6 +200,13 @@ class Listup extends React.Component {
           token={token}
           userInfo={userInfo}
           isMypage={isMypage}
+          handleContentList={handleContentList}
+          isDetail={isDetail}
+          newPost={newPost}
+          editPost={editPost}
+          handleIsDetail={handleIsDetail}
+          clickNewPost={clickNewPost}
+          clickEditPost={clickEditPost}
           handleSearchList={handleSearchList}
         />
 
@@ -234,11 +241,6 @@ class Listup extends React.Component {
               />
             )}
           ></Route>
-
-          {/* contents 화면에서 해야하는 것 -> 새글쓰기 버튼 작동 가능하도록(거기에 위치해있으니까), contents entry에 내려주는 것 + 각각 누르면 entry로
-contents detail에서는 -> 수정하기 버튼, 돌아가기 버튼(back to contents)
-
-1. props를 각각(3곳) 내려주기 2. !true 관리하기 */}
 
           <Route
             exact

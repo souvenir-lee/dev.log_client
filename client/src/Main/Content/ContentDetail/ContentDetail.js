@@ -16,7 +16,10 @@ class ContentDetail extends React.Component {
       scrap: false,
     };
     this.deleteMessage = this.deleteMessage.bind(this);
+    this.handleScrap = this.handleScrap.bind(this);
   }
+
+  componentDidMount() {}
 
   deleteMessage() {
     axios
@@ -35,7 +38,7 @@ class ContentDetail extends React.Component {
   }
 
   handleScrap() {
-    //
+    this.setState({ scrap: !this.state.scrap });
   }
 
   render() {

@@ -79,6 +79,7 @@ class Login extends React.Component {
     this.handleLogin = this.handleLogin.bind(this);
     this.handleGithubLogin = this.handleGithubLogin.bind(this);
     this.handleNaverLogin = this.handleNaverLogin.bind(this);
+    this.loginEnter = this.loginEnter.bind(this);
   }
 
   //input 마다 상태가 변경
@@ -89,7 +90,6 @@ class Login extends React.Component {
   //로그인 함수
   handleLogin() {
     axios
-      //.post("http://localhost:4000/users/login", this.state)
       .post("https://devyeon.com/users/login", this.state)
       .then((res) => {
         console.log(this.state);
@@ -104,13 +104,6 @@ class Login extends React.Component {
   }
 
   handleGithubLogin() {
-    // axios
-    // .get(`https://devyeon.com/socials/ghsignup`, {
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     "Access-Control-Allow-Credentials": true,
-    //   },
-    // })
     axios
       .post(`https://devyeon.com/users/login`, {
         email: "github@social.com",
@@ -146,16 +139,23 @@ class Login extends React.Component {
       .catch(() => alert("정보를 다시 확인해주세요"));
   }
 
+  loginEnter = () => (e) => {
+    if (e.charCode === 13) {
+      this.handleLogin();
+    }
+  };
+
   render() {
     return (
       <div className="container" id="login">
         {this.props.isLogin ? <Redirect to="/main" /> : ""}
         <center>
           <InputContainer>
-          <img 
-            src="dev-log.png" 
-            alt="dev-log 로고" 
-            style={{width:"300px", "margin-top": "10px"}}/>
+            <img
+              src="dev-log.png"
+              alt="dev-log 로고"
+              style={{ width: "300px", "margin-top": "10px" }}
+            />
             <h1>Log In</h1>
             <div>
               <InputLogin
@@ -171,6 +171,7 @@ class Login extends React.Component {
                 type="password"
                 placeholder="비밀번호를 입력 해주세요"
                 onChange={this.handleInputValue("password")}
+                onKeyPress={this.loginEnter()}
               ></InputLogin>
             </div>
             <LoginBtn
@@ -215,7 +216,6 @@ class Login extends React.Component {
             </div>
           </InputContainer>
         </center>
-        
       </div>
     );
   }
