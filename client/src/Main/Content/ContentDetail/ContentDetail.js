@@ -42,7 +42,7 @@ const Button = styled.button`
 `;
 
 const ContentArea = styled.div`
-  height: 350px;
+  height: 320px;
   border: 1px solid black;
   margin-bottom: 10px;
 `;

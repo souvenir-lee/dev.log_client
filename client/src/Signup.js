@@ -4,6 +4,17 @@ import styled from "styled-components";
 import axios from "axios";
 axios.defaults.withCredentials = "include";
 
+const GithubPng = styled.img`
+  border-radius: 10px;
+  width: 35px;
+  height: 30px;
+`;
+const NaverPng = styled.img`
+  border-radius: 10px;
+  width: 35px;
+  height: 30px;
+`;
+
 const InputContainer = styled.div`
   width: 600px;
   height: 700px;
@@ -24,8 +35,8 @@ const Input = styled.input`
 `;
 const CheckSignupBtn = styled.button`
   color: white;
-  width: 107px;
-  height: 38px;
+  width: 90px;
+  height: 30px;
   background: #02380e;
   border-radius: 10px;
   border: none;
@@ -47,7 +58,7 @@ const SubmitNaverBtn = styled.button`
   width: 80px;
   height: 35px;
   font-size: 0.8em;
-  background: #15b439;
+  background: #0ece3a;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
   border: none;
@@ -60,14 +71,12 @@ const Button = styled.button`
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
   border: none;
-  margin: 50px 5px 10px;
+  margin: 10px 5px 10px;
 `;
-
 
 class Signup extends React.Component {
   constructor(props) {
     super();
-
     this.state = {
       username: "",
       email: "",
@@ -83,28 +92,23 @@ class Signup extends React.Component {
     this.handleSignUp = this.handleSignUp.bind(this);
     // this.signupWithGithub = this.signupWithGithub.bind(this);
   }
-
   //input 작성 내용을 state로 변경
   handleInputValue = (key) => (e) => {
     this.setState({ [key]: e.target.value });
   };
-
   //pw 체크
   checkPassword = (value) => {
     let regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{6,12}$/; //  6 ~ 12자 영문, 숫자 조합
     return regExp.test(value); // 형식에 맞는 경우 true 리턴
   };
-
   //pw2 체크
   checkPassword2 = (value1, value2) => {
     return value1 === value2 && value2 !== "" ? true : false; // 형식에 맞는 경우 true 리턴
   };
-
   //유저이름 적었는지 체크
   checkUsername = (value) => {
     return value !== "" ? true : false; //작성되어 있으면 true
   };
-
   handleSignUp = () => {
     console.log(this.state.email);
     axios
@@ -121,7 +125,6 @@ class Signup extends React.Component {
         console.log(err);
       });
   };
-
   postSignup = () => {
     if (
       this.checkPassword(this.state.password) &&
@@ -144,21 +147,22 @@ class Signup extends React.Component {
     }
     alert("모든 항목을 작성해주세요");
   };
-
   //소셜 로그인 회원가입 함수
   // signupWithGithub() {
   //
   // }
-
   render() {
     return (
       <div className="container" id="signup">
         {this.state.signup ? <Redirect to="/login" /> : ""}
         <center>
           <InputContainer>
-            <img src="dev-log.png" alt="dev-log 로고" style={{width:"250px", margin: "10px"}}/>
+            <img
+              src="dev-log.png"
+              alt="dev-log 로고"
+              style={{ width: "250px", margin: "10px" }}
+            />
             <h1>Sign Up</h1>
-
             <InputArea>
               Email
               <Input
@@ -176,7 +180,6 @@ class Signup extends React.Component {
                 중복확인
               </CheckSignupBtn>
             </InputArea>
-
             <InputArea>
               이름
               <Input
@@ -194,7 +197,6 @@ class Signup extends React.Component {
                 <span style={{ color: "red" }}>유저 이름을 입력해주세요</span>
               )}
             </InputArea>
-
             <InputArea>
               비밀번호
               <Input
@@ -233,47 +235,45 @@ class Signup extends React.Component {
                 <span style={{ color: "red" }}>동일한 비밀번호가 아닙니다</span>
               )}
             </InputArea>
-
-          <div className="signupArea">
-            <Button
-              id="goToLoginBtn"
-              onClick={() => {
-                this.props.history.push("/login");
-              }}
-            >
-              메인으로
-            </Button>
-            <Button
-              id="submitSignupBtn"
-              onClick={() => {
-                this.postSignup();
-              }}
-            >
-              회원가입
-            </Button>
-          </div>
-
-          <div className="signupSocialArea">
-            <SubmitGithubBtn
-              id="submitGithuBtn"
-              type="submit"
-              onClick={() => {
-                this.props.history.push("/login");
-                // this.signupWithGithub();
-              }}
-            >
-              Github
-            </SubmitGithubBtn>
-            <SubmitNaverBtn
-              id="submitNaverBtn"
-              type="submit"
-              onClick={() => {
-                this.props.history.push("/login");
-                // this.signupWithGithub();
-              }}
-            >
-              Naver
-            </SubmitNaverBtn>
+            <div className="signupArea">
+              <Button
+                id="goToLoginBtn"
+                onClick={() => {
+                  this.props.history.push("/login");
+                }}
+              >
+                메인으로
+              </Button>
+              <Button
+                id="submitSignupBtn"
+                onClick={() => {
+                  this.postSignup();
+                }}
+              >
+                회원가입
+              </Button>
+            </div>
+            <div className="signupSocialArea">
+              <SubmitGithubBtn
+                id="submitGithuBtn"
+                type="submit"
+                onClick={() => {
+                  this.props.history.push("/login");
+                  // this.signupWithGithub();
+                }}
+              >
+                <GithubPng src="github2.png" alt="" />
+              </SubmitGithubBtn>
+              <SubmitNaverBtn
+                id="submitNaverBtn"
+                type="submit"
+                onClick={() => {
+                  this.props.history.push("/login");
+                  // this.signupWithGithub();
+                }}
+              >
+                <NaverPng src="naver.png" alt="" />
+              </SubmitNaverBtn>
             </div>
           </InputContainer>
         </center>
