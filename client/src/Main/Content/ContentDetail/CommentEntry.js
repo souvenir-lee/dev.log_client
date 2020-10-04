@@ -3,18 +3,20 @@ import axios from "axios";
 import { withRouter } from "react-router-dom";
 
 class CommentEntry extends React.Component {
-  deleteComment = () => {
+  deleteComment = (commentId) => {
     axios
-      .delete("https://devyeon.com/comments/delete", {
+      .post("http://localhost:4000/comments/delete", {
         token: this.props.token,
-        id: this.props.id,
+        id: commentId,
       })
       .then((res) => {
         if (res.status === 200) {
+          this.props.getContentDetail(null, this.props.clickedContent.id);
           alert("삭제되었습니다.");
-          this.props.history.push("/main/detail");
+          this.props.handleClickedContent(this.props.clickedContent.id);
         }
-      });
+      })
+      .catch(() => alert("삭제할 수 없습니다."));
   };
 
   render() {
@@ -24,13 +26,10 @@ class CommentEntry extends React.Component {
         <div className="commentUsername">{ele.username}</div>
         <div className="commentMessage">{ele.message}</div>
         <div className="commentBtns">
-          <button className="commentEditBtn" onClick={() => {}}>
-            수정
-          </button>
           <button
             className="commentDeleteBtn"
             onClick={() => {
-              this.deleteComment();
+              this.deleteComment(ele.id);
             }}
           >
             삭제

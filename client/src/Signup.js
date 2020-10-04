@@ -63,7 +63,6 @@ const Button = styled.button`
   margin: 50px 5px 10px;
 `;
 
-
 class Signup extends React.Component {
   constructor(props) {
     super();
@@ -108,7 +107,7 @@ class Signup extends React.Component {
   handleSignUp = () => {
     console.log(this.state.email);
     axios
-      .post("https://devyeon.com/users/emailconfirm", {
+      .post("http://localhost:4000/users/emailconfirm", {
         email: this.state.email,
       })
       .then((res) => {
@@ -130,7 +129,7 @@ class Signup extends React.Component {
     ) {
       //axios.post("http://localhost:4000/users/signup", this.state).then((res) => {
       axios
-        .post("https://devyeon.com/users/signup", {
+        .post("http://localhost:4000/users/signup", {
           email: this.state.email,
           username: this.state.username,
           password: this.state.password,
@@ -156,7 +155,11 @@ class Signup extends React.Component {
         {this.state.signup ? <Redirect to="/login" /> : ""}
         <center>
           <InputContainer>
-            <img src="dev-log.png" alt="dev-log 로고" style={{width:"250px", margin: "10px"}}/>
+            <img
+              src="dev-log.png"
+              alt="dev-log 로고"
+              style={{ width: "250px", margin: "10px" }}
+            />
             <h1>Sign Up</h1>
 
             <InputArea>
@@ -234,46 +237,46 @@ class Signup extends React.Component {
               )}
             </InputArea>
 
-          <div className="signupArea">
-            <Button
-              id="goToLoginBtn"
-              onClick={() => {
-                this.props.history.push("/login");
-              }}
-            >
-              메인으로
-            </Button>
-            <Button
-              id="submitSignupBtn"
-              onClick={() => {
-                this.postSignup();
-              }}
-            >
-              회원가입
-            </Button>
-          </div>
+            <div className="signupArea">
+              <Button
+                id="goToLoginBtn"
+                onClick={() => {
+                  this.props.history.push("/login");
+                }}
+              >
+                메인으로
+              </Button>
+              <Button
+                id="submitSignupBtn"
+                onClick={() => {
+                  this.postSignup();
+                }}
+              >
+                회원가입
+              </Button>
+            </div>
 
-          <div className="signupSocialArea">
-            <SubmitGithubBtn
-              id="submitGithuBtn"
-              type="submit"
-              onClick={() => {
-                this.props.history.push("/login");
-                // this.signupWithGithub();
-              }}
-            >
-              Github
-            </SubmitGithubBtn>
-            <SubmitNaverBtn
-              id="submitNaverBtn"
-              type="submit"
-              onClick={() => {
-                this.props.history.push("/login");
-                // this.signupWithGithub();
-              }}
-            >
-              Naver
-            </SubmitNaverBtn>
+            <div className="signupSocialArea">
+              <SubmitGithubBtn
+                id="submitGithuBtn"
+                type="submit"
+                onClick={() => {
+                  this.props.history.push("/login");
+                  // this.signupWithGithub();
+                }}
+              >
+                Github
+              </SubmitGithubBtn>
+              <SubmitNaverBtn
+                id="submitNaverBtn"
+                type="submit"
+                onClick={() => {
+                  this.props.history.push("/login");
+                  // this.signupWithGithub();
+                }}
+              >
+                Naver
+              </SubmitNaverBtn>
             </div>
           </InputContainer>
         </center>

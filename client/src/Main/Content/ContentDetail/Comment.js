@@ -16,21 +16,27 @@ class Comment extends React.Component {
 
   handleCommentPost = () => {
     axios
-      .post("https://devyeon.com/comments/create", {
+      .post("http://localhost:4000/comments/create", {
         userId: this.props.userInfo.id,
         postId: this.props.clickedContent.id,
         message: this.state.commentValue,
         email: this.props.userInfo.email,
       })
       .then((res) => {
-        if (res.status === 200) {
-          //
+        if (res.status === 201) {
+          this.props.getContentDetail(null, this.props.clickedContent.id);
         }
       });
   };
 
   render() {
-    const { clickedContent, comments } = this.props;
+    const {
+      clickedContent,
+      comments,
+      token,
+      handleClickedContent,
+      getContentDetail,
+    } = this.props;
     return (
       <div className="commentArea">
         <div className="commentTop">
@@ -40,6 +46,7 @@ class Comment extends React.Component {
           <input
             className="commentInput"
             type="commentValue"
+            value={this.state.commentValue}
             placeholder="댓글을 입력해주세요"
             onChange={this.handleInputValue("commentValue")}
           ></input>
@@ -47,13 +54,21 @@ class Comment extends React.Component {
             className="commentPostBtn"
             onClick={() => {
               this.handleCommentPost();
+              alert("등록되었습니다.");
+              this.setState({ commentValue: "" });
             }}
           >
             올리기
           </button>
         </div>
         <div className="commentBottom">
-          <CommentEntry comments={comments} />
+          <CommentEntry
+            comments={comments}
+            token={token}
+            handleClickedContent={handleClickedContent}
+            clickedContent={clickedContent}
+            getContentDetail={getContentDetail}
+          />
         </div>
       </div>
     );

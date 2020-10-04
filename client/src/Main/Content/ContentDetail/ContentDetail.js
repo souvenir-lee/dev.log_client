@@ -12,58 +12,89 @@ export const ContentDetailstyle = styled.div`
 class ContentDetail extends React.Component {
   constructor(props) {
     super();
-    // this.deleteMessage = this.deleteMessage.bind(this);
-    // this.editMessage = this.editMessage.bind(this);
+    this.state = {
+      scrap: false,
+    };
+    this.deleteMessage = this.deleteMessage.bind(this);
   }
 
-  // deleteMessage() {
-  //   axios
-  //     .post("https://devyeon.com/posts/delete", {
-  //       id: this.props.clickedContent.id,
-  //     })
-  //     .then((res) => {
-  //       if (res.status === 200) {
-  //         alert("삭제되었습니다.");
-  //         this.props.history.push("/main");
-  //       }
-  //     });
-  // }
-  // editMessage() {
-  //   this.props.history.push("/main/post");
-  //   axios
-  //     .get(`https://devyeon.com/posts/info/${this.props.clickedContent.id}`)
-  //     .then((res) => {
-  //       // await axios.get(`http://localhost:4000/posts/info/${this.props.contentsList.id}`).then((res) => {
-  //       //main/post의 state가 바뀌어야함
-  //       // this.props.clickEditBtn();
-  //       // this.props.handleClickedContent();
-  //       console.log(this.props.clickedContent);
-  //     });
-  // }
+  deleteMessage() {
+    axios
+      .post("http://localhost:4000/posts/delete", {
+        id: this.props.clickedContent.id,
+        token: this.props.token,
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          this.props.handleContentList(0);
+          alert("삭제되었습니다.");
+          this.props.handleResetClickedContent();
+          this.props.handleIsDetail();
+        }
+      });
+  }
+
+  handleScrap() {
+    //
+  }
 
   render() {
     const {
+      token,
       userInfo,
       clickedContent,
       handleResetClickedContent,
       handleIsDetail,
       comments,
+      tagList,
+      memberList,
+      handleClickedContent,
+      getContentDetail,
+      handleContentList,
+      clickEditPost,
     } = this.props;
+
     return (
       <ContentDetailstyle className="container" id="content">
         <div className="contentArea">
           <div className="contentHeader">
+            <h3>상세 보기</h3>
+            <div className="contentTitle">제목: {clickedContent.title}</div>
             <div className="contentUsername">
-              작성자{clickedContent.username}
+              작성자: {clickedContent.username}
             </div>
-            <div className="contentTitle">제목{clickedContent.title}</div>
+            <input
+              type="checkbox"
+              id="scrap"
+              checked={this.state.scrap}
+              onChange={this.handleScrap.bind(this)}
+            />
+            <span className="scrapBox">스크랩</span>
+            <label htmlFor="scrap"></label>
           </div>
-          <div
-            className="contentMessage"
-            dangerouslySetInnerHTML={{
-              __html: clickedContent.message,
-            }}
-          ></div>
+          <br />
+          <div className="contentBody">
+            <div
+              className="contentMessage"
+              dangerouslySetInnerHTML={{
+                __html: clickedContent.message,
+              }}
+            ></div>
+            <br />
+            <div className="contentTags">
+              태그:{" "}
+              {tagList.map((tag) => {
+                return <span>{tag} </span>;
+              })}
+            </div>
+            <div className="contentMembers">
+              관련된 사람:{" "}
+              {memberList.map((member) => {
+                return <span>{member} </span>;
+              })}
+            </div>
+          </div>
+          <br />
           <div className="contentBtns">
             <button
               className="contentDeleteBtn"
@@ -76,7 +107,7 @@ class ContentDetail extends React.Component {
             <button
               className="contentEditBtn"
               onClick={() => {
-                this.editMessage();
+                clickEditPost(); // 수정하기로 리다이렉트
               }}
             >
               수정하기
@@ -87,13 +118,16 @@ class ContentDetail extends React.Component {
           userInfo={userInfo}
           clickedContent={clickedContent}
           comments={comments}
+          token={token}
+          handleClickedContent={handleClickedContent}
+          getContentDetail={getContentDetail}
         />
         <button
           className="backToListBtn"
           onClick={() => {
+            handleContentList(0);
             handleResetClickedContent();
             handleIsDetail();
-            this.props.history.push("/main");
           }}
         >
           목록으로
@@ -102,5 +136,4 @@ class ContentDetail extends React.Component {
     );
   }
 }
-
 export default withRouter(ContentDetail);
