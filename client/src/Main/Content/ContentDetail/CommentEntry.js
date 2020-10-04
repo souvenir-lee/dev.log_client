@@ -31,7 +31,7 @@ const CommentList = styled.div`
 class CommentEntry extends React.Component {
   deleteComment = (commentId) => {
     axios
-      .post("http://localhost:4000/comments/delete", {
+      .post("https://devyeon.com/comments/delete", {
         token: this.props.token,
         id: commentId,
       })
