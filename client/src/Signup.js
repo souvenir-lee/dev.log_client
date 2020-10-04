@@ -37,7 +37,7 @@ const Input = styled.input`
   margin: 0px 10px 10px;
 `;
 const CheckSignupBtn = styled.button`
-  color: black;
+  color: white;
   width: 90px;
   height: 30px;
   background: #02380e;
@@ -85,7 +85,6 @@ const Button = styled.button`
 class Signup extends React.Component {
   constructor(props) {
     super();
-
     this.state = {
       username: "",
       email: "",
@@ -101,32 +100,27 @@ class Signup extends React.Component {
     this.handleSignUp = this.handleSignUp.bind(this);
     // this.signupWithGithub = this.signupWithGithub.bind(this);
   }
-
   //input 작성 내용을 state로 변경
   handleInputValue = (key) => (e) => {
     this.setState({ [key]: e.target.value });
   };
-
   //pw 체크
   checkPassword = (value) => {
     let regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{6,12}$/; //  6 ~ 12자 영문, 숫자 조합
     return regExp.test(value); // 형식에 맞는 경우 true 리턴
   };
-
   //pw2 체크
   checkPassword2 = (value1, value2) => {
     return value1 === value2 && value2 !== "" ? true : false; // 형식에 맞는 경우 true 리턴
   };
-
   //유저이름 적었는지 체크
   checkUsername = (value) => {
     return value !== "" ? true : false; //작성되어 있으면 true
   };
-
   handleSignUp = () => {
     console.log(this.state.email);
     axios
-      .post("http://localhost:4000/users/emailconfirm", {
+      .post("https://devyeon.com/users/emailconfirm", {
         email: this.state.email,
       })
       .then((res) => {
@@ -139,7 +133,6 @@ class Signup extends React.Component {
         console.log(err);
       });
   };
-
   postSignup = () => {
     if (
       this.checkPassword(this.state.password) &&
@@ -148,7 +141,7 @@ class Signup extends React.Component {
     ) {
       //axios.post("http://localhost:4000/users/signup", this.state).then((res) => {
       axios
-        .post("http://localhost:4000/users/signup", {
+        .post("https://devyeon.com/users/signup", {
           email: this.state.email,
           username: this.state.username,
           password: this.state.password,
@@ -162,12 +155,10 @@ class Signup extends React.Component {
     }
     alert("모든 항목을 작성해주세요");
   };
-
   //소셜 로그인 회원가입 함수
   // signupWithGithub() {
   //
   // }
-
   render() {
     return (
       <div className="container" id="signup">
@@ -179,8 +170,7 @@ class Signup extends React.Component {
               alt="dev-log 로고"
               style={{ width: "250px", margin: "10px" }}
             />
-            <Signup>Sign Up</Signup>
-
+            <h1>Sign Up</h1>
             <InputArea>
               Email
               <Input
@@ -198,7 +188,6 @@ class Signup extends React.Component {
                 중복확인
               </CheckSignupBtn>
             </InputArea>
-
             <InputArea>
               이름
               <Input
@@ -216,7 +205,6 @@ class Signup extends React.Component {
                 <span style={{ color: "red" }}>유저 이름을 입력해주세요</span>
               )}
             </InputArea>
-
             <InputArea>
               비밀번호
               <Input
@@ -255,7 +243,6 @@ class Signup extends React.Component {
                 <span style={{ color: "red" }}>동일한 비밀번호가 아닙니다</span>
               )}
             </InputArea>
-
             <div className="signupArea">
               <Button
                 id="goToLoginBtn"
@@ -274,7 +261,6 @@ class Signup extends React.Component {
                 회원가입
               </Button>
             </div>
-
             <div className="signupSocialArea">
               <SubmitGithubBtn
                 id="submitGithuBtn"
