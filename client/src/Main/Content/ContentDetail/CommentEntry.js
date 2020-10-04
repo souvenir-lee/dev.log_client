@@ -39,7 +39,13 @@ class CommentEntry extends React.Component {
         if (res.status === 200) {
           this.props.getContentDetail(null, this.props.clickedContent.id);
           alert("삭제되었습니다.");
-          this.props.handleClickedContent(this.props.clickedContent.id);
+          axios
+            .get(
+              `https://devyeon.com/comments/list/${this.props.clickedContent.id}`
+            )
+            .then((res) => {
+              this.setState({ comments: [...res.data] });
+            });
         }
       })
       .catch(() => alert("삭제할 수 없습니다."));
@@ -60,9 +66,10 @@ class CommentEntry extends React.Component {
         </CommentMessage>
         <span className="commentBtns">
           <Button
+            style={{ display: ele.display }}
             className="commentDeleteBtn"
             onClick={() => {
-              this.deleteComment(ele.id);
+              this.deleteComment(ele["id"]);
             }}
           >
             삭제

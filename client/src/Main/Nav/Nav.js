@@ -21,10 +21,25 @@ const Nav = ({
   token,
   userInfo,
   isMypage,
+  handleContentList,
+  isDetail,
+  newPost,
+  editPost,
+  handleIsDetail,
+  clickNewPost,
+  clickEditPost,
   handleSearchList,
 }) => (
   <Navbar id="nav">
-    <Logo></Logo>
+    <Logo
+      handleContentList={handleContentList}
+      isDetail={isDetail}
+      newPost={newPost}
+      editPost={editPost}
+      handleIsDetail={handleIsDetail}
+      clickNewPost={clickNewPost}
+      clickEditPost={clickEditPost}
+    ></Logo>
     <Search handleSearchList={handleSearchList}></Search>
     <User
       handleLoginClick={handleLoginClick}

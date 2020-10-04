@@ -19,8 +19,36 @@ const LogoImg = styled.img`
   padding-right: 20px;
 `;
 
-const Logo = (props) => (
-  <NavLogo className="navLogo" onClick={() => <Redirect to="/main" />}>
+const Logo = ({
+  handleContentList,
+  isDetail,
+  newPost,
+  editPost,
+  handleIsDetail,
+  clickNewPost,
+  clickEditPost,
+}) => (
+  <NavLogo
+    className="navLogo"
+    onClick={() => {
+      {
+        handleContentList(0);
+        if (isDetail) {
+          handleIsDetail();
+        }
+        if (newPost) {
+          if (window.confirm("메인 화면으로 나가시겠어요?")) {
+            clickNewPost();
+          }
+        }
+        if (editPost) {
+          if (window.confirm("메인 화면으로 나가시겠어요?")) {
+            clickEditPost();
+          }
+        }
+      }
+    }}
+  >
     <LogoImg
       src="dev-log.png"
       style={{ width: "100px" }}
