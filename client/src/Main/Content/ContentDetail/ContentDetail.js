@@ -12,6 +12,9 @@ export const ContentDetailstyle = styled.div`
 class ContentDetail extends React.Component {
   constructor(props) {
     super();
+    this.state = {
+      scrap: false,
+    };
     this.deleteMessage = this.deleteMessage.bind(this);
   }
 
@@ -29,6 +32,10 @@ class ContentDetail extends React.Component {
           this.props.handleIsDetail();
         }
       });
+  }
+
+  handleScrap() {
+    //
   }
 
   render() {
@@ -56,6 +63,14 @@ class ContentDetail extends React.Component {
             <div className="contentUsername">
               작성자: {clickedContent.username}
             </div>
+            <input
+              type="checkbox"
+              id="scrap"
+              checked={this.state.scrap}
+              onChange={this.handleScrap.bind(this)}
+            />
+            <span className="scrapBox">스크랩</span>
+            <label htmlFor="scrap"></label>
           </div>
           <br />
           <div className="contentBody">

@@ -25,7 +25,6 @@ class Comment extends React.Component {
       .then((res) => {
         if (res.status === 201) {
           this.props.getContentDetail(null, this.props.clickedContent.id);
-          this.props.history.push("/main/detail");
         }
       });
   };
@@ -47,6 +46,7 @@ class Comment extends React.Component {
           <input
             className="commentInput"
             type="commentValue"
+            value={this.state.commentValue}
             placeholder="댓글을 입력해주세요"
             onChange={this.handleInputValue("commentValue")}
           ></input>
@@ -54,6 +54,8 @@ class Comment extends React.Component {
             className="commentPostBtn"
             onClick={() => {
               this.handleCommentPost();
+              alert("등록되었습니다.");
+              this.setState({ commentValue: "" });
             }}
           >
             올리기

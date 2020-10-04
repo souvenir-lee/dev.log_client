@@ -60,8 +60,6 @@ class App extends React.Component {
       <>
         <GlobalStyle />
         <Switch>
-          {console.log("RENDERED app.js")}
-
           {isLogin ? (
             <Route
               path="/main"

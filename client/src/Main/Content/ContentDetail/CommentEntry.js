@@ -13,7 +13,7 @@ class CommentEntry extends React.Component {
         if (res.status === 200) {
           this.props.getContentDetail(null, this.props.clickedContent.id);
           alert("삭제되었습니다.");
-          this.props.history.push("/main/detail");
+          this.props.handleClickedContent(this.props.clickedContent.id);
         }
       })
       .catch(() => alert("삭제할 수 없습니다."));
@@ -26,9 +26,6 @@ class CommentEntry extends React.Component {
         <div className="commentUsername">{ele.username}</div>
         <div className="commentMessage">{ele.message}</div>
         <div className="commentBtns">
-          <button className="commentEditBtn" onClick={() => {}}>
-            수정
-          </button>
           <button
             className="commentDeleteBtn"
             onClick={() => {
