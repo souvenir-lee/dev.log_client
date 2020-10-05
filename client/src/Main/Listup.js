@@ -179,7 +179,7 @@ class Listup extends React.Component {
           rawComment.map((comment) => {
             return comment.userId === this.props.userInfo["id"]
               ? (comment["display"] = true)
-              : (comment["display"] = "");
+              : (comment["display"] = "none");
           });
           this.setState({ comments: [...res.data] });
           this.handleCheckbox();
@@ -388,6 +388,7 @@ class Listup extends React.Component {
                 newPost={newPost}
                 editPost={editPost}
                 clickNewPost={clickNewPost}
+                getCustomList={getCustomList}
               />
             )}
           ></Route>

@@ -98,6 +98,7 @@ class Post extends React.Component {
             alert("등록되었습니다.");
             this.props.handleResetClickedContent();
             this.props.clickNewPost();
+            this.props.getCustomList();
           }
         });
     });

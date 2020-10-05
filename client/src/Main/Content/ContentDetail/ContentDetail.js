@@ -69,6 +69,7 @@ class ContentDetail extends React.Component {
           this.props.handleContentList(0);
           alert("삭제되었습니다.");
           this.props.handleResetClickedContent();
+          this.props.getCustomList();
           return this.props.isDetail ? this.props.handleIsDetail() : "";
         } else {
           //
