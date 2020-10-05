@@ -40,6 +40,14 @@ class Listup extends React.Component {
       newPost: false, // 새글쓰기 갈지 말지?
       editPost: false, // 수정 페이지 갈지 말지?
 
+      radioGroup: {
+        Scrap: true,
+        MyPost: false,
+        Tagged: false,
+      },
+      selectedOption: "Scrap",
+      listCustom: [],
+
       checkedListId: [],
       scrap: false,
     };
@@ -55,8 +63,50 @@ class Listup extends React.Component {
     this.clickEditPost = this.clickEditPost.bind(this);
     this.handleSearchList = this.handleSearchList.bind(this);
     this.handleSortList = this.handleSortList.bind(this);
+
+    this.getCustomList = this.getCustomList.bind(this);
+    this.handleRadio = this.handleRadio.bind(this);
+
     this.getCheckedListId = this.getCheckedListId.bind(this);
     this.handleCheckbox = this.handleCheckbox.bind(this);
+  }
+
+  getCustomList() {
+    const { userInfo } = this.props;
+    axios
+      .get(
+        `https://devyeon.com/custom/${this.state.selectedOption.toLowerCase()}/${
+          userInfo.id
+        }`
+      )
+      .then((result) => {
+        this.setState({
+          listCustom: [...result.data],
+        });
+      });
+  }
+
+  handleRadio(event) {
+    let obj = {};
+    Object.keys(this.state.radioGroup).map((ele) => {
+      return (obj[ele] = false); // 셋 다 false
+    });
+    obj[event.target.value] = true;
+    this.setState(
+      {
+        radioGroup: {
+          ...obj,
+        },
+      },
+      this.setState(
+        {
+          selectedOption: event.target.value,
+        },
+        () => {
+          this.getCustomList();
+        }
+      )
+    );
   }
 
   handleCheckbox() {
@@ -70,7 +120,6 @@ class Listup extends React.Component {
       .get(`https://devyeon.com/custom/scrap/${this.props.userInfo.id}`)
       .then((result) => {
         const target = result.data.map((ele) => ele.postId);
-        console.log(target);
         this.setState({
           checkedListId: [...target],
         });
@@ -81,6 +130,7 @@ class Listup extends React.Component {
     this.handleCategoryEntry();
     this.handleContentList(this.state.categoryId);
     this.getCheckedListId();
+    this.getCustomList();
   }
 
   handleCategoryEntry() {
@@ -107,7 +157,6 @@ class Listup extends React.Component {
         })
       : axios.get(`https://devyeon.com/posts/list`).then((res) => {
           this.setState({ contentsList: res.data });
-          console.log(res.data);
         });
     this.setState({ isDetail: false });
     this.setState({ scrap: false });
@@ -176,7 +225,6 @@ class Listup extends React.Component {
   //검색된 contentList 불러오는 함수
   handleSearchList(value) {
     axios.get(`https://devyeon.com/search/title/${value}`).then((res) => {
-      console.log(res.data);
       this.setState({ contentsList: res.data });
     });
   }
@@ -185,7 +233,6 @@ class Listup extends React.Component {
     axios
       .get(`https://devyeon.com/posts/sort/${e.target.value}`)
       .then((res) => {
-        console.log(res.data);
         this.setState({ contentsList: res.data });
       });
   };
@@ -213,6 +260,9 @@ class Listup extends React.Component {
       editPost,
       inputData,
       scrap,
+      radioGroup,
+      selectedOption,
+      listCustom,
     } = this.state;
 
     const {
@@ -229,6 +279,8 @@ class Listup extends React.Component {
       handleSortList,
       handleCheckbox,
       getCheckedListId,
+      getCustomList,
+      handleRadio,
     } = this;
 
     return (
@@ -315,6 +367,7 @@ class Listup extends React.Component {
                 scrap={scrap}
                 getCheckedListId={getCheckedListId}
                 handleCheckbox={handleCheckbox}
+                getCustomList={getCustomList}
               />
             )}
           ></Route>
@@ -373,6 +426,11 @@ class Listup extends React.Component {
           getContentDetail={getContentDetail}
           handleIsDetail={handleIsDetail}
           comments={comments}
+          radioGroup={radioGroup}
+          selectedOption={selectedOption}
+          getCustomList={getCustomList}
+          handleRadio={handleRadio}
+          listCustom={listCustom}
         />
         {newPost ? (
           <Switch>

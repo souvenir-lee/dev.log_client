@@ -90,8 +90,12 @@ class ContentDetail extends React.Component {
             this.props.getCheckedListId(); // 반영 됨
             this.props.handleContentList(0);
             this.props.handleResetClickedContent();
+            this.props.getCustomList();
           })
       );
+    this.props.scrap === false
+      ? alert(`포스트가 스크랩되었습니다.`)
+      : alert(`포스트가 스크랩 해지되었습니다.`);
   }
 
   render() {
