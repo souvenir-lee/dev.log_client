@@ -55,13 +55,7 @@ export const ContentDetailstyle = styled.div`
 class ContentDetail extends React.Component {
   constructor(props) {
     super();
-    this.state = {
-      scrap: false,
-      scrapList: [],
-    };
     this.deleteMessage = this.deleteMessage.bind(this);
-    this.getCurrentScrap = this.getCurrentScrap.bind(this);
-    this.handleScrap = this.handleScrap.bind(this);
   }
 
   deleteMessage() {
@@ -82,27 +76,22 @@ class ContentDetail extends React.Component {
       });
   }
 
-  getCurrentScrap() {
-    axios
-      .get(`https://devyeon.com/custom/scrap/${this.props.userInfo.id}`)
-      .then((result) => {
-        this.setState({
-          scrapList: [...result.data],
-        });
-        console.log(this.state.scrapList);
-      });
-  }
-
-  checkIsScrap() {
-    this.state.scrapList.map((ele) => {
-      if (this.props.clickedContent.id === ele.postId) {
-        this.setState({ scrap: true });
-      }
-    });
-  }
-
   handleScrap() {
-    this.setState({ scrap: !this.state.scrap });
+    axios
+      .post(`https://devyeon.com/custom/scrap`, {
+        userId: this.props.userInfo.id,
+        postId: this.props.clickedContent.id,
+      })
+      .then(() =>
+        axios
+          .get(`https://devyeon.com/posts/info/${this.props.clickedContent.id}`)
+          .then((res) => {
+            this.props.handleClickedContent(res.data);
+            this.props.getCheckedListId(); // 반영 됨
+            this.props.handleContentList(0);
+            this.props.handleResetClickedContent();
+          })
+      );
   }
 
   render() {
@@ -119,6 +108,7 @@ class ContentDetail extends React.Component {
       getContentDetail,
       handleContentList,
       clickEditPost,
+      scrap,
     } = this.props;
 
     return (
@@ -137,7 +127,7 @@ class ContentDetail extends React.Component {
               <input
                 type="checkbox"
                 id="scrap"
-                checked={this.state.scrap}
+                checked={scrap}
                 onChange={this.handleScrap.bind(this)}
               />
               <span className="scrapBox">스크랩</span>

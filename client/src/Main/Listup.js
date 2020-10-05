@@ -39,6 +39,9 @@ class Listup extends React.Component {
       isDetail: false, // 상세 내용 볼지 말지?
       newPost: false, // 새글쓰기 갈지 말지?
       editPost: false, // 수정 페이지 갈지 말지?
+
+      checkedListId: [],
+      scrap: false,
     };
     this.handleCategoryEntry = this.handleCategoryEntry.bind(this);
     this.handleInputCategory = this.handleInputCategory.bind(this);
@@ -52,12 +55,32 @@ class Listup extends React.Component {
     this.clickEditPost = this.clickEditPost.bind(this);
     this.handleSearchList = this.handleSearchList.bind(this);
     this.handleSortList = this.handleSortList.bind(this);
+    this.getCheckedListId = this.getCheckedListId.bind(this);
+    this.handleCheckbox = this.handleCheckbox.bind(this);
+  }
+
+  handleCheckbox() {
+    this.setState({
+      scrap: this.state.clickedContent["checkbox"],
+    });
+  }
+
+  getCheckedListId() {
+    axios
+      .get(`https://devyeon.com/custom/scrap/${this.props.userInfo.id}`)
+      .then((result) => {
+        const target = result.data.map((ele) => ele.postId);
+        console.log(target);
+        this.setState({
+          checkedListId: [...target],
+        });
+      });
   }
   // category 관련 (1) 전체 글 (2) 카테고리 필터링
   componentDidMount() {
     this.handleCategoryEntry();
     this.handleContentList(this.state.categoryId);
-    console.log(this.state.clickedContent);
+    this.getCheckedListId();
   }
 
   handleCategoryEntry() {
@@ -87,12 +110,16 @@ class Listup extends React.Component {
           console.log(res.data);
         });
     this.setState({ isDetail: false });
+    this.setState({ scrap: false });
   }
-  // 선택한 content 정보 -> 메인에 뿌릴 정보 모두
+  // 선택한 content 정보
   handleClickedContent(data) {
     data.authorId === this.props.userInfo["id"]
       ? (data["display"] = true)
       : (data["display"] = "none");
+    this.state.checkedListId.indexOf(data.id) !== -1
+      ? (data["checkbox"] = "checked")
+      : (data["checkbox"] = false);
     this.setState({ clickedContent: data }, () => {
       axios
         .get(
@@ -103,9 +130,10 @@ class Listup extends React.Component {
           rawComment.map((comment) => {
             return comment.userId === this.props.userInfo["id"]
               ? (comment["display"] = true)
-              : (comment["display"] = "none");
+              : (comment["display"] = "");
           });
           this.setState({ comments: [...res.data] });
+          this.handleCheckbox();
         });
     });
   }
@@ -135,6 +163,7 @@ class Listup extends React.Component {
   };
   handleIsDetail() {
     this.setState({ isDetail: !this.state.isDetail });
+    return this.state.isDetail === false ? (this.state.scrap = false) : "";
   }
   clickNewPost() {
     //새글 쓰기 리다이렉트 // clickNewMessage
@@ -183,6 +212,7 @@ class Listup extends React.Component {
       newPost,
       editPost,
       inputData,
+      scrap,
     } = this.state;
 
     const {
@@ -197,6 +227,8 @@ class Listup extends React.Component {
       clickEditPost,
       handleSearchList,
       handleSortList,
+      handleCheckbox,
+      getCheckedListId,
     } = this;
 
     return (
@@ -280,6 +312,9 @@ class Listup extends React.Component {
                 editPost={editPost}
                 clickEditPost={clickEditPost}
                 handleSearchList={handleSearchList}
+                scrap={scrap}
+                getCheckedListId={getCheckedListId}
+                handleCheckbox={handleCheckbox}
               />
             )}
           ></Route>
