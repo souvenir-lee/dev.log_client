@@ -28,6 +28,10 @@ const User = styled.div`
   margin: 20px 20px 10px 20px;
 `;
 
+const Date = styled.div`
+  margin: 20px 20px 10px 20px;
+`;
+
 const Button = styled.button`
   text-align: center;
   width: 80px;
@@ -127,6 +131,13 @@ class ContentDetail extends React.Component {
               <User className="contentUsername">
                 작성자: {clickedContent.username}
               </User>
+              <Date className="contentCreatedAt">
+                작성일:{" "}
+                {String(clickedContent.createdAt)
+                  .replace(" ", "일 ")
+                  .replace("-", "년 ")
+                  .replace("-", "월 ")}
+              </Date>
             </div>
             <Scrap>
               <input

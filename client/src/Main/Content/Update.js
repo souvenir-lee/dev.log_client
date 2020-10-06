@@ -114,7 +114,7 @@ class Update extends React.Component {
 
     return (
       <Poststyle className="container" id="post">
-        {this.state.isPost ? <Redirect to="/main" /> : ""}
+        {this.state.isPost ? <Redirect to="/" /> : ""}
         <div
           className="inputArea"
           style={{

@@ -145,7 +145,7 @@ class Login extends React.Component {
   render() {
     return (
       <div className="container" id="login">
-        {this.props.isLogin ? <Redirect to="/main" /> : ""}
+        {this.props.isLogin ? <Redirect to="/" /> : ""}
         <center>
           <InputContainer>
             <img

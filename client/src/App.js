@@ -62,7 +62,7 @@ class App extends React.Component {
         <Switch>
           {isLogin ? (
             <Route
-              path="/main"
+              path="/"
               render={() => (
                 <Listup
                   isLogin={isLogin}
