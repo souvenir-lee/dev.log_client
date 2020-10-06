@@ -1,4 +1,15 @@
 # dev-log Client
+CodeStates Immersive 22기 3조 knock knock 팀의 First-Project 입니다.  
+Front - end : 이한슬(팀장), 권수진 
+Back - end : 윤 연, 김종환   
+(server 측 레포는 https://github.com/codestates/dev.log-server 여기입니다)
+   
+
+## Description
+해당 서비스는 개발자 팀의 협업을 위한 개발 기록 웹 서비스입니다. 기본적인 글 작성, 필터링, 검색 기능과 함께 Custom 기능과 함께있습니다.
+자세한 개발과정을 알고 싶다면 wiki를 참고해주세요
+
+## Getting Start
 
 1. `cd client`를 입력하여 client 폴더로 들어가주세요.
 2. `npm install` 혹은 `yarn start`를 통해 모듈을 설치해주세요.
@@ -6,6 +17,7 @@
 4. 로그인 전에 서버가 연결되었는지, 로컬인지 EC2 도메인인지 먼저 확인해주세요.
 
 이후에는 자유롭게 사용해 주세요 :)
+   
 
 ## Feature
 
@@ -23,8 +35,9 @@
 
 ### Advance
 
-1. 소셜 로그인(Naver, Github)
+1. 소셜 로그인(Naver, Github) : 서버측에만 구현완료 됨.
 2. 글 작성 시 태그 생성 및 팀원 태그
+   
 
 ## Stack
 
@@ -33,17 +46,18 @@ Form : eslint, Prettier
 1. 기본 컴포넌트 : React, React-dom, React-Router-Bom
 2. URL 모듈 : axios
 3. CSS : style-components, fortawesome
+   
 
 ## Runtime
 
 Node.js : 12.18.4
 
 NPM : 6.14.6
+   
 
 ### 폴더 구조
 
-client
-
+client   
 ├── package-lock.json   
 ├── package.json  
 ├── public : 로고 이미지 및 index   
