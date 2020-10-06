@@ -153,7 +153,7 @@ class Listup extends React.Component {
   handleContentList(value) {
     value !== 0
       ? axios.get(`https://devyeon.com/posts/category/${value}`).then((res) => {
-          this.setState({ contentsList: res.data });
+          this.setState({ contentsList: res.data.reverse() });
         })
       : axios.get(`https://devyeon.com/posts/list`).then((res) => {
           this.setState({ contentsList: res.data.reverse() });
