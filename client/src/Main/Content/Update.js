@@ -187,7 +187,6 @@ class Update extends React.Component {
             type="submit"
             onClick={() => {
               this.props.clickEditPost();
-              // this.props.history.push("/main");
             }}
           >
             취소

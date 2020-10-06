@@ -103,6 +103,7 @@ class Login extends React.Component {
 
   handleGithubLogin() {
     axios
+      // .get(`https://devyeon.com/socials/ghsignup`)
       .post(`https://devyeon.com/users/login`, {
         email: "github@social.com",
         password: "1111",
