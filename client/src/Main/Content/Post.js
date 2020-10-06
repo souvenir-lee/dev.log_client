@@ -98,6 +98,7 @@ class Post extends React.Component {
             alert("등록되었습니다.");
             this.props.handleResetClickedContent();
             this.props.clickNewPost();
+            this.props.getCustomList();
           }
         });
     });
@@ -183,7 +184,6 @@ class Post extends React.Component {
                 alert("취소되었습니다.");
                 this.props.handleResetClickedContent();
                 this.props.clickNewPost();
-                // this.props.history.push("/main");
               } else {
                 return;
               }

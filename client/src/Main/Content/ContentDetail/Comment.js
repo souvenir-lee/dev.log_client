@@ -90,7 +90,12 @@ class Comment extends React.Component {
           </Button>
         </CommentTop>
         <div className="commentBottom">
-          <CommentEntry comments={comments} token={token} />
+          <CommentEntry
+            comments={comments}
+            token={token}
+            clickedContent={clickedContent}
+            handleClickedContent={handleClickedContent}
+          />
         </div>
       </CommentArea>
     );

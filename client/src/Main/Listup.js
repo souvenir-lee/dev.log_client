@@ -39,6 +39,17 @@ class Listup extends React.Component {
       isDetail: false, // 상세 내용 볼지 말지?
       newPost: false, // 새글쓰기 갈지 말지?
       editPost: false, // 수정 페이지 갈지 말지?
+
+      radioGroup: {
+        Scrap: true,
+        MyPost: false,
+        Tagged: false,
+      },
+      selectedOption: "Scrap",
+      listCustom: [],
+
+      checkedListId: [],
+      scrap: false,
     };
     this.handleCategoryEntry = this.handleCategoryEntry.bind(this);
     this.handleInputCategory = this.handleInputCategory.bind(this);
@@ -52,12 +63,74 @@ class Listup extends React.Component {
     this.clickEditPost = this.clickEditPost.bind(this);
     this.handleSearchList = this.handleSearchList.bind(this);
     this.handleSortList = this.handleSortList.bind(this);
+
+    this.getCustomList = this.getCustomList.bind(this);
+    this.handleRadio = this.handleRadio.bind(this);
+
+    this.getCheckedListId = this.getCheckedListId.bind(this);
+    this.handleCheckbox = this.handleCheckbox.bind(this);
+  }
+
+  getCustomList() {
+    const { userInfo } = this.props;
+    axios
+      .get(
+        `https://devyeon.com/custom/${this.state.selectedOption.toLowerCase()}/${
+          userInfo.id
+        }`
+      )
+      .then((result) => {
+        this.setState({
+          listCustom: [...result.data],
+        });
+      });
+  }
+
+  handleRadio(event) {
+    let obj = {};
+    Object.keys(this.state.radioGroup).map((ele) => {
+      return (obj[ele] = false); // 셋 다 false
+    });
+    obj[event.target.value] = true;
+    this.setState(
+      {
+        radioGroup: {
+          ...obj,
+        },
+      },
+      this.setState(
+        {
+          selectedOption: event.target.value,
+        },
+        () => {
+          this.getCustomList();
+        }
+      )
+    );
+  }
+
+  handleCheckbox() {
+    this.setState({
+      scrap: this.state.clickedContent["checkbox"],
+    });
+  }
+
+  getCheckedListId() {
+    axios
+      .get(`https://devyeon.com/custom/scrap/${this.props.userInfo.id}`)
+      .then((result) => {
+        const target = result.data.map((ele) => ele.postId);
+        this.setState({
+          checkedListId: [...target],
+        });
+      });
   }
   // category 관련 (1) 전체 글 (2) 카테고리 필터링
   componentDidMount() {
     this.handleCategoryEntry();
     this.handleContentList(this.state.categoryId);
-    console.log(this.state.clickedContent);
+    this.getCheckedListId();
+    this.getCustomList();
   }
 
   handleCategoryEntry() {
@@ -78,22 +151,24 @@ class Listup extends React.Component {
     );
   }
   handleContentList(value) {
-    console.log(value);
     value !== 0
-      ? axios
-          .get(`https://devyeon.com/posts/category/${value}`)
-          .then((res) => {
-            console.log(res.data);
-            this.setState({ contentsList: res.data });
-          })
+      ? axios.get(`https://devyeon.com/posts/category/${value}`).then((res) => {
+          this.setState({ contentsList: res.data });
+        })
       : axios.get(`https://devyeon.com/posts/list`).then((res) => {
           this.setState({ contentsList: res.data });
-          console.log(res.data);
         });
     this.setState({ isDetail: false });
+    this.setState({ scrap: false });
   }
-  // 선택한 content 정보 -> 메인에 뿌릴 정보 모두
+  // 선택한 content 정보
   handleClickedContent(data) {
+    data.authorId === this.props.userInfo["id"]
+      ? (data["display"] = true)
+      : (data["display"] = "none");
+    this.state.checkedListId.indexOf(data.id) !== -1
+      ? (data["checkbox"] = "checked")
+      : (data["checkbox"] = false);
     this.setState({ clickedContent: data }, () => {
       axios
         .get(
@@ -107,6 +182,7 @@ class Listup extends React.Component {
               : (comment["display"] = "none");
           });
           this.setState({ comments: [...res.data] });
+          this.handleCheckbox();
         });
     });
   }
@@ -127,9 +203,7 @@ class Listup extends React.Component {
       };
       callback();
       axios
-        .get(
-          `https://devyeon.com/posts/update/${this.state.clickedContent.id}`
-        )
+        .get(`https://devyeon.com/posts/update/${this.state.clickedContent.id}`)
         .then((res) => {
           this.setState({ tagList: [...res.data[0]] });
           this.setState({ memberList: [...res.data[1]] });
@@ -138,6 +212,7 @@ class Listup extends React.Component {
   };
   handleIsDetail() {
     this.setState({ isDetail: !this.state.isDetail });
+    return this.state.isDetail === false ? (this.state.scrap = false) : "";
   }
   clickNewPost() {
     //새글 쓰기 리다이렉트 // clickNewMessage
@@ -150,7 +225,6 @@ class Listup extends React.Component {
   //검색된 contentList 불러오는 함수
   handleSearchList(value) {
     axios.get(`https://devyeon.com/search/title/${value}`).then((res) => {
-      console.log(res.data);
       this.setState({ contentsList: res.data });
     });
   }
@@ -159,7 +233,6 @@ class Listup extends React.Component {
     axios
       .get(`https://devyeon.com/posts/sort/${e.target.value}`)
       .then((res) => {
-        console.log(res.data);
         this.setState({ contentsList: res.data });
       });
   };
@@ -186,6 +259,10 @@ class Listup extends React.Component {
       newPost,
       editPost,
       inputData,
+      scrap,
+      radioGroup,
+      selectedOption,
+      listCustom,
     } = this.state;
 
     const {
@@ -200,6 +277,10 @@ class Listup extends React.Component {
       clickEditPost,
       handleSearchList,
       handleSortList,
+      handleCheckbox,
+      getCheckedListId,
+      getCustomList,
+      handleRadio,
     } = this;
 
     return (
@@ -283,6 +364,10 @@ class Listup extends React.Component {
                 editPost={editPost}
                 clickEditPost={clickEditPost}
                 handleSearchList={handleSearchList}
+                scrap={scrap}
+                getCheckedListId={getCheckedListId}
+                handleCheckbox={handleCheckbox}
+                getCustomList={getCustomList}
               />
             )}
           ></Route>
@@ -303,6 +388,7 @@ class Listup extends React.Component {
                 newPost={newPost}
                 editPost={editPost}
                 clickNewPost={clickNewPost}
+                getCustomList={getCustomList}
               />
             )}
           ></Route>
@@ -341,6 +427,11 @@ class Listup extends React.Component {
           getContentDetail={getContentDetail}
           handleIsDetail={handleIsDetail}
           comments={comments}
+          radioGroup={radioGroup}
+          selectedOption={selectedOption}
+          getCustomList={getCustomList}
+          handleRadio={handleRadio}
+          listCustom={listCustom}
         />
         {newPost ? (
           <Switch>

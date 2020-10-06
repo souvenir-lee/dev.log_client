@@ -36,19 +36,18 @@ class CommentEntry extends React.Component {
         id: commentId,
       })
       .then((res) => {
+        console.log(res.status);
         if (res.status === 200) {
-          this.props.getContentDetail(null, this.props.clickedContent.id);
           alert("삭제되었습니다.");
-          axios
-            .get(
-              `https://devyeon.com/comments/list/${this.props.clickedContent.id}`
-            )
-            .then((res) => {
-              this.setState({ comments: [...res.data] });
-            });
         }
-      })
-      .catch(() => alert("삭제할 수 없습니다."));
+        axios
+          .get(`https://devyeon.com/posts/info/${this.props.clickedContent.id}`)
+          .then((res) => {
+            console.log(res);
+            this.props.handleClickedContent(res.data);
+          })
+          .catch(() => alert("삭제할 수 없습니다."));
+      });
   };
 
   render() {
@@ -60,6 +59,9 @@ class CommentEntry extends React.Component {
       >
         <CommentUsername className="commentUsername">
           {ele.username}
+          {" / "}
+          {ele.createdAt.split(" ")[0].replace("-", ".").replace("-", ".")}{" "}
+          {ele.createdAt.split(" ")[1]}
         </CommentUsername>
         <CommentMessage className="commentMessage">
           {ele.message}

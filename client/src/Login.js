@@ -91,7 +91,6 @@ class Login extends React.Component {
     axios
       .post("https://devyeon.com/users/login", this.state)
       .then((res) => {
-        console.log(this.state);
         if (res.status === 200) {
           if (res.data.token) {
             this.props.getUserData(res.data);
@@ -104,12 +103,12 @@ class Login extends React.Component {
 
   handleGithubLogin() {
     axios
+      // .get(`https://devyeon.com/socials/ghsignup`)
       .post(`https://devyeon.com/users/login`, {
         email: "github@social.com",
         password: "1111",
       })
       .then((res) => {
-        console.log(this.state);
         if (res.status === 200) {
           if (res.data.token) {
             this.props.getUserData(res.data);
@@ -127,7 +126,6 @@ class Login extends React.Component {
         password: "1111",
       })
       .then((res) => {
-        console.log(this.state);
         if (res.status === 200) {
           if (res.data.token) {
             this.props.getUserData(res.data);
@@ -207,7 +205,6 @@ class Login extends React.Component {
                 onClick={() => {
                   //클릭했을때 /signup으로 이동
                   this.props.history.push("/signup");
-                  console.log("getdata", this.state);
                 }}
               >
                 signup

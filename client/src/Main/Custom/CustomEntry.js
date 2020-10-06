@@ -68,7 +68,7 @@ class CustomEntry extends React.Component {
                   content["viewCount"] ||
                   content["post.viewCount"] ||
                   0}
-                회
+                회{/* 서버 오타 */}
               </Search>
               <Date>
                 작성일:{" "}
