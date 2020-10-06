@@ -60,8 +60,13 @@ class CommentEntry extends React.Component {
         <CommentUsername className="commentUsername">
           {ele.username}
           {" / "}
-          {ele.createdAt.split(" ")[0].replace("-", ".").replace("-", ".")}{" "}
-          {ele.createdAt.split(" ")[1]}
+          {ele.createdAt.split(" ")[0].replace("-", "년 ").replace("-", "월 ") +
+            "일 "}
+          {ele.createdAt
+            .split(" ")[1]
+            .replace(":", "시 ")
+            .replace(":", "분")
+            .slice(0, 7)}
         </CommentUsername>
         <CommentMessage className="commentMessage">
           {ele.message}
