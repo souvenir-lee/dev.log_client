@@ -41,7 +41,7 @@ class ContentsEntry extends React.Component {
       getContentDetail,
       handleIsDetail,
     } = this.props;
-    return contentsList.reverse().map((content) => {
+    return contentsList.map((content) => {
       return (
         <ContentBox
           className="contentBox"

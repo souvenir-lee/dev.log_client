@@ -23,67 +23,7 @@ const H3 = styled.h3`
 `;
 
 class Custom extends React.Component {
-  constructor(props) {
-    super();
-    // this.state = {
-    //   radioGroup: {
-    //     Scrap: true,
-    //     MyPost: false,
-    //     Tagged: false,
-    //   },
-    //   selectedOption: "Scrap",
-    //   listCustom: [],
-    // };
-    // this.getCustomList = this.getCustomList.bind(this);
-    // this.handleRadio = this.handleRadio.bind(this);
-  }
-
-  // getCustomList() {
-  //   const { userInfo } = this.props;
-  //   axios
-  //     .get(
-  //       `https://devyeon.com/custom/${this.state.selectedOption.toLowerCase()}/${
-  //         userInfo.id
-  //       }`
-  //     )
-  //     .then((result) => {
-  //       console.log(Object.values(result.data).length);
-  //       // console.log("----", result.data);
-  //       this.setState({
-  //         listCustom: [...result.data],
-  //       });
-  //     });
-  // }
-
-  // handleRadio(event) {
-  //   let obj = {};
-  //   Object.keys(this.state.radioGroup).map((ele) => {
-  //     return (obj[ele] = false); // 셋 다 false
-  //   });
-  //   obj[event.target.value] = true;
-  //   this.setState(
-  //     {
-  //       radioGroup: {
-  //         ...obj,
-  //       },
-  //     },
-  //     this.setState(
-  //       {
-  //         selectedOption: event.target.value,
-  //       },
-  //       () => {
-  //         this.getCustomList();
-  //       }
-  //     )
-  //   );
-  // }
-
-  // componentDidMount() {
-  //   this.getCustomList();
-  // }
-
   render() {
-    // const { selectedOption, listCustom } = this.state;
     const {
       token,
       userInfo,

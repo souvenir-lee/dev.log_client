@@ -8,7 +8,7 @@ axios.defaults.withCredentials = "include";
 const Tag = styled.div`
   margin: 20px 20px 10px 20px;
 `;
-const ContetnMessage = styled.div`
+const ContentMessage = styled.div`
   height: 60px;
   border-bottom: 1px solid black;
   margin: 20px 20px 10px 20px;
@@ -25,6 +25,10 @@ const Title = styled.div`
   margin: 20px 20px 10px 20px;
 `;
 const User = styled.div`
+  margin: 20px 20px 10px 20px;
+`;
+
+const Date = styled.div`
   margin: 20px 20px 10px 20px;
 `;
 
@@ -126,6 +130,14 @@ class ContentDetail extends React.Component {
               </Title>
               <User className="contentUsername">
                 작성자: {clickedContent.username}
+                &nbsp;&nbsp;/&nbsp;&nbsp;작성일:{" "}
+                {String(clickedContent.createdAt)
+                  .slice(0, 17)
+                  .replace(" ", "일 ")
+                  .replace("-", "년 ")
+                  .replace("-", "월 ")
+                  .replace(":", "시 ")
+                  .replace(":", "분")}
               </User>
             </div>
             <Scrap>
@@ -141,12 +153,12 @@ class ContentDetail extends React.Component {
           </ContentHeader>
           <br />
           <div className="contentBody">
-            <ContetnMessage
+            <ContentMessage
               className="contentMessage"
               dangerouslySetInnerHTML={{
                 __html: clickedContent.message,
               }}
-            ></ContetnMessage>
+            ></ContentMessage>
             <Tag>
               <div className="contentTags">
                 태그:{" "}

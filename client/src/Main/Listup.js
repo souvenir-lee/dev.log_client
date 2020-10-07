@@ -153,10 +153,10 @@ class Listup extends React.Component {
   handleContentList(value) {
     value !== 0
       ? axios.get(`https://devyeon.com/posts/category/${value}`).then((res) => {
-          this.setState({ contentsList: res.data });
+          this.setState({ contentsList: res.data.reverse() });
         })
       : axios.get(`https://devyeon.com/posts/list`).then((res) => {
-          this.setState({ contentsList: res.data });
+          this.setState({ contentsList: res.data.reverse() });
         });
     this.setState({ isDetail: false });
     this.setState({ scrap: false });
@@ -290,7 +290,7 @@ class Listup extends React.Component {
             <Redirect to="/mypage" render={() => <Mypage />} />
           </Switch>
         ) : (
-          <Redirect to="/main" />
+          <Redirect to="/" />
         )}
         <Nav
           handleLoginClick={handleLoginClick}
@@ -316,7 +316,7 @@ class Listup extends React.Component {
         <Switch>
           <Route
             exact
-            path="/main"
+            path="/"
             render={() => (
               <Contents
                 isLogin={isLogin}
@@ -438,10 +438,10 @@ class Listup extends React.Component {
             <Redirect to="/main/post" />
           </Switch>
         ) : (
-          <Redirect to="/main" />
+          <Redirect to="/" />
         )}
-        {editPost ? <Redirect to="/main/update" /> : <Redirect to="/main" />}
-        {isDetail ? <Redirect to="/main/detail" /> : <Redirect to="/main" />}
+        {editPost ? <Redirect to="/main/update" /> : <Redirect to="/" />}
+        {isDetail ? <Redirect to="/main/detail" /> : <Redirect to="/" />}
         <Footer />
       </Outer>
     );
